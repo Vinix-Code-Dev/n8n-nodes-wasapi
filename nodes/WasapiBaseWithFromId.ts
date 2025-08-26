@@ -2,7 +2,6 @@ import {
 	IExecuteFunctions,
 	INodePropertyOptions,
 } from 'n8n-workflow';
-import { WasapiClient } from '@laiyon/wasapi-sdk';
 import { WasapiBase } from './WasapiBase';
 
 export abstract class WasapiBaseWithFromId extends WasapiBase {
@@ -25,6 +24,7 @@ export abstract class WasapiBaseWithFromId extends WasapiBase {
 			}
 
 			// Inicializar cliente Wasapi
+			const { WasapiClient } = await import('@laiyon/wasapi-sdk');
 			const client = new WasapiClient({ apiKey });
 			
 			// Obtener números disponibles
@@ -71,7 +71,8 @@ export abstract class WasapiBaseWithFromId extends WasapiBase {
 	/**
 	 * Configura el cliente Wasapi con el fromId apropiado
 	 */
-	protected configureClientWithFromId(apiKey: string, credentialsFromId?: string, nodeFromId?: string): WasapiClient {
+	protected async configureClientWithFromId(apiKey: string, credentialsFromId?: string, nodeFromId?: string): Promise<any> {
+		const { WasapiClient } = await import('@laiyon/wasapi-sdk');
 		const clientConfig: any = { apiKey };
 		
 		// Priorizar el fromId del nodo sobre el de las credenciales

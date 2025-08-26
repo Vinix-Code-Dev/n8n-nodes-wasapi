@@ -1,10 +1,9 @@
-import { WasapiClient } from '@laiyon/wasapi-sdk';
-
 export abstract class WasapiBase {
 	/**
 	 * Configura el cliente Wasapi básico
 	 */
-	protected configureBasicClient(apiKey: string): WasapiClient {
+	protected async configureBasicClient(apiKey: string): Promise<any> {
+		const { WasapiClient } = await import('@laiyon/wasapi-sdk');
 		return new WasapiClient({ apiKey });
 	}
 }
