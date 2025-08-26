@@ -93,7 +93,7 @@ export class WasapiSendAttachment extends WasapiBaseWithFromId implements INodeT
 				const nodeFromId = this.getNodeParameter('fromId', i) as string;
 				
 				// Configurar cliente usando la clase base
-				const client = super.configureClientWithFromId(apiKey, credentialsFromId, nodeFromId);
+				const client = await super.configureClientWithFromId(apiKey, credentialsFromId, nodeFromId);
 
 				const result = await client.whatsapp.sendAttachment({
 					wa_id,

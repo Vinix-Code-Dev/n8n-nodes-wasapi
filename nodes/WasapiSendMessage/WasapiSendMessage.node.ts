@@ -75,7 +75,7 @@ export class WasapiSendMessage extends WasapiBaseWithFromId implements INodeType
 				const nodeFromId = this.getNodeParameter('fromId', i) as string;
 				
 				// Configurar cliente usando la clase base
-				const client = super.configureClientWithFromId(apiKey, credentialsFromId, nodeFromId);
+				const client = await super.configureClientWithFromId(apiKey, credentialsFromId, nodeFromId);
 
 				const result = await client.whatsapp.sendMessage({
 					wa_id,
