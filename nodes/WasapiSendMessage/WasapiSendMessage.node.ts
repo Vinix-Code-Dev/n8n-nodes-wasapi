@@ -1,0 +1,98 @@
+import {
+	IExecuteFunctions,
+	INodeExecutionData,
+	INodeType,
+	INodeTypeDescription,
+	NodeConnectionType,
+} from 'n8n-workflow';
+import { WasapiBaseWithFromId } from '../WasapiBaseWithFromId';
+
+export class WasapiSendMessage extends WasapiBaseWithFromId implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: 'Wasapi Send Message',
+		name: 'wasapiSendMessage',
+		icon: 'file:wasapi.svg',
+		group: ['transform'],
+		version: 1,
+		description: 'Envía mensajes de WhatsApp usando Wasapi',
+		defaults: {
+			name: 'Wasapi Send Message',
+		},
+		inputs: [NodeConnectionType.Main],
+		outputs: [NodeConnectionType.Main],
+		credentials: [
+			{
+				name: 'wasapiApi',
+				required: true,
+			},
+		],
+		requestDefaults: {
+			baseURL: 'https://api-ws.wasapi.io/api/v1',
+		},
+		properties: [
+			{
+				displayName: 'WhatsApp ID',
+				name: 'wa_id',
+				type: 'string',
+				default: '',
+				required: true,
+				description: 'ID de WhatsApp del destinatario',
+			},
+			{
+				displayName: 'Message',
+				name: 'message',
+				type: 'string',
+				default: '',
+				required: true,
+				description: 'Mensaje a enviar',
+			},
+			{
+				displayName: 'From ID',
+				name: 'fromId',
+				type: 'options',
+				typeOptions: {
+					loadOptionsMethod: 'getWhatsappNumbers',
+				},
+				default: '',
+				required: false,
+				description: 'ID del número de WhatsApp desde el cual enviar (opcional, usa el de las credenciales si no se especifica)',
+			},
+		],
+	};
+
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData: any[] = [];
+
+		// Obtener credenciales
+		const credentials = await this.getCredentials('wasapiApi');
+		const apiKey = credentials.apiKey as string;
+		const credentialsFromId = credentials.fromId as string;
+
+		for (let i = 0; i < items.length; i++) {
+			try {
+				const wa_id = this.getNodeParameter('wa_id', i) as string;
+				const message = this.getNodeParameter('message', i) as string;
+				const nodeFromId = this.getNodeParameter('fromId', i) as string;
+				
+				// Configurar cliente usando la clase base
+				const client = super.configureClientWithFromId(apiKey, credentialsFromId, nodeFromId);
+
+				const result = await client.whatsapp.sendMessage({
+					wa_id,
+					message,
+				});
+
+				returnData.push(result);
+			} catch (error) {
+				if (this.continueOnFail()) {
+					returnData.push({ error: error.message });
+					continue;
+				}
+				throw error;
+			}
+		}
+
+		return [this.helpers.returnJsonArray(returnData)];
+	}
+}
