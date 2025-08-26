@@ -3,7 +3,6 @@ import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
-	NodeConnectionType,
 } from 'n8n-workflow';
 import { WasapiBaseWithFromId } from '../WasapiBaseWithFromId';
 
@@ -18,8 +17,8 @@ export class WasapiSendMessage extends WasapiBaseWithFromId implements INodeType
 		defaults: {
 			name: 'Wasapi Send Message',
 		},
-		inputs: [NodeConnectionType.Main],
-		outputs: [NodeConnectionType.Main],
+		inputs: ['main'],
+		outputs: ['main'],
 		credentials: [
 			{
 				name: 'wasapiApi',
