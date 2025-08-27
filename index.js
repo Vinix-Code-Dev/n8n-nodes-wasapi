@@ -1,14 +1,13 @@
 'use strict';
 
-const { WasapiSendMessage } = require('./nodes/WasapiSendMessage/WasapiSendMessage.node');
-const { WasapiSendTemplate } = require('./nodes/WasapiSendTemplate/WasapiSendTemplate.node');
-const { WasapiSendAttachment } = require('./nodes/WasapiSendAttachment/WasapiSendAttachment.node');
+import { WasapiSendMessage } from './nodes/WasapiSendMessage/WasapiSendMessage.node.js';
+import { WasapiSendAttachment } from './nodes/WasapiSendAttachment/WasapiSendAttachment.node.js';
+import { WasapiCreateContact } from './nodes/WasapiCreateContact/WasapiCreateContact.node.js';
 
-
-module.exports = {
+export default {
 	nodes: [
 		WasapiSendMessage,
-		WasapiSendTemplate,
 		WasapiSendAttachment,
+		WasapiCreateContact,
 	],
 };
