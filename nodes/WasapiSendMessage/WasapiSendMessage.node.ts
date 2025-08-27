@@ -21,7 +21,7 @@ export class WasapiSendMessage extends WasapiBase implements INodeType {
 		outputs: ['main'],
 		credentials: this.getCommonCredentials(),
 		requestDefaults: {
-			baseURL: 'https://api-ws.wasapi.io/api/v1',
+			baseURL: this.getUrlApi(),
 		},
 		properties: [
 			{
