@@ -136,18 +136,11 @@ export abstract class WasapiBase {
 		// get credentials
 		const credentials = await this.getCredentials('wasapiApi');
 		const apiKey = credentials.apiKey as string;
-		const credentialsFromId = credentials.fromId as string;
 
 		for (let i = 0; i < items.length; i++) {
 			try {
-				const nodeFromId = this.getNodeParameter('fromId', i) as string;
-
 				// create client directly here
 				const clientConfig: any = { apiKey };
-				let fromId = nodeFromId || credentialsFromId;
-				if (fromId) {
-					clientConfig.from_id = parseInt(fromId);
-				}
 				const client = new WasapiClient(clientConfig);
 
 				// execute the specific operation of the node
