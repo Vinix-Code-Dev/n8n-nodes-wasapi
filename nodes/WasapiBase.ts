@@ -59,7 +59,7 @@ export abstract class WasapiBase {
 		try {
 			const response = await client.labels.getAll();
 			return response.labels.map((label: any) => ({
-				name: label.name,
+				name: label.title,
 				value: label.id.toString(),
 			}));
 		} catch (error: any) {

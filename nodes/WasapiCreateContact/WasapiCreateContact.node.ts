@@ -66,7 +66,7 @@ export class WasapiCreateContact extends WasapiBase implements INodeType {
 			},
 			{
 				displayName: 'Label',
-				name: 'label',
+				name: 'labels',
 				type: 'multiOptions',
 				typeOptions: {
 					loadOptionsMethod: 'getLabels',
@@ -91,14 +91,14 @@ export class WasapiCreateContact extends WasapiBase implements INodeType {
 			const email = this.getNodeParameter('email', i) as string;
 			const phone = this.getNodeParameter('phone', i) as string;
 			const notes = this.getNodeParameter('notes', i) as string;
-			const label = this.getNodeParameter('label', i) as string[];
+			const labels = this.getNodeParameter('labels', i) as string[];
 			return await client.contacts.create({
 				first_name,
 				last_name,
 				email,
 				phone,
 				notes,
-				label
+				labels
 			});
 		});
 	}
