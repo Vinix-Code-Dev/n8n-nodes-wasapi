@@ -4,9 +4,9 @@ import {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { WasapiBaseWithFromId } from '../WasapiBaseWithFromId';
+import { WasapiBase } from '../WasapiBase.js';
 
-export class WasapiSendAttachment extends WasapiBaseWithFromId implements INodeType {
+export class WasapiSendAttachment extends WasapiBase implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Wasapi Send Attachment',
 		name: 'wasapiSendAttachment',
@@ -19,31 +19,18 @@ export class WasapiSendAttachment extends WasapiBaseWithFromId implements INodeT
 		},
 		inputs: ['main'],
 		outputs: ['main'],
-		credentials: [
-			{
-				name: 'wasapiApi',
-				required: true,
-			},
-		],
+		credentials: this.getCommonCredentials(),
 		requestDefaults: {
 			baseURL: 'https://api-ws.wasapi.io/api/v1',
 		},
 		properties: [
-			{
-				displayName: 'WhatsApp ID',
-				name: 'wa_id',
-				type: 'string',
-				default: '',
-				required: true,
-				description: 'ID de WhatsApp del destinatario',
-			},
 			{
 				displayName: 'File Path',
 				name: 'filePath',
 				type: 'string',
 				default: '',
 				required: true,
-				description: 'URL o ruta del archivo a enviar',
+				description: 'URL or path of the file to send',
 			},
 			{
 				displayName: 'Caption',
@@ -51,67 +38,31 @@ export class WasapiSendAttachment extends WasapiBaseWithFromId implements INodeT
 				type: 'string',
 				default: '',
 				required: false,
-				description: 'Descripción del archivo (opcional)',
+				description: 'description of the file (optional)',
 			},
-			{
-				displayName: 'Filename',
-				name: 'filename',
-				type: 'string',
-				default: '',
-				required: false,
-				description: 'Nombre del archivo (opcional)',
-			},
-			{
-				displayName: 'From ID',
-				name: 'fromId',
-				type: 'options',
-				typeOptions: {
-					loadOptionsMethod: 'getWhatsappNumbers',
-				},
-				default: '',
-				required: false,
-				description: 'ID del número de WhatsApp desde el cual enviar (opcional, usa el de las credenciales si no se especifica)',
-			},
+			...this.getCommonProperties(),
 		],
 	};
 
+	// 👇 Usar el método de la clase base
+	methods = {
+		loadOptions: {
+			getWhatsappNumbers: this.getWhatsappNumbers,
+		},
+	};
+
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		const items = this.getInputData();
-		const returnData: any[] = [];
+		return await super.executeCommon(async (client: any, item: any, i: number) => {
+			const wa_id = this.getNodeParameter('wa_id', i) as string;
+			const filePath = this.getNodeParameter('filePath', i) as string;
+			const caption = this.getNodeParameter('caption', i) as string;
 
-		// Obtener credenciales
-		const credentials = await this.getCredentials('wasapiApi');
-		const apiKey = credentials.apiKey as string;
-		const credentialsFromId = credentials.fromId as string;
 
-		for (let i = 0; i < items.length; i++) {
-			try {
-				const wa_id = this.getNodeParameter('wa_id', i) as string;
-				const filePath = this.getNodeParameter('filePath', i) as string;
-				const caption = this.getNodeParameter('caption', i) as string;
-				const filename = this.getNodeParameter('filename', i) as string;
-				const nodeFromId = this.getNodeParameter('fromId', i) as string;
-				
-				// Configurar cliente usando la clase base
-				const client = await super.configureClientWithFromId(apiKey, credentialsFromId, nodeFromId);
-
-				const result = await client.whatsapp.sendAttachment({
-					wa_id,
-					filePath,
-					caption,
-					filename,
-				});
-
-				returnData.push(result);
-			} catch (error) {
-				if (this.continueOnFail()) {
-					returnData.push({ error: error.message });
-					continue;
-				}
-				throw error;
-			}
-		}
-
-		return [this.helpers.returnJsonArray(returnData)];
+			return await client.whatsapp.sendAttachment({
+				wa_id,
+				filePath,
+				caption
+			});
+		});
 	}
 }
