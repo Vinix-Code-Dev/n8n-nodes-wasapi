@@ -1,5 +1,5 @@
-const path = require('path');
-const { task, src, dest } = require('gulp');
+import path from 'path';
+import { task, src, dest } from 'gulp';
 
 task('build:icons', copyIcons);
 

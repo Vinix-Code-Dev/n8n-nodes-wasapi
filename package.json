@@ -2,6 +2,7 @@
   "name": "n8n-nodes-wasapi",
   "version": "0.1.0",
   "description": "Nodo n8n para integración con Wasapi API",
+  "type": "module",
   "keywords": [
     "n8n-community-node-package"
   ],
