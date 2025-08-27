@@ -3,11 +3,11 @@ import { WasapiClient } from '@laiyon/wasapi-sdk';
 
 export abstract class WasapiBase {
 	/**
-	 * get the list of available WhatsApp numbers
+	 * Obtiene la lista de números de WhatsApp disponibles
 	 */
 	protected async getWhatsappNumbers(this: ILoadOptionsFunctions) {
 		try {
-			// get credentials
+			// Obtener credenciales
 			const credentials = await this.getCredentials('wasapiApi');
 			const apiKey = credentials.apiKey as string;
 
@@ -15,10 +15,10 @@ export abstract class WasapiBase {
 				return [{ name: '⚠️ First configure credentials', value: '' }];
 			}
 
-			// initialize Wasapi client
+			// Inicializar cliente Wasapi
 			const client = new WasapiClient({ apiKey });
 
-			// get available numbers
+			// Obtener números disponibles
 			const response = await client.whatsapp.getWhatsappNumbers();
 
 			if (!response?.success || !Array.isArray(response.data)) {
@@ -70,21 +70,6 @@ export abstract class WasapiBase {
 				},
 			];
 		}
-	}
-
-	/**
-	 * create a Wasapi client configured with from_id
-	 */
-	protected async createClient(apiKey: string, nodeFromId?: string, credentialsFromId?: string): Promise<WasapiClient> {
-		const clientConfig: any = { apiKey };
-
-		// priority: From ID of the node > From ID of credentials > default SDK
-		let fromId = nodeFromId || credentialsFromId;
-		if (fromId) {
-			clientConfig.from_id = parseInt(fromId);
-		}
-
-		return new WasapiClient(clientConfig);
 	}
 
 	/**
@@ -142,7 +127,7 @@ export abstract class WasapiBase {
 	 * common execute method that handles the repetitive logic
 	 */
 	protected async executeCommon(
-		this: IExecuteFunctions & WasapiBase,
+		this: IExecuteFunctions,
 		operation: (client: WasapiClient, item: any, index: number) => Promise<any>
 	): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
@@ -157,8 +142,13 @@ export abstract class WasapiBase {
 			try {
 				const nodeFromId = this.getNodeParameter('fromId', i) as string;
 
-				// use the existing createClient method
-				const client = await this.createClient(apiKey, nodeFromId, credentialsFromId);
+				// create client directly here
+				const clientConfig: any = { apiKey };
+				let fromId = nodeFromId || credentialsFromId;
+				if (fromId) {
+					clientConfig.from_id = parseInt(fromId);
+				}
+				const client = new WasapiClient(clientConfig);
 
 				// execute the specific operation of the node
 				const result = await operation.call(this, client, items[i], i);
