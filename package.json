@@ -39,7 +39,8 @@
     "nodes": [
       "dist/nodes/WasapiSendMessage/WasapiSendMessage.node.js",
       "dist/nodes/WasapiSendTemplate/WasapiSendTemplate.node.js",
-      "dist/nodes/WasapiSendAttachment/WasapiSendAttachment.node.js"
+      "dist/nodes/WasapiSendAttachment/WasapiSendAttachment.node.js",
+      "dist/nodes/WasapiCreateContact/WasapiCreateContact.node.js"
     ]
   },
   "devDependencies": {
