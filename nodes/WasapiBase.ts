@@ -3,21 +3,46 @@ import { WasapiClient } from '@laiyon/wasapi-sdk';
 
 export abstract class WasapiBase {
 	/**
-	 * Obtiene la lista de números de WhatsApp disponibles
+	 * Helper common to create Wasapi client and handle credentials
 	 */
-	protected async getWhatsappNumbers(this: ILoadOptionsFunctions) {
+	private static async createClientForLoadOptions(context: ILoadOptionsFunctions): Promise<WasapiClient | null> {
 		try {
-			// Obtener credenciales
-			const credentials = await this.getCredentials('wasapiApi');
+			const credentials = await context.getCredentials('wasapiApi');
 			const apiKey = credentials.apiKey as string;
 
 			if (!apiKey) {
-				return [{ name: '⚠️ First configure credentials', value: '' }];
+				return null;
 			}
 
-			// Inicializar cliente Wasapi
-			const client = new WasapiClient({ apiKey });
+			return new WasapiClient({ apiKey });
+		} catch (error: any) {
+			return null;
+		}
+	}
 
+	/**
+	 * Helper to handle errors in loadOptions
+	 */
+	private static handleLoadOptionsError(error: any): any[] {
+		return [
+			{
+				name: `❌ Connection error: ${error.message || 'Unknown'}`,
+				value: '',
+			},
+		];
+	}
+
+	/**
+	 * Obtiene la lista de números de WhatsApp disponibles
+	 */
+	protected async getWhatsappNumbers(this: ILoadOptionsFunctions) {
+		const client = await WasapiBase.createClientForLoadOptions(this);
+		
+		if (!client) {
+			return [{ name: '⚠️ First configure credentials', value: '' }];
+		}
+
+		try {
 			// Obtener números disponibles
 			const response = await client.whatsapp.getWhatsappNumbers();
 
@@ -38,24 +63,19 @@ export abstract class WasapiBase {
 				});
 			});
 
-			return options; ``
+			return options;
 		} catch (error: any) {
-			return [
-				{
-					name: `❌ Connection error: ${error.message || 'Unknown'}`,
-					value: '',
-				},
-			];
+			return WasapiBase.handleLoadOptionsError(error);
 		}
 	}
 	// get labels
 	protected async getLabels(this: ILoadOptionsFunctions) {
-		const credentials = await this.getCredentials('wasapiApi');
-		const apiKey = credentials.apiKey as string;
-		if (!apiKey) {
+		const client = await WasapiBase.createClientForLoadOptions(this);
+		
+		if (!client) {
 			return [{ name: '⚠️ First configure credentials', value: '' }];
 		}
-		const client = new WasapiClient({ apiKey });
+
 		try {
 			const response = await client.labels.getAll();
 			return response.labels.map((label: any) => ({
@@ -63,12 +83,41 @@ export abstract class WasapiBase {
 				value: label.id.toString(),
 			}));
 		} catch (error: any) {
-			return [
-				{
-					name: `❌ Connection error: ${error.message || 'Unknown'}`,
-					value: '',
-				},
-			];
+			return WasapiBase.handleLoadOptionsError(error);
+		}
+	}
+
+	/**
+ * get the list of custom fields available
+ */
+	protected async getCustomFields(this: ILoadOptionsFunctions) {
+		const client = await WasapiBase.createClientForLoadOptions(this);
+		
+		if (!client) {
+			return [{ name: '⚠️ First configure credentials', value: '' }];
+		}
+
+		try {
+			// get custom fields available
+			const response = await client.customFields.getAll();
+
+			if (!response?.success || !Array.isArray(response.data)) {
+				return [{ name: '❌ No custom fields available', value: '' }];
+			}
+
+			// Crear opciones para cada campo personalizado
+			const options: any[] = [];
+
+			response.data.forEach((field: any) => {
+				options.push({
+					name: field.field_name,
+					value: field.field_name,
+				});
+			});
+
+			return options;
+		} catch (error: any) {
+			return WasapiBase.handleLoadOptionsError(error);
 		}
 	}
 
