@@ -3,11 +3,11 @@ import { ContactService } from '../services/ContactService';
 import { WhatsAppService } from '../services/WhatsAppService';
 
 export class ServiceFactory {
-	static createContactService(client: WasapiClient): ContactService {
+	static contactService(client: WasapiClient): ContactService {
 		return new ContactService(client);
 	}
 
-	static createWhatsAppService(client: WasapiClient): WhatsAppService {
+	static whatsAppService(client: WasapiClient): WhatsAppService {
 		return new WhatsAppService(client);
 	}
 }
