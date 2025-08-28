@@ -11,6 +11,7 @@ import { getLabels } from '../helpers/getLabels.helper';
 import { getCustomFields } from '../helpers/getCustomFields.helper';
 import { getWhatsappNumbers } from '../helpers/getWhatsappNumbers.helper';
 import { OperationFactory } from '../factories/OperationFactory';
+import { getContactDescription } from '../actions/contact/getContact.operation';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -74,6 +75,12 @@ export class Wasapi implements INodeType {
 						description: 'Create a new contact',
 						action: 'Create a new contact',
 					},
+					{
+						name: 'Get',
+						value: 'get',
+						description: 'Get a contact',
+						action: 'Get a contact',
+					},
 				],
 				default: 'create',
 			},
@@ -106,6 +113,8 @@ export class Wasapi implements INodeType {
 			},
 			// Contact Create Properties
           ...createContactDescription,
+			// Contact Get Properties
+			...getContactDescription,
 			// WhatsApp Send Message Properties
 			...sendMessageDescription,
 			// WhatsApp Send Attachment Properties
