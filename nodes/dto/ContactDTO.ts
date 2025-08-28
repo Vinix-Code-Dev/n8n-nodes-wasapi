@@ -2,7 +2,7 @@ import { IExecuteFunctions } from 'n8n-workflow';
 import { ContactData } from '../services/ContactService';
 
 export class ContactDTO {
-	static fromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): ContactData {
+	static create(executeFunctions: IExecuteFunctions, index: number): ContactData {
 		return {
 			first_name: executeFunctions.getNodeParameter('first_name', index) as string,
 			last_name: executeFunctions.getNodeParameter('last_name', index) as string,
@@ -12,5 +12,9 @@ export class ContactDTO {
 			labels: executeFunctions.getNodeParameter('labels', index) as string[],
 			custom_fields: {},
 		};
+	}
+
+	static getById(executeFunctions: IExecuteFunctions, index: number): string {
+		return executeFunctions.getNodeParameter('wa_id', index) as string;
 	}
 }
