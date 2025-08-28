@@ -24,4 +24,8 @@ export class ContactService {
 	validateCustomFields(customFieldsData: any): Record<string, any> {
 		return ContactValidator.validateCustomFields(customFieldsData);
 	}
+
+	async getContact(wa_id: string): Promise<any> {
+		return await this.client.contacts.getById(wa_id);
+	}
 }
