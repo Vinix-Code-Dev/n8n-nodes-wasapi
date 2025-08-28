@@ -1,13 +1,9 @@
 'use strict';
 
-import { WasapiSendMessage } from './nodes/WasapiSendMessage/WasapiSendMessage.node.js';
-import { WasapiSendAttachment } from './nodes/WasapiSendAttachment/WasapiSendAttachment.node.js';
-import { WasapiCreateContact } from './nodes/WasapiCreateContact/WasapiCreateContact.node.js';
+import { Wasapi } from './nodes/Wasapi/Wasapi.node.js';
 
 export default {
 	nodes: [
-		WasapiSendMessage,
-		WasapiSendAttachment,
-		WasapiCreateContact,
+		Wasapi,
 	],
 };
