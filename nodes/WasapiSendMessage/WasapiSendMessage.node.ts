@@ -47,9 +47,11 @@ export class WasapiSendMessage extends WasapiBase implements INodeType {
 		return await super.executeCommon(async (client: any, item: any, i: number) => {
 			const wa_id = this.getNodeParameter('wa_id', i) as string;
 			const message = this.getNodeParameter('message', i) as string;
+			const from_id = this.getNodeParameter('fromId', i) as string;
 
 			return await client.whatsapp.sendMessage({
 				wa_id,
+				from_id,
 				message,
 			});
 		});

@@ -56,12 +56,13 @@ export class WasapiSendAttachment extends WasapiBase implements INodeType {
 			const wa_id = this.getNodeParameter('wa_id', i) as string;
 			const filePath = this.getNodeParameter('filePath', i) as string;
 			const caption = this.getNodeParameter('caption', i) as string;
-
+			const from_id = this.getNodeParameter('fromId', i) as string;
 
 			return await client.whatsapp.sendAttachment({
 				wa_id,
 				filePath,
-				caption
+				caption,
+				from_id,
 			});
 		});
 	}
