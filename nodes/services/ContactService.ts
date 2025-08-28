@@ -32,4 +32,8 @@ export class ContactService {
 	async deleteContact(wa_id: string): Promise<any> {
 		return await this.client.contacts.delete(wa_id);
 	}
+
+	async updateContact(wa_id: string, data: ContactData): Promise<any> {
+		return await this.client.contacts.update({wa_id, data});
+	}
 }
