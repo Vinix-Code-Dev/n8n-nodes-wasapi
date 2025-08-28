@@ -2,7 +2,7 @@
   "name": "n8n-nodes-wasapi",
   "version": "0.1.0",
   "description": "Nodo n8n para integración con Wasapi API",
-  "type": "module",
+  "type": "commonjs",
   "keywords": [
     "n8n-community-node-package"
   ],
@@ -37,10 +37,7 @@
       "dist/credentials/WasapiApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/WasapiSendMessage/WasapiSendMessage.node.js",
-      "dist/nodes/WasapiSendTemplate/WasapiSendTemplate.node.js",
-      "dist/nodes/WasapiSendAttachment/WasapiSendAttachment.node.js",
-      "dist/nodes/WasapiCreateContact/WasapiCreateContact.node.js"
+      "dist/nodes/Wasapi/Wasapi.node.js"
     ]
   },
   "devDependencies": {
@@ -55,6 +52,6 @@
     "n8n-workflow": "^1.106.0"
   },
   "dependencies": {
-    "@laiyon/wasapi-sdk": "^0.1.18"
+    "@laiyon/wasapi-sdk": "^0.1.21"
   }
 }
