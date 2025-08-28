@@ -12,6 +12,7 @@ import { getCustomFields } from '../helpers/getCustomFields.helper';
 import { getWhatsappNumbers } from '../helpers/getWhatsappNumbers.helper';
 import { OperationFactory } from '../factories/OperationFactory';
 import { getContactDescription } from '../actions/contact/getContact.operation';
+import { deleteContactDescription } from '../actions/contact/deleteContact.operation';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -81,6 +82,12 @@ export class Wasapi implements INodeType {
 						description: 'Get a contact',
 						action: 'Get a contact',
 					},
+					{
+						name: 'Delete',
+						value: 'delete',
+						description: 'Delete a contact',
+						action: 'Delete a contact',
+					},
 				],
 				default: 'create',
 			},
@@ -115,6 +122,8 @@ export class Wasapi implements INodeType {
           ...createContactDescription,
 			// Contact Get Properties
 			...getContactDescription,
+			// Contact Delete Properties
+			...deleteContactDescription,
 			// WhatsApp Send Message Properties
 			...sendMessageDescription,
 			// WhatsApp Send Attachment Properties

@@ -4,6 +4,7 @@ import { executeSendMessage } from '../actions/whatsapp/sendMessage.operation';
 import { executeSendAttachment } from '../actions/whatsapp/sendAttachment.operation';
 import { OPERATION_KEYS } from '../config/constants';
 import { executeGetContact } from '../actions/contact/getContact.operation';
+import { executeDeleteContact } from '../actions/contact/deleteContact.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -13,6 +14,7 @@ export class OperationFactory {
 	private static operations: Map<string, OperationHandler> = new Map([
 		[OPERATION_KEYS.CONTACT_CREATE, { execute: executeContactCreate }],
 		[OPERATION_KEYS.CONTACT_GET, { execute: executeGetContact }],
+		[OPERATION_KEYS.CONTACT_DELETE, { execute: executeDeleteContact }],
 		[OPERATION_KEYS.WHATSAPP_SEND_MESSAGE, { execute: executeSendMessage }],
 		[OPERATION_KEYS.WHATSAPP_SEND_ATTACHMENT, { execute: executeSendAttachment }],
 	]);

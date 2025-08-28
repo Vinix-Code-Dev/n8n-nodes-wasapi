@@ -17,4 +17,8 @@ export class ContactDTO {
 	static getById(executeFunctions: IExecuteFunctions, index: number): string {
 		return executeFunctions.getNodeParameter('wa_id', index) as string;
 	}
+
+	static delete(executeFunctions: IExecuteFunctions, index: number): string {
+		return executeFunctions.getNodeParameter('wa_id', index) as string;
+	}
 }

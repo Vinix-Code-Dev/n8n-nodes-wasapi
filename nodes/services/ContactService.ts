@@ -28,4 +28,8 @@ export class ContactService {
 	async getContact(wa_id: string): Promise<any> {
 		return await this.client.contacts.getById(wa_id);
 	}
+
+	async deleteContact(wa_id: string): Promise<any> {
+		return await this.client.contacts.delete(wa_id);
+	}
 }
