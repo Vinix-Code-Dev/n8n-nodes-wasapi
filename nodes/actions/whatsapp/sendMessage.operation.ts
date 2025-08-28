@@ -36,7 +36,7 @@ export const sendMessageDescription = updateDisplayOptions(displayOptions, sendM
 
 export async function executeSendMessage(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const whatsAppService = ServiceFactory.createWhatsAppService(client);
+        const whatsAppService = ServiceFactory.whatsAppService(client);
         const messageData = WhatsAppDTO.messageFromExecuteFunctions(this, i);
 
         return await whatsAppService.sendMessage(messageData);

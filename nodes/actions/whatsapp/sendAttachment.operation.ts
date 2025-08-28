@@ -46,7 +46,7 @@ export const sendAttachmentProperties: INodeProperties[] = [
 
 export async function executeSendAttachment(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-			const whatsAppService = ServiceFactory.createWhatsAppService(client);
+			const whatsAppService = ServiceFactory.whatsAppService(client);
 			const attachmentData = WhatsAppDTO.attachmentFromExecuteFunctions(this, i);
 
 			return await whatsAppService.sendAttachment(attachmentData);
