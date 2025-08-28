@@ -5,6 +5,7 @@ import { executeSendAttachment } from '../actions/whatsapp/sendAttachment.operat
 import { OPERATION_KEYS } from '../config/constants';
 import { executeGetContact } from '../actions/contact/getContact.operation';
 import { executeDeleteContact } from '../actions/contact/deleteContact.operation';
+import { executeContactUpdate } from '../actions/contact/updateContact.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -15,6 +16,7 @@ export class OperationFactory {
 		[OPERATION_KEYS.CONTACT_CREATE, { execute: executeContactCreate }],
 		[OPERATION_KEYS.CONTACT_GET, { execute: executeGetContact }],
 		[OPERATION_KEYS.CONTACT_DELETE, { execute: executeDeleteContact }],
+		[OPERATION_KEYS.CONTACT_UPDATE, { execute: executeContactUpdate }],
 		[OPERATION_KEYS.WHATSAPP_SEND_MESSAGE, { execute: executeSendMessage }],
 		[OPERATION_KEYS.WHATSAPP_SEND_ATTACHMENT, { execute: executeSendAttachment }],
 	]);
