@@ -14,6 +14,17 @@ export class ContactDTO {
 		};
 	}
 
+	static update(executeFunctions: IExecuteFunctions, index: number): any {
+		return {
+			first_name: executeFunctions.getNodeParameter('first_name', index) as string,
+			last_name: executeFunctions.getNodeParameter('last_name', index) as string,
+			email: executeFunctions.getNodeParameter('email', index) as string,
+			notes: executeFunctions.getNodeParameter('notes', index) as string,
+			labels: executeFunctions.getNodeParameter('labels', index) as string[],
+			custom_fields: {},
+		};
+	}
+
 	static getById(executeFunctions: IExecuteFunctions, index: number): string {
 		return executeFunctions.getNodeParameter('wa_id', index) as string;
 	}
