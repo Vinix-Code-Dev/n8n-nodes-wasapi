@@ -5,6 +5,14 @@ export class ContactValidator {
 		if (data.email && !this.isValidEmail(data.email)) {
 			throw new Error('Invalid email format');
 		}
+
+		if (data.labels && !Array.isArray(data.labels)) {
+			throw new Error('Labels must be an array');
+		}
+
+		if (data.labels) {
+			data.labels = data.labels.filter(label => label && typeof label === 'string' && label.trim().length > 0);
+		}
 	}
 
 	static validateCustomFields(customFieldsData: any): Record<string, any> {

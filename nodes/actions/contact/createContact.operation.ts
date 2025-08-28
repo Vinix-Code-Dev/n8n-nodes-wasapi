@@ -59,7 +59,7 @@ export const contactCreateProperties: INodeProperties[] = [
         typeOptions: {
             loadOptionsMethod: 'getLabels',
         },
-        default: '',
+        default: [],
         description: 'Label of the contact',
     },
     {
