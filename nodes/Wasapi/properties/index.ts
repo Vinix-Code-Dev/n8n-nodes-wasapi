@@ -3,6 +3,7 @@ import { contactProperties } from './contact.properties';
 import { whatsappProperties } from './whatsapp.properties';
 import { labelsProperties } from './labels.properties';
 import { customFieldsProperties } from './customFields.properties';
+import { campaignsProperties } from './campaigns.properties';
 
 export const resourceOptions: INodeProperties = {
 	displayName: 'Resource',
@@ -34,6 +35,12 @@ export const resourceOptions: INodeProperties = {
 			description: 'Manage custom fields',
 			action: 'Manage custom fields',
 		},
+		{
+			name: 'Campaigns',
+			value: 'campaigns',
+			description: 'Manage campaigns',
+			action: 'Manage campaigns',
+		},
 	],
 	default: 'contact',
 };
@@ -44,4 +51,5 @@ export const allProperties: INodeProperties[] = [
 	...whatsappProperties,
 	...labelsProperties,
 	...customFieldsProperties,
+	...campaignsProperties,
 ];

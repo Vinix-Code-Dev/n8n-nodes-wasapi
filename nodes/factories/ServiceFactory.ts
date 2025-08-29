@@ -3,6 +3,7 @@ import { ContactService } from '../services/ContactService';
 import { WhatsAppService } from '../services/WhatsAppService';
 import { LabelService } from '../services/LabelService';
 import { CustomFieldService } from '../services/CustomFieldService';
+import { CampaignService } from '../services/CampaignService';
 
 export class ServiceFactory {
 	static contactService(client: WasapiClient): ContactService {
@@ -19,5 +20,9 @@ export class ServiceFactory {
 
 	static customFieldService(client: WasapiClient): CustomFieldService {
 		return new CustomFieldService(client);
+	}
+
+	static campaignService(client: WasapiClient): CampaignService {
+		return new CampaignService(client);
 	}
 }
