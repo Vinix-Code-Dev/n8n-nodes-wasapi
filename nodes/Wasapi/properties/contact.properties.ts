@@ -2,7 +2,7 @@ import { INodeProperties } from 'n8n-workflow';
 import { createContactDescription } from '../../actions/contact/createContact.operation';
 import { getContactDescription } from '../../actions/contact/getContact.operation';
 import { getAllContactsDescription } from '../../actions/contact/getAll.operation';
-import { getSearchContactsDescription } from '../../actions/contact/getSearch.operation';
+//import { getSearchContactsDescription } from '../../actions/contact/getSearch.operation';
 import { deleteContactDescription } from '../../actions/contact/deleteContact.operation';
 import { updateContactDescription } from '../../actions/contact/updateContact.operation';
 import { toggleBotDescription } from '../../actions/contact/toggleBot.operation';
@@ -37,12 +37,12 @@ export const contactOperations: INodeProperties = {
 			description: 'Get all contacts',
 			action: 'Get all contacts',
 		},
-		{
+	/* bug en el search por api de wasapi	{
 			name: 'Search',
 			value: 'getSearch',
 			description: 'Search contacts with filters',
 			action: 'Search contacts',
-		},
+		}, */
 		{
 			name: 'Delete',
 			value: 'delete',
@@ -76,7 +76,7 @@ export const contactProperties: INodeProperties[] = [
 	...createContactDescription,
 	...getContactDescription,
 	...getAllContactsDescription,
-	...getSearchContactsDescription,
+	//...getSearchContactsDescription,
 	...deleteContactDescription,
 	...updateContactDescription,
 	...toggleBotDescription,
