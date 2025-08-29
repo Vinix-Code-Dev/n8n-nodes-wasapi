@@ -35,7 +35,7 @@ export const resourceOptions: INodeProperties = {
 			action: 'Manage custom fields',
 		},
 	],
-	default: 'whatsapp',
+	default: 'contact',
 };
 
 export const allProperties: INodeProperties[] = [
