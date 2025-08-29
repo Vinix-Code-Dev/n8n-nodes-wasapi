@@ -4,9 +4,12 @@ import { executeSendMessage } from '../actions/whatsapp/sendMessage.operation';
 import { executeSendAttachment } from '../actions/whatsapp/sendAttachment.operation';
 import { OPERATION_KEYS } from '../config/constants';
 import { executeGetContact } from '../actions/contact/getContact.operation';
+import { executeGetAllContacts } from '../actions/contact/getAll.operation';
+import { executeGetSearchContacts } from '../actions/contact/getSearch.operation';
 import { executeDeleteContact } from '../actions/contact/deleteContact.operation';
 import { executeContactUpdate } from '../actions/contact/updateContact.operation';
 import { executeToggleBot } from '../actions/contact/toggleBot.operation';
+import { executeExportContacts } from '../actions/contact/export.operation';
 import { executeGetAllLabels } from '../actions/labels/getLabels.operation';
 import { executeGetSearch } from '../actions/labels/getSearch.operation';
 import { executeGetById } from '../actions/labels/getById.operation';
@@ -28,9 +31,12 @@ export class OperationFactory {
 	private static operations: Map<string, OperationHandler> = new Map([
 		[OPERATION_KEYS.CONTACT_CREATE, { execute: executeContactCreate }],
 		[OPERATION_KEYS.CONTACT_GET, { execute: executeGetContact }],
+		[OPERATION_KEYS.CONTACT_GET_ALL, { execute: executeGetAllContacts }],
+		[OPERATION_KEYS.CONTACT_GET_SEARCH, { execute: executeGetSearchContacts }],
 		[OPERATION_KEYS.CONTACT_DELETE, { execute: executeDeleteContact }],
 		[OPERATION_KEYS.CONTACT_UPDATE, { execute: executeContactUpdate }],
 		[OPERATION_KEYS.CONTACT_TOGGLE_BOT, { execute: executeToggleBot }],
+		[OPERATION_KEYS.CONTACT_EXPORT, { execute: executeExportContacts }],
 		[OPERATION_KEYS.WHATSAPP_SEND_MESSAGE, { execute: executeSendMessage }],
 		[OPERATION_KEYS.WHATSAPP_SEND_ATTACHMENT, { execute: executeSendAttachment }],
 		[OPERATION_KEYS.LABELS_GET_ALL, { execute: executeGetAllLabels }],

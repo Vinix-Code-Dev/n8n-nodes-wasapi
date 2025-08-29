@@ -15,6 +15,16 @@ export interface BotStatusRequest {
     from_id: number;
     action: 'enable' | 'disable' | 'disable_permanently';
 }
+
+export interface ContactSearchParams {
+    search?: string;
+    labels?: number;
+    page?: number;
+}
+
+export interface ContactExportRequest {
+    email_urls?: string[];
+}
 export class ContactService {
 	constructor(private client: WasapiClient) {}
 
@@ -43,5 +53,17 @@ export class ContactService {
 
 	async toggleBotStatus(wa_id: string, data: BotStatusRequest): Promise<any> {
 		return await this.client.bot.toggleStatus({wa_id, data});
+	}
+
+	async getAll(): Promise<any> {
+		return await this.client.contacts.getAll();
+	}
+
+	async getSearch(params: ContactSearchParams): Promise<any> {
+		return await this.client.contacts.getSearch(params);
+	}
+
+	async export(data: ContactExportRequest): Promise<any> {
+		return await this.client.contacts.export(data);
 	}
 }
