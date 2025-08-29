@@ -10,12 +10,12 @@ import { ServiceFactory } from '../../factories/ServiceFactory';
 
 export const getCampaignByIdProperties: INodeProperties[] = [
     {
-        displayName: 'Campaign ID',
+        displayName: 'Campaign UUID',
         required: true,
-        name: 'campaign_id',
+        name: 'campaign_uuid',
         type: 'string',
         default: '',
-        description: 'The ID of the campaign to retrieve',
+        description: 'The UUID of the campaign to retrieve',
     },
 ];
 
@@ -31,7 +31,7 @@ export const getCampaignByIdDescription = updateDisplayOptions(displayOptions, g
 export async function executeGetCampaignById(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
     return await executeCommon.call(this, async (client: any, item: any, i: number) => {
         const campaignService = ServiceFactory.campaignService(client);
-        const campaign_id = this.getNodeParameter('campaign_id', i) as string;
-        return await campaignService.getById(campaign_id);
+        const campaign_uuid = this.getNodeParameter('campaign_uuid', i) as string;
+        return await campaignService.getById(campaign_uuid);
     });
 }

@@ -20,10 +20,10 @@ export const campaignsOperations: INodeProperties = {
 			action: 'Get all campaigns',
 		},
 		{
-			name: 'Get By ID',
+			name: 'Get By UUID',
 			value: 'getById',
-			description: 'Get a campaign by ID',
-			action: 'Get a campaign by ID',
+			description: 'Get a campaign by UUID',
+			action: 'Get a campaign by UUID',
 		},
 	],
 	default: 'getAll',

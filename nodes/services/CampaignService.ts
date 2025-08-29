@@ -7,7 +7,7 @@ export class CampaignService {
 		return await this.client.campaigns.getAll();
 	}
 
-	async getById(campaign_id: string): Promise<any> {
-		return await this.client.campaigns.getById(campaign_id);
+	async getById(campaign_uuid: string): Promise<any> {
+		return await this.client.campaigns.getById(campaign_uuid);
 	}
 }
