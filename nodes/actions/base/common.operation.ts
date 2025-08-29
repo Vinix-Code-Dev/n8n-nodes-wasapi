@@ -10,7 +10,7 @@ export const commonProperties: INodeProperties[] = [
         },
         default: '',
         required: true,
-        description: 'Pick the phone number you want to use to send messages from',
+        description: 'Pick the phone number of your wasapi account',
     },
     {
         displayName: 'WhatsApp ID',
