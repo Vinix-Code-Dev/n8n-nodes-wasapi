@@ -21,7 +21,7 @@ export const campaignsOperations: INodeProperties = {
 		},
 		{
 			name: 'Get By UUID',
-			value: 'getById',
+			value: 'getByUuid',
 			description: 'Get a campaign by UUID',
 			action: 'Get a campaign by UUID',
 		},

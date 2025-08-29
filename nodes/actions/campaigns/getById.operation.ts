@@ -22,7 +22,7 @@ export const getCampaignByIdProperties: INodeProperties[] = [
 const displayOptions: IDisplayOptions = {
     show: {
         resource: ['campaigns'],
-        operation: ['getById'],
+        operation: ['getByUuid'],
     },
 };
 
