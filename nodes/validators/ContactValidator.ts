@@ -1,4 +1,4 @@
-import { ContactData } from '../services/ContactService.js';
+import { ContactData, ContactExportRequest } from '../services/ContactService.js';
 
 export class ContactValidator {
 	static validateCreateContact(data: ContactData): void {
@@ -38,5 +38,23 @@ export class ContactValidator {
 	private static isValidEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
+	}
+
+	static validateExportContacts(data: ContactExportRequest): void {
+		if (data.email_urls && !Array.isArray(data.email_urls)) {
+			throw new Error('Email URLs must be an array');
+		}
+
+		if (data.email_urls && data.email_urls.length > 5) {
+			throw new Error('Maximum 5 email addresses allowed');
+		}
+
+		if (data.email_urls && data.email_urls.some(email => !this.isValidEmail(email))) {
+			throw new Error('Invalid email format');
+		}
+
+		if (data.email_urls && data.email_urls.some((email: string, index: number) => data.email_urls?.indexOf(email) !== index)) {
+			throw new Error('Duplicate email addresses are not allowed');
+		}
 	}
 }
