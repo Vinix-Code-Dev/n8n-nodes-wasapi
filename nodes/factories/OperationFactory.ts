@@ -18,7 +18,7 @@ import { executeCreateCustomField } from '../actions/customFields/create.operati
 import { executeUpdateCustomField } from '../actions/customFields/update.operation';
 import { executeDeleteCustomField } from '../actions/customFields/delete.operation';
 import { executeGetAllCampaigns } from '../actions/campaigns/getAll.operation';
-import { executeGetCampaignById } from '../actions/campaigns/getById.operation';
+import { executeGetCampaignByUuid } from '../actions/campaigns/getById.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -44,7 +44,7 @@ export class OperationFactory {
 		[OPERATION_KEYS.CUSTOM_FIELDS_UPDATE, { execute: executeUpdateCustomField }],
 		[OPERATION_KEYS.CUSTOM_FIELDS_DELETE, { execute: executeDeleteCustomField }],
 		[OPERATION_KEYS.CAMPAIGNS_GET_ALL, { execute: executeGetAllCampaigns }],
-		[OPERATION_KEYS.CAMPAIGNS_GET_BY_ID, { execute: executeGetCampaignById }],
+		[OPERATION_KEYS.CAMPAIGNS_GET_BY_UUID, { execute: executeGetCampaignByUuid }],
 	]);
 
 	static getOperation(resource: string, operation: string): OperationHandler | null {

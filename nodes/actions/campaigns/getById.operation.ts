@@ -28,7 +28,7 @@ const displayOptions: IDisplayOptions = {
 
 export const getCampaignByIdDescription = updateDisplayOptions(displayOptions, getCampaignByIdProperties);
 
-export async function executeGetCampaignById(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+export async function executeGetCampaignByUuid(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
     return await executeCommon.call(this, async (client: any, item: any, i: number) => {
         const campaignService = ServiceFactory.campaignService(client);
         const campaign_uuid = this.getNodeParameter('campaign_uuid', i) as string;
