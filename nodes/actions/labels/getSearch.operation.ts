@@ -11,7 +11,7 @@ export const getSearchProperties: INodeProperties[] = [
         name: 'name',
         type: 'string',
         default: '',
-        description: 'Name of the label to search for',
+        description: 'Name exactly of the label to search for',
     },
 ];
 
