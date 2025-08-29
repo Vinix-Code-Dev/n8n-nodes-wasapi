@@ -21,6 +21,7 @@ import { createDescription } from '../actions/labels/create.operation';
 import { updateDescription } from '../actions/labels/update.operation';
 import { deleteDescription } from '../actions/labels/delete.operation';
 import { getAllCustomFieldsDescription } from '../actions/customFields/getAll.operation';
+import { getByIdCustomFieldDescription } from '../actions/customFields/getById.operation';
 import { createCustomFieldDescription } from '../actions/customFields/create.operation';
 import { updateCustomFieldDescription } from '../actions/customFields/update.operation';
 import { deleteCustomFieldDescription } from '../actions/customFields/delete.operation';
@@ -217,6 +218,12 @@ export class Wasapi implements INodeType {
 						action: 'Get all custom fields',
 					},
 					{
+						name: 'Get By ID',
+						value: 'getById',
+						description: 'Get a custom field by ID',
+						action: 'Get a custom field by ID',
+					},
+					{
 						name: 'Create',
 						value: 'create',
 						description: 'Create a new custom field',
@@ -263,6 +270,8 @@ export class Wasapi implements INodeType {
 			...deleteDescription,
 			// Custom Fields Get All Properties
 			...getAllCustomFieldsDescription,
+			// Custom Fields Get By ID Properties
+			...getByIdCustomFieldDescription,
 			// Custom Fields Create Properties
 			...createCustomFieldDescription,
 			// Custom Fields Update Properties

@@ -17,6 +17,10 @@ export class CustomFieldDTO {
 		};
 	}
 
+	static getById(executeFunctions: IExecuteFunctions, index: number): string {
+		return executeFunctions.getNodeParameter('id', index) as string;
+	}
+
 	static delete(executeFunctions: IExecuteFunctions, index: number): string {
 		return executeFunctions.getNodeParameter('id', index) as string;
 	}
