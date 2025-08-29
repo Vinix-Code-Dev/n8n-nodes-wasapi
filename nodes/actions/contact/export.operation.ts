@@ -14,30 +14,14 @@ export const exportContactsProperties: INodeProperties[] = [
     {
         displayName: 'Email URLs',
         name: 'email_urls',
-        type: 'fixedCollection',
+        type: 'string',
         required: false,
         description: 'Email addresses to send the export to (maximum 5)',
         typeOptions: {
             multipleValues: true,
         },
-        default: [],    
-        options: [
-            {
-                displayName: 'Email',
-                name: 'email',
-                values: [
-                    {
-                        displayName: 'Email Address',
-                        name: 'email',
-                        type: 'string',
-                        default: '',
-                        description: 'Email address to send the export to',
-                        placeholder: 'email@example.com',
-                        required: true,
-                    },
-                ],
-            },
-        ],
+        default: [],
+        placeholder: 'email@example.com',
     },
 ];
 
