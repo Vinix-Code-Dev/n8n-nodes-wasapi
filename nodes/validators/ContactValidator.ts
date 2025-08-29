@@ -42,7 +42,7 @@ export class ContactValidator {
 
 	static validateExportContacts(data: ContactExportRequest): void {
 		if (data.email_urls && !Array.isArray(data.email_urls)) {
-			throw new Error('Email URLs must be an array');
+			throw new Error('Email URLs must be an array', data.email_urls);
 		}
 
 		if (data.email_urls && data.email_urls.length > 5) {

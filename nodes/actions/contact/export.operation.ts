@@ -20,7 +20,7 @@ export const exportContactsProperties: INodeProperties[] = [
         typeOptions: {
             multipleValues: true,
         },
-        default: {},
+        default: [],    
         options: [
             {
                 displayName: 'Email',
