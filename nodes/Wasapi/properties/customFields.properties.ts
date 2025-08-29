@@ -1,6 +1,5 @@
 import { INodeProperties } from 'n8n-workflow';
 import { getAllCustomFieldsDescription } from '../../actions/customFields/getAll.operation';
-import { getByIdCustomFieldDescription } from '../../actions/customFields/getById.operation';
 import { createCustomFieldDescription } from '../../actions/customFields/create.operation';
 import { updateCustomFieldDescription } from '../../actions/customFields/update.operation';
 import { deleteCustomFieldDescription } from '../../actions/customFields/delete.operation';
@@ -53,7 +52,6 @@ export const customFieldsOperations: INodeProperties = {
 export const customFieldsProperties: INodeProperties[] = [
 	customFieldsOperations,
 	...getAllCustomFieldsDescription,
-	...getByIdCustomFieldDescription,
 	...createCustomFieldDescription,
 	...updateCustomFieldDescription,
 	...deleteCustomFieldDescription,

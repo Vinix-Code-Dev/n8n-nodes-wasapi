@@ -16,12 +16,6 @@ export class CustomFieldService {
 		const response = await this.client.customFields.getAll();
 		return response;
 	}
-
-	async getById(id: string): Promise<any> {
-		const response = await this.client.customFields.getById(id);
-		return response;
-	}
-
 	async create(data: CreateCustomField): Promise<any> {
 		const response = await this.client.customFields.create(data);
 		return response;
