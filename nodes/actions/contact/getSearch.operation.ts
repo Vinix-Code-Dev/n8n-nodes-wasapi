@@ -21,14 +21,14 @@ export const getSearchContactsProperties: INodeProperties[] = [
     {
         displayName: 'Labels',
         name: 'labels',
-        type: 'number',
-        default: '',
-        description: 'Filter by label ID',
+        required: false,
+        type: 'multiOptions',
         typeOptions: {
             loadOptionsMethod: 'getLabels',
         },
-        required: false,
-    }
+        default: [],
+        description: 'Label of the contact',
+    },
 ];
 
 const displayOptions: IDisplayOptions = {
