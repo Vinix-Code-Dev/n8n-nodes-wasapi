@@ -3,6 +3,7 @@ import { createContactDescription } from '../../actions/contact/createContact.op
 import { getContactDescription } from '../../actions/contact/getContact.operation';
 import { deleteContactDescription } from '../../actions/contact/deleteContact.operation';
 import { updateContactDescription } from '../../actions/contact/updateContact.operation';
+import { toggleBotDescription } from '../../actions/contact/toggleBot.operation';
 
 export const contactOperations: INodeProperties = {
 	displayName: 'Operation',
@@ -39,6 +40,12 @@ export const contactOperations: INodeProperties = {
 			description: 'Update a contact',
 			action: 'Update a contact',
 		},
+		{
+			name: 'Toggle Bot',
+			value: 'toggleBot',
+			description: 'Toggle bot status for a contact',
+			action: 'Toggle bot status for a contact',
+		},
 	],
 	default: 'create',
 };
@@ -49,4 +56,5 @@ export const contactProperties: INodeProperties[] = [
 	...getContactDescription,
 	...deleteContactDescription,
 	...updateContactDescription,
+	...toggleBotDescription,
 ];

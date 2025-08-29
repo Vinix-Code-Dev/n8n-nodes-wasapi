@@ -11,6 +11,10 @@ export interface ContactData {
 	custom_fields: Record<string, any>;
 }
 
+export interface BotStatusRequest {
+    from_id: number;
+    action: 'enable' | 'disable' | 'disable_permanently';
+}
 export class ContactService {
 	constructor(private client: WasapiClient) {}
 
@@ -35,5 +39,9 @@ export class ContactService {
 
 	async updateContact(wa_id: string, data: ContactData): Promise<any> {
 		return await this.client.contacts.update({wa_id, data});
+	}
+
+	async toggleBotStatus(wa_id: string, data: BotStatusRequest): Promise<any> {
+		return await this.client.bot.toggleStatus({wa_id, data});
 	}
 }

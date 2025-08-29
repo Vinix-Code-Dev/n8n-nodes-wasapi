@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { ContactData } from '../services/ContactService';
+import { BotStatusRequest, ContactData } from '../services/ContactService';
 
 export class ContactDTO {
 	static create(executeFunctions: IExecuteFunctions, index: number): ContactData {
@@ -20,5 +20,12 @@ export class ContactDTO {
 
 	static delete(executeFunctions: IExecuteFunctions, index: number): string {
 		return executeFunctions.getNodeParameter('wa_id', index) as string;
+	}
+
+	static toggleBot(executeFunctions: IExecuteFunctions, index: number): BotStatusRequest {
+		return {
+			from_id: executeFunctions.getNodeParameter('from_id', index) as number,
+			action: executeFunctions.getNodeParameter('action', index) as 'enable' | 'disable' | 'disable_permanently',
+		};
 	}
 }

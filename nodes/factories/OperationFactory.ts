@@ -6,6 +6,7 @@ import { OPERATION_KEYS } from '../config/constants';
 import { executeGetContact } from '../actions/contact/getContact.operation';
 import { executeDeleteContact } from '../actions/contact/deleteContact.operation';
 import { executeContactUpdate } from '../actions/contact/updateContact.operation';
+import { executeToggleBot } from '../actions/contact/toggleBot.operation';
 import { executeGetAllLabels } from '../actions/labels/getLabels.operation';
 import { executeGetSearch } from '../actions/labels/getSearch.operation';
 import { executeGetById } from '../actions/labels/getById.operation';
@@ -27,6 +28,7 @@ export class OperationFactory {
 		[OPERATION_KEYS.CONTACT_GET, { execute: executeGetContact }],
 		[OPERATION_KEYS.CONTACT_DELETE, { execute: executeDeleteContact }],
 		[OPERATION_KEYS.CONTACT_UPDATE, { execute: executeContactUpdate }],
+		[OPERATION_KEYS.CONTACT_TOGGLE_BOT, { execute: executeToggleBot }],
 		[OPERATION_KEYS.WHATSAPP_SEND_MESSAGE, { execute: executeSendMessage }],
 		[OPERATION_KEYS.WHATSAPP_SEND_ATTACHMENT, { execute: executeSendAttachment }],
 		[OPERATION_KEYS.LABELS_GET_ALL, { execute: executeGetAllLabels }],
