@@ -22,12 +22,6 @@ export const customFieldsOperations: INodeProperties = {
 			action: 'Get all custom fields',
 		},
 		{
-			name: 'Get By ID',
-			value: 'getById',
-			description: 'Get a custom field by ID',
-			action: 'Get a custom field by ID',
-		},
-		{
 			name: 'Create',
 			value: 'create',
 			description: 'Create a new custom field',
