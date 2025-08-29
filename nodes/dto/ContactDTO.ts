@@ -24,7 +24,7 @@ export class ContactDTO {
 
 	static toggleBot(executeFunctions: IExecuteFunctions, index: number): BotStatusRequest {
 		return {
-			from_id: executeFunctions.getNodeParameter('from_id', index) as number,
+			from_id: executeFunctions.getNodeParameter('fromId', index) as number,
 			action: executeFunctions.getNodeParameter('action', index) as 'enable' | 'disable' | 'disable_permanently',
 		};
 	}
