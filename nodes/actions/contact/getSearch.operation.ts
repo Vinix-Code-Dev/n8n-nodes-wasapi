@@ -11,22 +11,30 @@ import { ContactDTO } from '../../dto/ContactDTO';
 
 export const getSearchContactsProperties: INodeProperties[] = [
     {
-        displayName: 'Search',
+        displayName: 'Search by name',
         name: 'search',
         type: 'string',
         default: '',
-        description: 'Search contacts by name, email, or phone',
+        description: 'Search contacts by name',
+        required: false,
+    },
+    {
+        displayName: 'Page',
+        name: 'page',
+        type: 'number',
+        default: 1,
+        description: 'Page number for pagination',
         required: false,
     },
     {
         displayName: 'Labels',
         name: 'labels',
         required: false,
-        type: 'multiOptions',
+        type: 'options',
         typeOptions: {
             loadOptionsMethod: 'getLabels',
         },
-        default: [],
+        default: '',
         description: 'Label of the contact',
     },
 ];

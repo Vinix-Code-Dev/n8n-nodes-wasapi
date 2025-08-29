@@ -33,6 +33,7 @@ export class ContactDTO {
 		return {
 			search: executeFunctions.getNodeParameter('search', index) as string,
 			labels: executeFunctions.getNodeParameter('labels', index) as number,
+			page: executeFunctions.getNodeParameter('page', index) as number,
 		};
 	}
 
