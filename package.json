@@ -52,6 +52,6 @@
     "n8n-workflow": "^1.106.0"
   },
   "dependencies": {
-    "@laiyon/wasapi-sdk": "^0.1.23"
+    "@laiyon/wasapi-sdk": "^0.1.25"
   }
 }
