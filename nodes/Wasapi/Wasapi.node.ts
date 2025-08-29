@@ -14,6 +14,7 @@ import { OperationFactory } from '../factories/OperationFactory';
 import { getContactDescription } from '../actions/contact/getContact.operation';
 import { deleteContactDescription } from '../actions/contact/deleteContact.operation';
 import { updateContactDescription } from '../actions/contact/updateContact.operation';
+import { getAllLabelsDescription } from '../actions/labels/getLabels.operation';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -55,6 +56,12 @@ export class Wasapi implements INodeType {
 						value: 'whatsapp',
 						description: 'Send WhatsApp messages and attachments',
 						action: 'Send WhatsApp messages',
+					},
+					{
+						name: 'Labels',
+						value: 'labels',
+						description: 'Manage labels',
+						action: 'Manage labels',
 					},
 				],
 				default: 'contact',
@@ -125,6 +132,27 @@ export class Wasapi implements INodeType {
 				],
 				default: 'sendMessage',
 			},
+			// Labels Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['labels'],
+					},
+				},
+				options: [
+					{
+						name: 'Get All',
+						value: 'getAll',
+						description: 'Get all labels',
+						action: 'Get all labels',
+					},
+				],
+				default: 'getAll',
+			},
 			// Contact Create Properties
           ...createContactDescription,
 			// Contact Get Properties
@@ -137,6 +165,8 @@ export class Wasapi implements INodeType {
 			...sendMessageDescription,
 			// WhatsApp Send Attachment Properties
 			...sendAttachmentDescription,
+			// Labels Get All Properties
+			...getAllLabelsDescription,
 		],
 	};
 

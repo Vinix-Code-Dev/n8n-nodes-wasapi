@@ -1,6 +1,7 @@
 export const RESOURCES = {
 	CONTACT: 'contact',
 	WHATSAPP: 'whatsapp',
+	LABELS: 'labels',
 } as const;
 
 export const OPERATIONS = {
@@ -14,6 +15,9 @@ export const OPERATIONS = {
 		SEND_MESSAGE: 'sendMessage',
 		SEND_ATTACHMENT: 'sendAttachment',
 	},
+	LABELS: {
+		GET_ALL: 'getAll',
+	},
 } as const;
 
 export const OPERATION_KEYS = {
@@ -23,4 +27,5 @@ export const OPERATION_KEYS = {
 	CONTACT_UPDATE: `${RESOURCES.CONTACT}:${OPERATIONS.CONTACT.UPDATE}`,
 	WHATSAPP_SEND_MESSAGE: `${RESOURCES.WHATSAPP}:${OPERATIONS.WHATSAPP.SEND_MESSAGE}`,
 	WHATSAPP_SEND_ATTACHMENT: `${RESOURCES.WHATSAPP}:${OPERATIONS.WHATSAPP.SEND_ATTACHMENT}`,
+	LABELS_GET_ALL: `${RESOURCES.LABELS}:${OPERATIONS.LABELS.GET_ALL}`,
 } as const;
