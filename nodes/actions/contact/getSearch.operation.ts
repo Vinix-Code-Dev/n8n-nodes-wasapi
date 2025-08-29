@@ -32,7 +32,7 @@ export const getSearchContactsProperties: INodeProperties[] = [
         required: false,
         type: 'options',
         typeOptions: {
-            loadOptionsMethod: 'getLabels',
+            loadOptionsMethod: 'getLabelId',
         },
         default: '',
         description: 'Label of the contact',
