@@ -2,7 +2,7 @@ import { INodeProperties } from "n8n-workflow";
 
 export const commonProperties: INodeProperties[] = [
     {
-        displayName: 'Sender Phone Number',
+        displayName: 'Phone Wasapi',
         name: 'fromId',
         type: 'options',
         typeOptions: {
