@@ -20,6 +20,10 @@ import { getByIdDescription } from '../actions/labels/getById.operation';
 import { createDescription } from '../actions/labels/create.operation';
 import { updateDescription } from '../actions/labels/update.operation';
 import { deleteDescription } from '../actions/labels/delete.operation';
+import { getAllCustomFieldsDescription } from '../actions/customFields/getAll.operation';
+import { createCustomFieldDescription } from '../actions/customFields/create.operation';
+import { updateCustomFieldDescription } from '../actions/customFields/update.operation';
+import { deleteCustomFieldDescription } from '../actions/customFields/delete.operation';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -67,6 +71,12 @@ export class Wasapi implements INodeType {
 						value: 'labels',
 						description: 'Manage labels',
 						action: 'Manage labels',
+					},
+					{
+						name: 'Custom Fields',
+						value: 'customFields',
+						description: 'Manage custom fields',
+						action: 'Manage custom fields',
 					},
 				],
 				default: 'contact',
@@ -188,6 +198,45 @@ export class Wasapi implements INodeType {
 				],
 				default: 'getAll',
 			},
+			// Custom Fields Operations
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['customFields'],
+					},
+				},
+				options: [
+					{
+						name: 'Get All',
+						value: 'getAll',
+						description: 'Get all custom fields',
+						action: 'Get all custom fields',
+					},
+					{
+						name: 'Create',
+						value: 'create',
+						description: 'Create a new custom field',
+						action: 'Create a new custom field',
+					},
+					{
+						name: 'Update',
+						value: 'update',
+						description: 'Update a custom field',
+						action: 'Update a custom field',
+					},
+					{
+						name: 'Delete',
+						value: 'delete',
+						description: 'Delete a custom field',
+						action: 'Delete a custom field',
+					},
+				],
+				default: 'getAll',
+			},
 			// Contact Create Properties
           ...createContactDescription,
 			// Contact Get Properties
@@ -212,6 +261,14 @@ export class Wasapi implements INodeType {
 			...updateDescription,
 			// Labels Delete Properties
 			...deleteDescription,
+			// Custom Fields Get All Properties
+			...getAllCustomFieldsDescription,
+			// Custom Fields Create Properties
+			...createCustomFieldDescription,
+			// Custom Fields Update Properties
+			...updateCustomFieldDescription,
+			// Custom Fields Delete Properties
+			...deleteCustomFieldDescription,
 		],
 	};
 

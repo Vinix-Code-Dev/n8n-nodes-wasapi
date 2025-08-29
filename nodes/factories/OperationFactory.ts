@@ -12,6 +12,10 @@ import { executeGetById } from '../actions/labels/getById.operation';
 import { executeCreate } from '../actions/labels/create.operation';
 import { executeUpdate } from '../actions/labels/update.operation';
 import { executeDelete } from '../actions/labels/delete.operation';
+import { executeGetAllCustomFields } from '../actions/customFields/getAll.operation';
+import { executeCreateCustomField } from '../actions/customFields/create.operation';
+import { executeUpdateCustomField } from '../actions/customFields/update.operation';
+import { executeDeleteCustomField } from '../actions/customFields/delete.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -31,6 +35,10 @@ export class OperationFactory {
 		[OPERATION_KEYS.LABELS_CREATE, { execute: executeCreate }],
 		[OPERATION_KEYS.LABELS_UPDATE, { execute: executeUpdate }],
 		[OPERATION_KEYS.LABELS_DELETE, { execute: executeDelete }],
+		[OPERATION_KEYS.CUSTOM_FIELDS_GET_ALL, { execute: executeGetAllCustomFields }],
+		[OPERATION_KEYS.CUSTOM_FIELDS_CREATE, { execute: executeCreateCustomField }],
+		[OPERATION_KEYS.CUSTOM_FIELDS_UPDATE, { execute: executeUpdateCustomField }],
+		[OPERATION_KEYS.CUSTOM_FIELDS_DELETE, { execute: executeDeleteCustomField }],
 	]);
 
 	static getOperation(resource: string, operation: string): OperationHandler | null {
