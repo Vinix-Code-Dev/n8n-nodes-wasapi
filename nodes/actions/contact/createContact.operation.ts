@@ -21,7 +21,6 @@ export const contactCreateProperties: INodeProperties[] = [
     },
     {
         displayName: 'Last Name',
-        required: false,
         name: 'last_name',
         type: 'string',
         default: '',
@@ -29,7 +28,7 @@ export const contactCreateProperties: INodeProperties[] = [
     },
     {
         displayName: 'Email Address',
-        required: false,
+				placeholder: 'name@email.com',
         name: 'email',
         type: 'string',
         default: '',
@@ -45,22 +44,20 @@ export const contactCreateProperties: INodeProperties[] = [
     },
     {
         displayName: 'Notes',
-        required: false,
         name: 'notes',
         type: 'string',
         default: '',
         description: 'Notes of the contact',
     },
     {
-        displayName: 'Labels',
+        displayName: 'Labels Names or IDs',
         name: 'labels',
-        required: false,
         type: 'multiOptions',
         typeOptions: {
             loadOptionsMethod: 'getLabels',
         },
         default: [],
-        description: 'Label of the contact',
+        description: 'Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
     },
     {
         displayName: 'Custom Fields',
@@ -77,14 +74,14 @@ export const contactCreateProperties: INodeProperties[] = [
                 displayName: 'Custom Fields',
                 values: [
                     {
-                        displayName: 'Field Name',
+                        displayName: 'Field Name or ID',
                         name: 'field_name',
                         type: 'options',
                         typeOptions: {
                             loadOptionsMethod: 'getCustomFields',
                         },
                         default: '',
-                        description: 'Select the custom field',
+                        description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
                         required: true,
                     },
                     {
@@ -114,11 +111,11 @@ export async function executeContactCreate(this: IExecuteFunctions): Promise<INo
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
         const contactService = ServiceFactory.contactService(client);
         const contactData = ContactDTO.create(this, i);
-        
+
         // Obtener y validar custom fields
         const customFieldsData = this.getNodeParameter('custom_fields', i) as any;
         contactData.custom_fields = contactService.validateCustomFields(customFieldsData);
 
         return await contactService.createContact(contactData);
     });
-} 
+}

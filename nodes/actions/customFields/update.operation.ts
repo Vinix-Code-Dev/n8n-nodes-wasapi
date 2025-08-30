@@ -36,7 +36,7 @@ export async function executeUpdateCustomField(this: IExecuteFunctions): Promise
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
         const customFieldService = ServiceFactory.customFieldService(client);
         const customFieldData = CustomFieldDTO.update(this, i);
-    
+
         return await customFieldService.update(customFieldData);
     });
 }

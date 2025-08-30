@@ -7,7 +7,7 @@ export async function getLabels(this: ILoadOptionsFunctions) {
     const client = await createClient(this);
 
     if (!client) {
-        return [{ name: '⚠️ First configure credentials', value: '' }];
+        return [{ name: '⚠️ First Configure Credentials', value: '' }];
     }
 
     try {

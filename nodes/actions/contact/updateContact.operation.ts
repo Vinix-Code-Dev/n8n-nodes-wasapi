@@ -36,7 +36,7 @@ export async function executeContactUpdate(this: IExecuteFunctions): Promise<INo
         const contactService = ServiceFactory.contactService(client);
         const wa_id = ContactDTO.getById(this, i);
         const contactData = ContactDTO.create(this, i);
-        
+
         // Obtener y validar custom fields
         const customFieldsData = this.getNodeParameter('custom_fields', i) as any;
         contactData.custom_fields = contactService.validateCustomFields(customFieldsData);

@@ -22,20 +22,22 @@ export const toggleBotProperties: INodeProperties[] = [
                 name: 'Enable',
                 value: 'enable',
                 description: 'Enable the bot for this contact',
+                action: 'Enable the bot for this contact',
             },
             {
                 name: 'Disable',
                 value: 'disable',
                 description: 'Disable the bot for this contact',
+                action: 'Disable the bot for this contact',
             },
             {
                 name: 'Disable Permanently',
                 value: 'disable_permanently',
                 description: 'Permanently disable the bot for this contact',
+                action: 'Permanently disable the bot for this contact',
             },
         ],
         default: 'enable',
-        description: 'The action to perform on the bot',
     },
 ];
 

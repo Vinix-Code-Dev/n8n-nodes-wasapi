@@ -11,12 +11,11 @@ import { ContactDTO } from '../../dto/ContactDTO';
 
 export const getSearchContactsProperties: INodeProperties[] = [
     {
-        displayName: 'Search by name',
+        displayName: 'Search by Name',
         name: 'search',
         type: 'string',
         default: '',
         description: 'Search contacts by name',
-        required: false,
     },
     {
         displayName: 'Page',
@@ -24,18 +23,17 @@ export const getSearchContactsProperties: INodeProperties[] = [
         type: 'number',
         default: 1,
         description: 'Page number for pagination',
-        required: false,
+
     },
-    {
-        displayName: 'Labels',
+    {   //eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+        displayName: 'Labels Names or IDs',
         name: 'labels',
-        required: false,
-        type: 'options',
+        type: 'multiOptions',
         typeOptions: {
             loadOptionsMethod: 'getLabelId',
         },
-        default: '',
-        description: 'Label of the contact',
+        default: [],
+        description: 'Choose from the list, or specify IDs using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
     },
 ];
 
@@ -52,7 +50,7 @@ export async function executeGetSearchContacts(this: IExecuteFunctions): Promise
     return await executeCommon.call(this, async (client: any, item: any, i: number) => {
         const contactService = ServiceFactory.contactService(client);
         const params = ContactDTO.getSearch(this, i);
-        
+
         return await contactService.getSearch(params);
     });
 }

@@ -3,6 +3,7 @@ import {
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
+	NodeOperationError,
 } from 'n8n-workflow';
 import { getLabels } from '../helpers/getLabels.helper';
 import { getCustomFields } from '../helpers/getCustomFields.helper';
@@ -50,11 +51,11 @@ export class Wasapi implements INodeType {
 		const operation = this.getNodeParameter('operation', 0) as string;
 
 		const operationHandler = OperationFactory.getOperation(resource, operation);
-		
+
 		if (operationHandler) {
 			return await operationHandler.execute.call(this);
 		}
 
-		throw new Error(`Resource "${resource}" with operation "${operation}" is not supported`);
+		throw new NodeOperationError(this.getNode(), `Resource "${resource}" with operation "${operation}" is not supported`);
 	}
 }

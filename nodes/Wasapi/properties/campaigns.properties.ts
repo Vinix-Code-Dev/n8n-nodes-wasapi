@@ -14,10 +14,10 @@ export const campaignsOperations: INodeProperties = {
 	},
 	options: [
 		{
-			name: 'Get All',
+			name: 'Get Many',
 			value: 'getAll',
-			description: 'Get all campaigns',
-			action: 'Get all campaigns',
+			description: 'Get many campaigns',
+			action: 'Get many campaigns',
 		},
 		{
 			name: 'Get By UUID',

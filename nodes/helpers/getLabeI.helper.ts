@@ -1,4 +1,4 @@
-//get label id return value number id 
+//get label id return value number id
 import { ILoadOptionsFunctions } from "n8n-workflow";
 import { createClient } from "../client/createClient";
 import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
@@ -8,7 +8,7 @@ export async function getLabelId(this: ILoadOptionsFunctions) {
     const client = await createClient(this);
 
     if (!client) {
-        return [{ name: '⚠️ First configure credentials', value: '' }];
+        return [{ name: '⚠️ First Configure Credentials', value: '' }];
     }
 
     try {
@@ -17,7 +17,7 @@ export async function getLabelId(this: ILoadOptionsFunctions) {
             name: label.title,
             value: label.id as number,
         }));
-    } catch (error: any) {  
+    } catch (error: any) {
         return handleLoadOptionsError(error);
     }
 }

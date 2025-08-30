@@ -20,7 +20,7 @@ export const sendMessageProperties: INodeProperties[] = [
         type: 'string',
         default: '',
         required: true,
-        description: 'message to send',
+        description: 'Message to send',
     },
     ...commonProperties,
 ];

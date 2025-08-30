@@ -16,10 +16,10 @@ export const customFieldsOperations: INodeProperties = {
 	},
 	options: [
 		{
-			name: 'Get All',
+			name: 'Get Many',
 			value: 'getAll',
-			description: 'Get all custom fields',
-			action: 'Get all custom fields',
+			description: 'Get many custom fields',
+			action: 'Get many custom fields',
 		},
 		{
 			name: 'Create',

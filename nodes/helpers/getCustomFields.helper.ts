@@ -9,7 +9,7 @@ export async function getCustomFields(this: ILoadOptionsFunctions) {
     const client = await createClient(this);
 
     if (!client) {
-        return [{ name: '⚠️ First configure credentials', value: '' }];
+        return [{ name: '❌ First Configure Credentials', value: '' }];
     }
 
     try {
@@ -17,7 +17,7 @@ export async function getCustomFields(this: ILoadOptionsFunctions) {
         const response = await client.customFields.getAll();
 
         if (!response?.success || !Array.isArray(response.data)) {
-            return [{ name: '❌ No custom fields available', value: '' }];
+            return [{ name: '❌ No Custom Fields Available', value: '' }];
         }
 
         // Crear opciones para cada campo personalizado

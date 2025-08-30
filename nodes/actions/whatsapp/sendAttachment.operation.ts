@@ -26,12 +26,11 @@ export const sendAttachmentProperties: INodeProperties[] = [
 				name: 'caption',
 				type: 'string',
 				default: '',
-				required: false,
-				description: 'description of the file (optional)',
+				description: 'Description of the file (optional)',
 			},
 			...commonProperties,
 		];
- 
+
 
         const displayOptions: IDisplayOptions = {
             show: {
@@ -41,7 +40,7 @@ export const sendAttachmentProperties: INodeProperties[] = [
         };
 
         export const sendAttachmentDescription = updateDisplayOptions(displayOptions, sendAttachmentProperties);
-    
+
 
 
 export async function executeSendAttachment(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {

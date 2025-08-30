@@ -23,7 +23,6 @@ export const updateProperties: INodeProperties[] = [
     },
     {
         displayName: 'Description',
-        required: false,
         name: 'description',
         type: 'string',
         default: '',
@@ -33,7 +32,7 @@ export const updateProperties: INodeProperties[] = [
         displayName: 'Color',
         required: true,
         name: 'color',
-        type: 'string',
+        type: 'color',
         default: '#000000',
         description: 'Color of the label (hex format)',
     },
