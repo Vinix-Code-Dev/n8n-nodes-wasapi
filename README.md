@@ -1,48 +1,105 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# 🚀 Wasapi n8n Node Package no Oficial
 
-# n8n-nodes-starter
+[![npm version](https://badge.fury.io/js/n8n-nodes-wasapi.svg)](https://badge.fury.io/js/n8n-nodes-wasapi)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![n8n Community](https://img.shields.io/badge/n8n-Community%20Node-brightgreen)](https://n8n.io)
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+> **The most comprehensive Wasapi integration for n8n** - Connect your WhatsApp Business API workflows with powerful automation capabilities.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## 📊 Operations Comparison: Make vs Our Implementation
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+Below is a detailed comparison of all operations available in Make's Wasapi integration versus our current implementation:
 
-## Prerequisites
+| **Category** | **Make Operation** | **Our Implementation** | **Status** |
+|--------------|-------------------|-------------------------|------------|
+| **Contacts & Custom Fields** | | | |
+| | Get a Contact | ✅ Get Contact | ✅ **IMPLEMENTED** |
+| | Delete a Contact | ✅ Delete Contact | ✅ **IMPLEMENTED** |
+| | Create a Contact | ✅ Create Contact | ✅ **IMPLEMENTED** |
+| | Get Labels | ✅ Get Labels | ✅ **IMPLEMENTED** |
+| | Update a Contact | ✅ Update Contact | ✅ **IMPLEMENTED** |
+| | Add Labels to Contact | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Remove Labels from Contact | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Chatbot: Change bot status for a Contact | ✅ Toggle Bot | ✅ **IMPLEMENTED** |
+| | Get Custom Fields | ✅ Get Custom Fields | ✅ **IMPLEMENTED** |
+| | Create Custom Field | ✅ Create Custom Field | ✅ **IMPLEMENTED** |
+| | Delete Custom Field | ✅ Delete Custom Field | ✅ **IMPLEMENTED** |
+| | Update Custom Field | ✅ Update Custom Field | ✅ **IMPLEMENTED** |
+| **Messaging** | | | |
+| | Send WhatsApp Message | ✅ Send Message | ✅ **IMPLEMENTED** |
+| | Send WhatsApp Template (w/ Phone Number) | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Send Image Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
+| | Send Video Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
+| | Send Audio Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
+| | Send Document Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
+| | Send WhatsApp Template | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Send WhatsApp Flow | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| **Agents** | | | |
+| | Assign Agent to Contact | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Get Agents | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Change Chat Status or Transfer | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| **Other** | | | |
+| | Get User Information | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 
-You need the following installed on your development machine:
+### 📈 Implementation Status Summary
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+**✅ IMPLEMENTED (15 operations):**
+- Contact: Create, Get, Get Many, Update, Delete, Toggle Bot, Export
+- Labels: Create, Get, Get Many, Get By ID, Update, Delete
+- Custom Fields: Create, Get, Update, Delete
+- WhatsApp: Send Message, Send Attachment
+- Campaigns: Get, Get By ID
 
-## Using this starter
+**❌ MISSING (9 operations):**
+1. **Add Labels to Contact** - Attach new label(s) to existing contact
+2. **Remove Labels from Contact** - Detach labels from a contact
+3. **Send WhatsApp Template (w/ Phone Number)** - Choose a phone and send a message template
+4. **Send WhatsApp Template** - Send a message template (initiate conversation)
+5. **Send WhatsApp Flow** - Send a message with a button to open a WhatsApp flow
+6. **Assign Agent to Contact** - Assign all chats from a contact to a specific Agent
+7. **Get Agents** - Retrieve the list of non-blocked agents
+8. **Change Chat Status or Transfer** - Change chat status or transfer chat to an agent
+9. **Get User Information** - Obtain information of the current user
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+**⚠️ PARTIALLY IMPLEMENTED:**
+- Our `Send Attachment` operation covers multiple media types (image, video, audio, document) but Make has them as separate operations
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+## 🤝 Contributing
 
-## More information
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## License
+## 📄 License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: [n8n Documentation](https://docs.n8n.io/)
+- **Issues**: [GitHub Issues](https://github.com/your-username/n8n-nodes-wasapi/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-username/n8n-nodes-wasapi/discussions)
+- **Wasapi Support**: [Wasapi Help Center](https://help.wasapi.com/)
+
+## 🙏 Acknowledgments
+
+- [n8n](https://n8n.io/) team for the amazing automation platform
+- [Wasapi](https://wasapi.com) for providing the WhatsApp Business API
+- All contributors and community members
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if you find it helpful! ⭐**
+
+Made with ❤️ by the n8n community
+
+[![n8n](https://img.shields.io/badge/n8n-Community%20Node-brightgreen)](https://n8n.io)
+[![Wasapi](https://img.shields.io/badge/Wasapi-API%20Integration-blue)](https://wasapi.com)
+
+</div>
