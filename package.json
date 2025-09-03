@@ -8,6 +8,9 @@
   ],
   "license": "MIT",
   "homepage": "",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": {
     "name": "Juan Alvarez",
     "email": "hola@juanalvarez.pro"
