@@ -1,26 +1,17 @@
-import { WasapiClient } from '@laiyon/wasapi-sdk';
-
-export interface WhatsAppMessageData {
-	wa_id: string;
-	from_id: number;
-	message: string;
-}
-
-export interface WhatsAppAttachmentData {
-	wa_id: string;
-	from_id: number;
-	filePath: string;
-	caption: string;
-}
+import { SendAttachmentParams, SendFlow, SendMessage, WasapiClient } from '@laiyon/wasapi-sdk';
 
 export class WhatsAppService {
 	constructor(private client: WasapiClient) {}
 
-	async sendMessage(data: WhatsAppMessageData) {
+	async sendMessage(data: SendMessage) {
 		return await this.client.whatsapp.sendMessage(data);
 	}
 
-	async sendAttachment(data: WhatsAppAttachmentData) {
+	async sendAttachment(data: SendAttachmentParams) {
 		return await this.client.whatsapp.sendAttachment(data);
+	}
+
+	async sendFlow(data: SendFlow ) {
+		return await this.client.whatsapp.sendFlow(data);
 	}
 }
