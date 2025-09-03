@@ -15,7 +15,6 @@ export const exportContactsProperties: INodeProperties[] = [
         displayName: 'Email URLs',
         name: 'email_urls',
         type: 'string',
-        required: false,
         description: 'Email addresses to send the export to (maximum 5)',
         typeOptions: {
             multipleValues: true,

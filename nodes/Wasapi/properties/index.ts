@@ -1,9 +1,9 @@
 import { INodeProperties } from 'n8n-workflow';
-import { contactProperties } from './contact.properties';
-import { whatsappProperties } from './whatsapp.properties';
-import { labelsProperties } from './labels.properties';
-import { customFieldsProperties } from './customFields.properties';
 import { campaignsProperties } from './campaigns.properties';
+import { contactProperties } from './contact.properties';
+import { customFieldsProperties } from './customFields.properties';
+import { labelsProperties } from './labels.properties';
+import { whatsappProperties } from './whatsapp.properties';
 
 export const resourceOptions: INodeProperties = {
 	displayName: 'Resource',
@@ -12,10 +12,28 @@ export const resourceOptions: INodeProperties = {
 	noDataExpression: true,
 	options: [
 		{
+			name: 'Campaign',
+			value: 'campaigns',
+			description: 'Manage campaigns',
+			action: 'Manage campaigns',
+		},
+		{
 			name: 'Contact',
 			value: 'contact',
 			description: 'Manage contacts',
 			action: 'Manage contacts',
+		},
+		{
+			name: 'Custom Field',
+			value: 'customFields',
+			description: 'Manage custom fields',
+			action: 'Manage custom fields',
+		},
+		{
+			name: 'Label',
+			value: 'labels',
+			description: 'Manage label',
+			action: 'Manage label',
 		},
 		{
 			name: 'WhatsApp',
@@ -23,33 +41,15 @@ export const resourceOptions: INodeProperties = {
 			description: 'Send WhatsApp messages and attachments',
 			action: 'Send WhatsApp messages',
 		},
-		{
-			name: 'Labels',
-			value: 'labels',
-			description: 'Manage labels',
-			action: 'Manage labels',
-		},
-		{
-			name: 'Custom Fields',
-			value: 'customFields',
-			description: 'Manage custom fields',
-			action: 'Manage custom fields',
-		},
-		{
-			name: 'Campaigns',
-			value: 'campaigns',
-			description: 'Manage campaigns',
-			action: 'Manage campaigns',
-		},
 	],
 	default: 'contact',
 };
 
 export const allProperties: INodeProperties[] = [
 	resourceOptions,
-	...contactProperties,
-	...whatsappProperties,
-	...labelsProperties,
-	...customFieldsProperties,
 	...campaignsProperties,
+	...contactProperties,
+	...customFieldsProperties,
+	...labelsProperties,
+	...whatsappProperties,
 ];

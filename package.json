@@ -1,5 +1,5 @@
 {
-  "name": "n8n-nodes-wasapi",
+  "name": "@laiyon/n8n-nodes-wasapi",
   "version": "0.1.0",
   "description": "Nodo n8n para integración con Wasapi API",
   "type": "commonjs",
@@ -9,12 +9,12 @@
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Juan Alvarez",
+    "email": "hola@juanalvarez.pro"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/juanalvarezPro/n8n-nodes-wasapi"
   },
   "engines": {
     "node": ">=20.15"
