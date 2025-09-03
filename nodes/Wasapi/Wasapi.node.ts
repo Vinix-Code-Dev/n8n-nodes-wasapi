@@ -11,6 +11,8 @@ import { getWhatsappNumbers } from '../helpers/getWhatsappNumbers.helper';
 import { OperationFactory } from '../factories/OperationFactory';
 import { allProperties } from './properties';
 import { getLabelId } from '../helpers/getLabeI.helper';
+import { getFlows } from '../helpers/getFlows.helper';
+import { getScreens } from '../helpers/getScreens.helper';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -43,6 +45,8 @@ export class Wasapi implements INodeType {
 			getCustomFields: getCustomFields,
 			getWhatsappNumbers: getWhatsappNumbers,
 			getLabelId: getLabelId,
+			getFlows: getFlows,
+			getScreens: getScreens
 		},
 	};
 
