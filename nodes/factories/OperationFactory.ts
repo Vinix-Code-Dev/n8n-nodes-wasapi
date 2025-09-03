@@ -22,6 +22,7 @@ import { executeUpdateCustomField } from '../actions/customFields/update.operati
 import { executeDeleteCustomField } from '../actions/customFields/delete.operation';
 import { executeGetAllCampaigns } from '../actions/campaigns/getAll.operation';
 import { executeGetCampaignByUuid } from '../actions/campaigns/getById.operation';
+import { executeSendFlow } from '../actions/whatsapp/sendFlow.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -39,6 +40,7 @@ export class OperationFactory {
 		[OPERATION_KEYS.CONTACT_EXPORT, { execute: executeExportContacts }],
 		[OPERATION_KEYS.WHATSAPP_SEND_MESSAGE, { execute: executeSendMessage }],
 		[OPERATION_KEYS.WHATSAPP_SEND_ATTACHMENT, { execute: executeSendAttachment }],
+		[OPERATION_KEYS.WHATSAPP_SEND_FLOW, { execute: executeSendFlow }],
 		[OPERATION_KEYS.LABELS_GET_ALL, { execute: executeGetAllLabels }],
 		[OPERATION_KEYS.LABELS_GET_SEARCH, { execute: executeGetSearch }],
 		[OPERATION_KEYS.LABELS_GET_BY_ID, { execute: executeGetById }],
