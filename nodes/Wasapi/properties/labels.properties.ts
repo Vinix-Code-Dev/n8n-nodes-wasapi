@@ -18,6 +18,12 @@ export const labelsOperations: INodeProperties = {
 	},
 	options: [
 		{
+			name: 'Create',
+			value: 'create',
+			description: 'Create a label',
+			action: 'Create a label',
+		},
+		{
 			name: 'Delete',
 			value: 'delete',
 			description: 'Delete a label',
@@ -52,6 +58,7 @@ export const labelsOperations: INodeProperties = {
 
 export const labelsProperties: INodeProperties[] = [
 	labelsOperations,
+	...createDescription,
 	...getAllLabelsDescription,
 	...getSearchDescription,
 	...getByIdDescription,
