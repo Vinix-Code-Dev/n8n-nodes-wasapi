@@ -20,13 +20,20 @@ export class WhatsAppDTO {
 	}
 
 	static flowFromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): SendFlow {
+		const fromIdParam = executeFunctions.getNodeParameter('fromId', index);
+		const phone_id = typeof fromIdParam === 'string' ? parseInt(fromIdParam, 10) : fromIdParam as number;
+		const wa_id = executeFunctions.getNodeParameter('wa_id', index) as string;
+		const flow_id = executeFunctions.getNodeParameter('flowId.value', index) as string;
+		const message = executeFunctions.getNodeParameter('message', index) as string;
+		const cta = executeFunctions.getNodeParameter('cta', index) as string;
+		const screen = executeFunctions.getNodeParameter('screen.value', index) as string;
 		return {
-			wa_id: executeFunctions.getNodeParameter('wa_id', index) as string,
-			phone_id: executeFunctions.getNodeParameter('fromId', index) as number,
-			flow_id: executeFunctions.getNodeParameter('flowId', index) as string,
-			message: executeFunctions.getNodeParameter('message', index) as string,
-			cta: executeFunctions.getNodeParameter('cta', index) as string,
-			screen: executeFunctions.getNodeParameter('screen', index) as string,
+			wa_id: wa_id,
+			phone_id: phone_id,
+			flow_id: flow_id,
+			message: message,
+			cta: cta,
+			screen: screen,
 		};
 	}
 }
