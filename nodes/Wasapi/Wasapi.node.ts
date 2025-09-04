@@ -45,8 +45,10 @@ export class Wasapi implements INodeType {
 			getCustomFields: getCustomFields,
 			getWhatsappNumbers: getWhatsappNumbers,
 			getLabelId: getLabelId,
+		},
+		listSearch: {
 			getFlows: getFlows,
-			getScreens: getScreens
+			getScreens: getScreens,
 		},
 	};
 
