@@ -1,67 +1,66 @@
-import { ILoadOptionsFunctions } from "n8n-workflow";
+import { ILoadOptionsFunctions, INodeListSearchResult } from "n8n-workflow";
 import { createClient } from "../client/createClient";
-import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
+import { handleListSearchError } from "../handler/LoadOptionsError.handle";
 
-export async function getScreens(this: ILoadOptionsFunctions) {
+export async function getScreens(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
 	const client = await createClient(this as unknown as ILoadOptionsFunctions);
 
 	if (!client) {
-		return [{ name: '⚠️ First Configure Credentials', value: '' }];
+		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
 	}
 
 	try {
-		const from_id = this.getNodeParameter('fromId', '') as string;
-		const flow_id = this.getNodeParameter('flowId', '') as string;
+		const from_id = this.getNodeParameter('fromId', '') as number;
+		const flow_id = this.getNodeParameter('flowId.value', '') as string;
 
-		// 🔧 FIX: Validación más estricta y logging
-		if (!from_id || from_id === '' || from_id === 'undefined') {
-			return [{
-				name: '⚠️ Please Select A WhatsApp Number First',
+		// Check if fromId is selected
+		if (!from_id || from_id === 0 ) {
+			return { results: [{
+				name: '⚠️ Please Select a Phone Wasapi ID First',
 				value: '',
 				description: 'Select a WhatsApp number to see available flows'
-			}];
+			}] };
 		}
 
+		// Check if flowId is selected
 		if (!flow_id || flow_id === '' || flow_id === 'undefined') {
-			return [{
-				name: 'Please Select A Screen',
+			return { results: [{
+				name: '⚠️ Please Select a Flow First',
 				value: '',
-				description: 'No found screens for this flow'
-			}];
+				description: 'Select a flow to see available screens'
+			}] };
 		}
 		const response = await client.whatsapp.getFlowScreens({
 			flow_id: flow_id,
 			phone_id: Number(from_id)
 		});
 
-		if (!response || response.length === 0) {
-			return [{
-				name: 'No Screens Available For This Flow',
+		if (!response || !Array.isArray(response) || response.length === 0) {
+			return { results: [{
+				name: '📝 No Screens Available for This Flow',
 				value: '',
 				description: `No screens found for flow ${flow_id} on phone ${from_id}`
-			}];
+			}] };
 		}
 
-		// 🎯 VALIDACIÓN INTELIGENTE: Verificar si el screen anterior es válido
-		const currentScreen = this.getNodeParameter('screen', '') as string;
-		if (currentScreen && currentScreen !== '') {
-			const screenExists = response.some((screen: any) => screen.value === currentScreen);
-			if (!screenExists) {
-				return response.map((screen: any) => ({
-					name: screen.label || `Screen ${screen.value}`,
-					value: screen.value,
-					description: `Screen: ${screen.label || screen.value}`
-				}));
-			}
-		}
-
-		return response.map((screen: any) => ({
+		let screens = response.map((screen: any) => ({
 			name: screen.label || `Screen ${screen.value}`,
 			value: screen.value,
 			description: `Screen: ${screen.label || screen.value}`
 		}));
 
+		// Filter results if search term is provided
+		if (filter) {
+			screens = screens.filter((screen: any) =>
+				screen.name.toLowerCase().includes(filter.toLowerCase()) ||
+				screen.value.includes(filter)
+			);
+		}
+
+
+		return { results: screens };
+
 	} catch (error: any) {
-		return handleLoadOptionsError(error);
+		return handleListSearchError(error);
 	}
 }
