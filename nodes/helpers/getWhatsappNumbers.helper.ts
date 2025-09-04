@@ -19,7 +19,7 @@ export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
 
         // create options for each number
         const options: any[] = [
-            { name: '-- Use From ID From Credentials --', value: '' },
+            { name: '-- Select a WhatsApp Number --', value: '' },
         ];
 
         response.data.forEach((n: any) => {
