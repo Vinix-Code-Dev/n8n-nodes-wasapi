@@ -20,7 +20,7 @@ export async function validateFlowCompatibility(
     }
 
     // Validate that flowId is valid for the current fromId
-    try {
+  /*  try {
         const flowsForPhone = await client.whatsapp.getFlowsByPhoneId(Number(fromId));
         const flowExists = flowsForPhone.some((flow: any) => flow.id.toString() === flowId);
 
@@ -32,7 +32,7 @@ export async function validateFlowCompatibility(
         }
     } catch (flowValidationError: any) {
         throw new Error(`❌ Could not validate flow compatibility: ${flowValidationError.message}`);
-    }
+    }*/
 
     // Validate that screen is valid for the current flowId
     try {
