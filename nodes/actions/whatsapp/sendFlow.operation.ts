@@ -12,14 +12,38 @@ export const sendFlowProperties: INodeProperties[] = [
 	{
 		displayName: 'Flow Name or ID',
 		name: 'flowId',
-		type: 'options',
-		typeOptions: {
-			loadOptionsMethod: 'getFlows',
-			loadOptionsDependsOn: ['fromId']
-		},
-		default: '',
+		type: 'resourceLocator',
+		default: { mode: 'list', value: '' },
+		modes: [
+			{
+				displayName: 'From List',
+				name: 'list',
+				type: 'list',
+				typeOptions: {
+					searchListMethod: 'getFlows',
+				},
+			},
+		],
 		required: true,
-		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Click to search flows.',
+	},
+	{
+		displayName: 'Screen Principal Name or ID',
+		name: 'screen',
+		type: 'resourceLocator',
+		default: { mode: 'list', value: '' },
+		modes: [
+			{
+				displayName: 'From List',
+				name: 'list',
+				type: 'list',
+				typeOptions: {
+					searchListMethod: 'getScreens',
+				},
+			},
+		],
+		required: true,
+		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Click to search screens.',
 	},
 	{
 		displayName: 'Message',
@@ -27,18 +51,6 @@ export const sendFlowProperties: INodeProperties[] = [
 		type: 'string',
 		default: '',
 		required: true,
-	},
-	{
-		displayName: 'Screen Principal Name or ID',
-		name: 'screen',
-		type: 'options',
-		typeOptions: {
-			loadOptionsMethod: 'getScreens',
-			loadOptionsDependsOn: ['flowId', 'fromId']
-		},
-		default: '',
-		required: true,
-		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 	},
 	{
 		displayName: 'Call to Action',
@@ -66,7 +78,6 @@ export async function executeSendFlow(this: IExecuteFunctions): Promise<INodeExe
 
 		// ✅ If all validations pass, execute normally
 		const whatsAppService = ServiceFactory.whatsAppService(client);
-
 		return await whatsAppService.sendFlow(flowData);
 	});
 }
