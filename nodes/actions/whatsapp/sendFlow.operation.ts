@@ -4,7 +4,6 @@ import { WhatsAppDTO } from "../../dto/WhatsAppDTO";
 import { executeCommon } from "../../helpers/executeCommon.helper";
 import { ServiceFactory } from "../../factories/ServiceFactory";
 import { WasapiClient } from "@laiyon/wasapi-sdk";
-import { validateFlowCompatibility } from "../../validators/validateFlowCompatibility.helper";
 
 export const sendFlowProperties: INodeProperties[] = [
 
@@ -73,10 +72,6 @@ export const sendFlowDescription = updateDisplayOptions(displayOptions, sendFlow
 export async function executeSendFlow(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 	return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
 		const flowData = WhatsAppDTO.flowFromExecuteFunctions(this, i);
-		// verify compatibility BEFORE executing
-		await validateFlowCompatibility.call(this, client, flowData.phone_id?.toString() || '', flowData.flow_id?.toString() || '', flowData.screen?.toString() || '', i);
-
-		// ✅ If all validations pass, execute normally
 		const whatsAppService = ServiceFactory.whatsAppService(client);
 		return await whatsAppService.sendFlow(flowData);
 	});
