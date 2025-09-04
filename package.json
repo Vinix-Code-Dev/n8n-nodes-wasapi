@@ -1,6 +1,6 @@
 {
   "name": "@laiyon/n8n-nodes-wasapi",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Nodo n8n para integración con Wasapi API",
   "type": "commonjs",
   "keywords": [
