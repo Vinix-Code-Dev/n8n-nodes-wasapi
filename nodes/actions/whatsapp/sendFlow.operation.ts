@@ -20,6 +20,7 @@ export const sendFlowProperties: INodeProperties[] = [
 				type: 'list',
 				typeOptions: {
 					searchListMethod: 'getFlows',
+					searchable: true,
 				},
 			},
 		],
@@ -38,6 +39,7 @@ export const sendFlowProperties: INodeProperties[] = [
 				type: 'list',
 				typeOptions: {
 					searchListMethod: 'getScreens',
+					searchable: true,
 				},
 			},
 		],
