@@ -46,7 +46,6 @@ export const assignAgentProperties: INodeProperties[] = [
         name: 'agent_id',
         type: 'resourceLocator',
         default: { mode: 'list', value: '' },
-        required: true,
         description: '(Only if the status is open). Select the agent to which the change will be assigned.',
         displayOptions: {
             show: {
