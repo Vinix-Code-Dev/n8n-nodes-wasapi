@@ -45,7 +45,7 @@ export class WhatsAppDTO {
 			status: executeFunctions.getNodeParameter('status', index) as 'open' | 'hold' | 'closed',
 			message: executeFunctions.getNodeParameter('message', index) as string,
 			agent_id: executeFunctions.getNodeParameter('agent_id.value', index) as number,
-			validate_assigned_status: 1,
+			validate_assigned_status: 0,
 			send_end_message: true,
 		};
 	}
