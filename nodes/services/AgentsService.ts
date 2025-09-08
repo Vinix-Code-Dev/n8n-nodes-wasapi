@@ -1,5 +1,6 @@
 import { WasapiClient } from '@laiyon/wasapi-sdk';
 import { OnlineAgentsResponse } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/response/metrics.model';
+import { ChangeStatusParams } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/shared/message.model';
 
 
 export class AgentsService {
@@ -8,5 +9,10 @@ export class AgentsService {
 	async getOnlineAgents(): Promise<OnlineAgentsResponse> {
 		const response = await this.client.metrics.getOnlineAgents();
 		return response as OnlineAgentsResponse;
+	}
+
+	async changeStatus(params: ChangeStatusParams): Promise<any> {
+		const response = await this.client.whatsapp.changeStatus(params);
+		return response;
 	}
 }

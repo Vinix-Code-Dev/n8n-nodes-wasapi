@@ -1,5 +1,6 @@
 import { INodeProperties } from 'n8n-workflow';
 import { getAgentsDescription } from '../../actions/agents/getAgents.operation';
+import { assignAgentDescription } from '../../actions/agents/assignAgent.operation';
 
 export const agentsOperations: INodeProperties = {
 	displayName: 'Operation',
@@ -18,6 +19,12 @@ export const agentsOperations: INodeProperties = {
 			description: 'Get online agents',
 			action: 'Get online agents',
 		},
+		{
+			name: 'Assign Agent',
+			value: 'assignAgent',
+			description: 'Assign agent to contact or change conversation status',
+			action: 'Assign agent to contact',
+		},
 	],
 	default: 'get',
 };
@@ -25,4 +32,5 @@ export const agentsOperations: INodeProperties = {
 export const agentsProperties: INodeProperties[] = [
 	agentsOperations,
 	...getAgentsDescription,
+	...assignAgentDescription,
 ];

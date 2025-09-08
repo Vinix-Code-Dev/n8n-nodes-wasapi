@@ -13,6 +13,7 @@ import { allProperties } from './properties';
 import { getLabelId } from '../helpers/getLabeI.helper';
 import { getFlows } from '../helpers/getFlows.helper';
 import { getScreens } from '../helpers/getScreens.helper';
+import { getAgents } from '../helpers/getAgents.helper';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -49,6 +50,7 @@ export class Wasapi implements INodeType {
 		listSearch: {
 			getFlows: getFlows,
 			getScreens: getScreens,
+			getAgents: getAgents,
 		},
 	};
 
