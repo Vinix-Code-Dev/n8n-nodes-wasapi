@@ -33,7 +33,7 @@ export const assignAgentProperties: INodeProperties[] = [
                 value: 'closed',
             },
         ],
-        description: 'Status to assign to the conversation',
+        description: 'Select the chat status to assign to the conversation',
         displayOptions: {
             show: {
                 resource: ['agents'],
@@ -42,12 +42,12 @@ export const assignAgentProperties: INodeProperties[] = [
         },
     },
     {
-        displayName: 'Agent',
+        displayName: '(Optional) Agent',
         name: 'agent_id',
         type: 'resourceLocator',
         default: { mode: 'list', value: '' },
         required: true,
-        description: 'Agent to assign the conversation to',
+        description: '(Only if the status is open). Select the agent to which the change will be assigned.',
         displayOptions: {
             show: {
                 resource: ['agents'],
@@ -74,11 +74,11 @@ export const assignAgentProperties: INodeProperties[] = [
         ],
     },
     {
-        displayName: 'Message',
+        displayName: '(Optional) Message',
         name: 'message',
         type: 'string',
         default: '',
-        description: 'Optional message to send with the status change',
+        description: 'If the chat is being transferred, a note can be provided',
         displayOptions: {
             show: {
                 resource: ['agents'],

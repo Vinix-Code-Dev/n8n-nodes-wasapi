@@ -20,10 +20,10 @@ export const agentsOperations: INodeProperties = {
 			action: 'Get online agents',
 		},
 		{
-			name: 'Assign Agent',
+			name: 'Change Chat Status or Transfer',
 			value: 'assignAgent',
-			description: 'Assign agent to contact or change conversation status',
-			action: 'Assign agent to contact',
+			description: 'Change the status of a chat (open, closed, on hold) or transfer chat to an agent',
+			action: 'Change chat status or transfer',
 		},
 	],
 	default: 'get',
