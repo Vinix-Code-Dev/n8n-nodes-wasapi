@@ -24,6 +24,7 @@ import { executeGetAllCampaigns } from '../actions/campaigns/getAll.operation';
 import { executeGetCampaignByUuid } from '../actions/campaigns/getById.operation';
 import { executeSendFlow } from '../actions/whatsapp/sendFlow.operation';
 import { executeGetUser } from '../actions/user/getUser.operation';
+import { executeGetAgents } from '../actions/agents/getAgents.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -55,6 +56,7 @@ export class OperationFactory {
 		[OPERATION_KEYS.CAMPAIGNS_GET_ALL, { execute: executeGetAllCampaigns }],
 		[OPERATION_KEYS.CAMPAIGNS_GET_BY_UUID, { execute: executeGetCampaignByUuid }],
 		[OPERATION_KEYS.USER_GET, { execute: executeGetUser }],
+		[OPERATION_KEYS.AGENTS_GET, { execute: executeGetAgents }],
 	]);
 
 	static getOperation(resource: string, operation: string): OperationHandler | null {

@@ -5,6 +5,7 @@ import { customFieldsProperties } from './customFields.properties';
 import { labelsProperties } from './labels.properties';
 import { whatsappProperties } from './whatsapp.properties';
 import { userProperties } from './user.properties';
+import { agentsProperties } from './agents.properties';
 
 export const resourceOptions: INodeProperties = {
 	displayName: 'Resource',
@@ -12,6 +13,12 @@ export const resourceOptions: INodeProperties = {
 	type: 'options',
 	noDataExpression: true,
 	options: [
+		{
+			name: 'Agent',
+			value: 'agents',
+			description: 'Get online agent information',
+			action: 'Get online agent',
+		},
 		{
 			name: 'Campaign',
 			value: 'campaigns',
@@ -60,4 +67,5 @@ export const allProperties: INodeProperties[] = [
 	...labelsProperties,
 	...whatsappProperties,
 	...userProperties,
+	...agentsProperties,
 ];

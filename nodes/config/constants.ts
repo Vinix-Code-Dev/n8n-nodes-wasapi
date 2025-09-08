@@ -5,6 +5,7 @@ export const RESOURCES = {
 	CUSTOM_FIELDS: 'customFields',
 	CAMPAIGNS: 'campaigns',
 	USER: 'user',
+	AGENTS: 'agents',
 } as const;
 
 export const OPERATIONS = {
@@ -44,6 +45,9 @@ export const OPERATIONS = {
 	USER: {
 		GET: 'get',
 	},
+	AGENTS: {
+		GET: 'get',
+	},
 } as const;
 
 export const OPERATION_KEYS = {
@@ -71,4 +75,5 @@ export const OPERATION_KEYS = {
 	CAMPAIGNS_GET_ALL: `${RESOURCES.CAMPAIGNS}:${OPERATIONS.CAMPAIGNS.GET_ALL}`,
 	CAMPAIGNS_GET_BY_UUID: `${RESOURCES.CAMPAIGNS}:${OPERATIONS.CAMPAIGNS.GET_BY_UUID}`,
 	USER_GET: `${RESOURCES.USER}:${OPERATIONS.USER.GET}`,
+	AGENTS_GET: `${RESOURCES.AGENTS}:${OPERATIONS.AGENTS.GET}`,
 } as const;

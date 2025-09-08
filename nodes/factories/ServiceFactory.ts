@@ -5,6 +5,7 @@ import { LabelService } from '../services/LabelService';
 import { CustomFieldService } from '../services/CustomFieldService';
 import { CampaignService } from '../services/CampaignService';
 import { UserService } from '../services/UserService';
+import { AgentsService } from '../services/AgentsService';
 
 export class ServiceFactory {
 	static contactService(client: WasapiClient): ContactService {
@@ -29,5 +30,9 @@ export class ServiceFactory {
 
 	static userService(client: WasapiClient): UserService {
 		return new UserService(client);
+	}
+
+	static agentsService(client: WasapiClient): AgentsService {
+		return new AgentsService(client);
 	}
 }
