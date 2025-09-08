@@ -4,6 +4,7 @@ import { contactProperties } from './contact.properties';
 import { customFieldsProperties } from './customFields.properties';
 import { labelsProperties } from './labels.properties';
 import { whatsappProperties } from './whatsapp.properties';
+import { userProperties } from './user.properties';
 
 export const resourceOptions: INodeProperties = {
 	displayName: 'Resource',
@@ -36,6 +37,12 @@ export const resourceOptions: INodeProperties = {
 			action: 'Manage label',
 		},
 		{
+			name: 'User',
+			value: 'user',
+			description: 'Get user information',
+			action: 'Get user information',
+		},
+		{
 			name: 'WhatsApp',
 			value: 'whatsapp',
 			description: 'Send WhatsApp messages and attachments',
@@ -52,4 +59,5 @@ export const allProperties: INodeProperties[] = [
 	...customFieldsProperties,
 	...labelsProperties,
 	...whatsappProperties,
+	...userProperties,
 ];

@@ -4,6 +4,7 @@ export const RESOURCES = {
 	LABELS: 'labels',
 	CUSTOM_FIELDS: 'customFields',
 	CAMPAIGNS: 'campaigns',
+	USER: 'user',
 } as const;
 
 export const OPERATIONS = {
@@ -40,6 +41,9 @@ export const OPERATIONS = {
 		GET_ALL: 'getAll',
 		GET_BY_UUID: 'getByUuid',
 	},
+	USER: {
+		GET: 'get',
+	},
 } as const;
 
 export const OPERATION_KEYS = {
@@ -66,4 +70,5 @@ export const OPERATION_KEYS = {
 	CUSTOM_FIELDS_DELETE: `${RESOURCES.CUSTOM_FIELDS}:${OPERATIONS.CUSTOM_FIELDS.DELETE}`,
 	CAMPAIGNS_GET_ALL: `${RESOURCES.CAMPAIGNS}:${OPERATIONS.CAMPAIGNS.GET_ALL}`,
 	CAMPAIGNS_GET_BY_UUID: `${RESOURCES.CAMPAIGNS}:${OPERATIONS.CAMPAIGNS.GET_BY_UUID}`,
+	USER_GET: `${RESOURCES.USER}:${OPERATIONS.USER.GET}`,
 } as const;

@@ -4,6 +4,7 @@ import { WhatsAppService } from '../services/WhatsAppService';
 import { LabelService } from '../services/LabelService';
 import { CustomFieldService } from '../services/CustomFieldService';
 import { CampaignService } from '../services/CampaignService';
+import { UserService } from '../services/UserService';
 
 export class ServiceFactory {
 	static contactService(client: WasapiClient): ContactService {
@@ -24,5 +25,9 @@ export class ServiceFactory {
 
 	static campaignService(client: WasapiClient): CampaignService {
 		return new CampaignService(client);
+	}
+
+	static userService(client: WasapiClient): UserService {
+		return new UserService(client);
 	}
 }
