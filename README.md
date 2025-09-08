@@ -27,41 +27,18 @@ Below is a detailed comparison of all operations available in Make's Wasapi inte
 | | Update Custom Field | ✅ Update Custom Field | ✅ **IMPLEMENTED** |
 | **Messaging** | | | |
 | | Send WhatsApp Message | ✅ Send Message | ✅ **IMPLEMENTED** |
-| | Send Image Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
-| | Send Video Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
-| | Send Audio Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
-| | Send Document Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
+| | Send Image Message | ✅ Send Attachment (covers this) | ✅ **IMPLEMENTED** |
+| | Send Video Message | ✅ Send Attachment (covers this) | ✅ **IMPLEMENTED** |
+| | Send Audio Message | ✅ Send Attachment (covers this) | ✅ **IMPLEMENTED** |
+| | Send Document Message | ✅ Send Attachment (covers this) | ✅ **IMPLEMENTED** |
 | | Send WhatsApp Template | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | | Send WhatsApp Flow | ✅ Send Flow| ✅  **IMPLEMENTED** |
 | **Agents** | | | |
 | | Assign Agent to Contact | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
-| | Get Agents | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Get Agents |  ✅ Get User | ✅ **IMPLEMENTED** |
 | | Change Chat Status or Transfer | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | **Other** | | | |
 | | Get User Information | ✅ Get User | ✅ **IMPLEMENTED** |
-
-### 📈 Implementation Status Summary
-
-**✅ IMPLEMENTED (15 operations):**
-- Contact: Create, Get, Get Many, Update, Delete, Toggle Bot, Export
-- Labels: Create, Get, Get Many, Get By ID, Update, Delete
-- Custom Fields: Create, Get, Update, Delete
-- WhatsApp: Send Message, Send Attachment
-- Campaigns: Get, Get By ID
-
-**❌ MISSING (9 operations):**
-1. **Add Labels to Contact** - Attach new label(s) to existing contact
-2. **Remove Labels from Contact** - Detach labels from a contact
-3. **Send WhatsApp Template (w/ Phone Number)** - Choose a phone and send a message template
-4. **Send WhatsApp Template** - Send a message template (initiate conversation)
-5. **Send WhatsApp Flow** - Send a message with a button to open a WhatsApp flow
-6. **Assign Agent to Contact** - Assign all chats from a contact to a specific Agent
-7. **Get Agents** - Retrieve the list of non-blocked agents
-8. **Change Chat Status or Transfer** - Change chat status or transfer chat to an agent
-9. **Get User Information** - Obtain information of the current user
-
-**⚠️ PARTIALLY IMPLEMENTED:**
-- Our `Send Attachment` operation covers multiple media types (image, video, audio, document) but Make has them as separate operations
 
 ## 🤝 Contributing
 
