@@ -27,19 +27,18 @@ Below is a detailed comparison of all operations available in Make's Wasapi inte
 | | Update Custom Field | ✅ Update Custom Field | ✅ **IMPLEMENTED** |
 | **Messaging** | | | |
 | | Send WhatsApp Message | ✅ Send Message | ✅ **IMPLEMENTED** |
-| | Send WhatsApp Template (w/ Phone Number) | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | | Send Image Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
 | | Send Video Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
 | | Send Audio Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
 | | Send Document Message | ✅ Send Attachment (covers this) | ⚠️ **PARTIALLY IMPLEMENTED** |
 | | Send WhatsApp Template | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
-| | Send WhatsApp Flow | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Send WhatsApp Flow | ✅ Send Flow| ✅  **IMPLEMENTED** |
 | **Agents** | | | |
 | | Assign Agent to Contact | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | | Get Agents | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | | Change Chat Status or Transfer | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | **Other** | | | |
-| | Get User Information | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Get User Information | ✅ Get User | ✅ **IMPLEMENTED** |
 
 ### 📈 Implementation Status Summary
 
