@@ -12,7 +12,11 @@ export class AgentsService {
 	}
 
 	async changeStatus(params: ChangeStatusParams): Promise<any> {
-		const response = await this.client.whatsapp.changeStatus(params);
-		return response;
+		try {
+			const response = await this.client.whatsapp.changeStatus(params);
+			return response;
+		} catch (error) {
+			throw new Error('Error changing chat status:', error);
+		}
 	}
 }
