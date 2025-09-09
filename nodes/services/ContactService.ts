@@ -29,14 +29,14 @@ export class ContactService {
 	constructor(private client: WasapiClient) {}
 
 	async createContact(data: ContactData): Promise<any> {
-		// validate data before creating
-		ContactValidator.validateCreateContact(data);
-
 		return await this.client.contacts.create(data);
 	}
 
 	validateCustomFields(customFieldsData: any): Record<string, any> {
 		return ContactValidator.validateCustomFields(customFieldsData);
+	}
+	validateCreateContact(data: ContactData): void {
+		return ContactValidator.validateCreateContact(data);
 	}
 
 	async getContact(wa_id: string): Promise<any> {

@@ -111,8 +111,8 @@ export async function executeContactCreate(this: IExecuteFunctions): Promise<INo
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
         const contactService = ServiceFactory.contactService(client);
         const contactData = ContactDTO.create(this, i);
-
-        // Obtener y validar custom fields
+			  contactService.validateCreateContact(contactData);
+        // validate custom fields
         const customFieldsData = this.getNodeParameter('custom_fields', i) as any;
         contactData.custom_fields = contactService.validateCustomFields(customFieldsData);
 
