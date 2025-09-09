@@ -16,7 +16,7 @@ export class AgentsService {
 			const response = await this.client.whatsapp.changeStatus(params);
 			return response;
 		} catch (error) {
-			throw new Error('The conversation is already in the desired state.');
+			throw new Error(error as string);
 		}
 	}
 }
