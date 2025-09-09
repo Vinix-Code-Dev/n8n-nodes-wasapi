@@ -21,7 +21,7 @@ export class Wasapi implements INodeType {
 		name: 'wasapi',
 		icon: 'file:wasapi.svg',
 		group: ['transform'],
-		version: 1,
+		version: 2,
 		description: 'Interact with Wasapi API - Manage contacts and send WhatsApp messages',
 		defaults: {
 			name: 'Wasapi',
