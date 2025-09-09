@@ -36,7 +36,7 @@ Below is a detailed comparison of all operations available in Make's Wasapi inte
 | **Agents** | | | |
 | | Assign Agent to Contact | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
 | | Get Agents |  ✅ Get User | ✅ **IMPLEMENTED** |
-| | Change Chat Status or Transfer | ❌ **MISSING** | ❌ **NEEDS IMPLEMENTATION** |
+| | Change Chat Status or Transfer |  ✅ Get User | ✅ **IMPLEMENTED** |
 | **Other** | | | |
 | | Get User Information | ✅ Get User | ✅ **IMPLEMENTED** |
 
