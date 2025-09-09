@@ -1,4 +1,4 @@
-import { WasapiClient } from '@laiyon/wasapi-sdk';
+import { AddLabelContact, RemoveLabelContact, WasapiClient } from '@laiyon/wasapi-sdk';
 import { ContactValidator } from '../validators/ContactValidator.js';
 
 export interface ContactData {
@@ -29,9 +29,9 @@ export class ContactService {
 	constructor(private client: WasapiClient) {}
 
 	async createContact(data: ContactData): Promise<any> {
-		// Validar datos antes de crear
+		// validate data before creating
 		ContactValidator.validateCreateContact(data);
-		
+
 		return await this.client.contacts.create(data);
 	}
 
@@ -65,5 +65,13 @@ export class ContactService {
 
 	async export(data: ContactExportRequest): Promise<any> {
 		return await this.client.contacts.export(data);
+	}
+
+	async addLabel({ contact_uuid, label_id }: AddLabelContact): Promise<any> {
+		return await this.client.contacts.addLabel({ contact_uuid, label_id });
+	}
+
+	async removeLabel({ contact_uuid, label_id }: RemoveLabelContact): Promise<any> {
+    return await this.client.contacts.removeLabel({ contact_uuid, label_id });
 	}
 }
