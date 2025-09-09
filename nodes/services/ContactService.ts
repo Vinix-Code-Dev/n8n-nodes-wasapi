@@ -7,7 +7,7 @@ export interface ContactData {
 	email: string;
 	phone: string;
 	notes: string;
-	labels: any[];
+	labels: number[];
 	custom_fields: Record<string, any>;
 }
 

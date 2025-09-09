@@ -10,7 +10,7 @@ export class ContactDTO {
 			email: executeFunctions.getNodeParameter('email', index) as string,
 			phone: executeFunctions.getNodeParameter('phone', index) as string,
 			notes: executeFunctions.getNodeParameter('notes', index) as string,
-			labels: executeFunctions.getNodeParameter('labels', index) as string[],
+			labels: executeFunctions.getNodeParameter('labels', index) as number[],
 			custom_fields: {},
 		};
 	}
