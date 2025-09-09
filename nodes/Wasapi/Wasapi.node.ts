@@ -19,7 +19,8 @@ export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Wasapi',
 		name: 'wasapi',
-		icon: 'file:wasapi.svg',
+		// eslint-disable-next-line n8n-nodes-base/node-class-description-icon-not-svg
+		icon: 'file:wasapi.png',
 		group: ['transform'],
 		version: 1,
 		description: 'Interact with Wasapi API - Manage contacts and send WhatsApp messages',
