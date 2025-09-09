@@ -1,5 +1,6 @@
 import { IExecuteFunctions } from 'n8n-workflow';
 import { BotStatusRequest, ContactData, ContactExportRequest, ContactSearchParams } from '../services/ContactService';
+import { RemoveLabelContact, AddLabelContact } from '@laiyon/wasapi-sdk';
 
 export class ContactDTO {
 	static create(executeFunctions: IExecuteFunctions, index: number): ContactData {
@@ -40,6 +41,20 @@ export class ContactDTO {
 	static export(executeFunctions: IExecuteFunctions, index: number): ContactExportRequest{
 		return {
 			email_urls: executeFunctions.getNodeParameter('email_urls', index) as string[],
+		};
+	}
+
+	static addLabel(executeFunctions: IExecuteFunctions, index: number): AddLabelContact {
+		return {
+			contact_uuid: executeFunctions.getNodeParameter('contact_uuid', index) as string,
+			label_id: executeFunctions.getNodeParameter('labels', index) as number[],
+		};
+	}
+
+	static removeLabel(executeFunctions: IExecuteFunctions, index: number): RemoveLabelContact {
+		return {
+			contact_uuid: executeFunctions.getNodeParameter('contact_uuid', index) as string,
+			label_id: executeFunctions.getNodeParameter('labels', index) as number[],
 		};
 	}
 }

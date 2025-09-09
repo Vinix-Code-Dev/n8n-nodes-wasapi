@@ -14,7 +14,7 @@ export async function getLabels(this: ILoadOptionsFunctions) {
         const response = await client.labels.getAll();
         return response.labels.map((label: any) => ({
             name: label.title,
-            value: label.id.toString(),
+            value: label.id as number,
         }));
     } catch (error: any) {
         return handleLoadOptionsError(error);

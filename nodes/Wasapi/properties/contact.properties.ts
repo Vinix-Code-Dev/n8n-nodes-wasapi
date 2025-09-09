@@ -7,6 +7,8 @@ import { deleteContactDescription } from '../../actions/contact/deleteContact.op
 import { updateContactDescription } from '../../actions/contact/updateContact.operation';
 import { toggleBotDescription } from '../../actions/contact/toggleBot.operation';
 import { exportContactsDescription } from '../../actions/contact/export.operation';
+import { addLabelDescription } from '../../actions/contact/addLabel.operation';
+import { removeLabelDescription } from '../../actions/contact/removeLabel.operation';
 
 export const contactOperations: INodeProperties = {
 	displayName: 'Operation',
@@ -19,6 +21,12 @@ export const contactOperations: INodeProperties = {
 		},
 	},
 	options: [
+		{
+			name: 'Add Label',
+			value: 'addLabel',
+			description: 'Add labels to a contact',
+			action: 'Add labels to a contact',
+		},
 		{
 			name: 'Create',
 			value: 'create',
@@ -50,6 +58,12 @@ export const contactOperations: INodeProperties = {
 			action: 'Get many contacts',
 		},
 		{
+			name: 'Remove Label',
+			value: 'removeLabel',
+			description: 'Remove labels from a contact',
+			action: 'Remove labels from a contact',
+		},
+		{
 			name: 'Toggle Bot',
 			value: 'toggleBot',
 			description: 'Toggle bot status for a contact',
@@ -75,4 +89,6 @@ export const contactProperties: INodeProperties[] = [
 	...updateContactDescription,
 	...toggleBotDescription,
 	...exportContactsDescription,
+	...addLabelDescription,
+	...removeLabelDescription,
 ];
