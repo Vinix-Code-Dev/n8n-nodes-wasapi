@@ -10,7 +10,6 @@ import { getCustomFields } from '../helpers/getCustomFields.helper';
 import { getWhatsappNumbers } from '../helpers/getWhatsappNumbers.helper';
 import { OperationFactory } from '../factories/OperationFactory';
 import { allProperties } from './properties';
-import { getLabelId } from '../helpers/getLabeI.helper';
 import { getFlows } from '../helpers/getFlows.helper';
 import { getScreens } from '../helpers/getScreens.helper';
 import { getAgents } from '../helpers/getAgents.helper';
@@ -44,8 +43,7 @@ export class Wasapi implements INodeType {
 		loadOptions: {
 			getLabels: getLabels,
 			getCustomFields: getCustomFields,
-			getWhatsappNumbers: getWhatsappNumbers,
-			getLabelId: getLabelId,
+			getWhatsappNumbers: getWhatsappNumbers
 		},
 		listSearch: {
 			getFlows: getFlows,
