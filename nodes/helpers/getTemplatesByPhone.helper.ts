@@ -12,7 +12,7 @@ export async function getTemplatesByPhone(this: ILoadOptionsFunctions, filter?: 
 
 	try {
 		const response = await client.whatsapp.getTemplatesByAppId({from_id});
-		return { results: response.map((template: any) => ({ name: template.name, value: template.id })) };
+		return { results: response.map((template: any) => ({ name: template.template_id, value: template.uuid })) };
 	} catch (error: any) {
 		return handleListSearchError(error);
 	}
