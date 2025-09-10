@@ -1,4 +1,4 @@
-import { SendAttachmentParams, SendFlow, SendMessage, WasapiClient } from '@laiyon/wasapi-sdk';
+import { SendAttachmentParams, SendFlow, SendMessage, WasapiClient } from '@wasapi/js-sdk';
 
 export class WhatsAppService {
 	constructor(private client: WasapiClient) {}

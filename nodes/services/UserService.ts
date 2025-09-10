@@ -1,5 +1,5 @@
-import { WasapiClient } from '@laiyon/wasapi-sdk';
-import { UserResponse } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/response/user.model';
+import { WasapiClient } from '@wasapi/js-sdk';
+import { UserResponse } from '@wasapi/js-sdk/dist/types/wasapi/models/response/user.model';
 
 export class UserService {
 	constructor(private client: WasapiClient) {}

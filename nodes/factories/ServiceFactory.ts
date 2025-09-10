@@ -1,4 +1,4 @@
-import { WasapiClient } from '@laiyon/wasapi-sdk';
+import { WasapiClient } from '@wasapi/js-sdk';
 import { ContactService } from '../services/ContactService';
 import { WhatsAppService } from '../services/WhatsAppService';
 import { LabelService } from '../services/LabelService';

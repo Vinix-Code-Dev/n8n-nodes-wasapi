@@ -1,7 +1,7 @@
 import { ILoadOptionsFunctions, INodeListSearchItems, INodeListSearchResult } from 'n8n-workflow';
 import { createClient } from '../client/createClient';
-import { OnlineAgentsResponse } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/response/metrics.model';
-import { OnlineAgent } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/shared/metrics.model';
+import { OnlineAgentsResponse } from '@wasapi/js-sdk/dist/types/wasapi/models/response/metrics.model';
+import { OnlineAgent } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/metrics.model';
 
 export async function getAgents(
 	this: ILoadOptionsFunctions,

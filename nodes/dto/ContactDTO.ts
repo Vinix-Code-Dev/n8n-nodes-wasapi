@@ -1,6 +1,6 @@
 import { IExecuteFunctions } from 'n8n-workflow';
 import { BotStatusRequest, ContactData, ContactExportRequest, ContactSearchParams } from '../services/ContactService';
-import { RemoveLabelContact, AddLabelContact } from '@laiyon/wasapi-sdk';
+import { RemoveLabelContact, AddLabelContact } from '@wasapi/js-sdk';
 
 export class ContactDTO {
 	static create(executeFunctions: IExecuteFunctions, index: number): ContactData {

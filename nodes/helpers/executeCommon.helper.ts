@@ -1,5 +1,5 @@
 import { IExecuteFunctions, ILoadOptionsFunctions, INodeExecutionData } from "n8n-workflow";
-import { WasapiClient } from "@laiyon/wasapi-sdk";
+import { WasapiClient } from "@wasapi/js-sdk";
 import { createClient } from "../client/createClient";
 
 export async function executeCommon(

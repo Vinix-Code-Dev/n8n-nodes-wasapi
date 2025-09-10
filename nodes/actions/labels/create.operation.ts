@@ -1,5 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "@laiyon/wasapi-sdk";
+import { WasapiClient } from "@wasapi/js-sdk";
 import { executeCommon } from "../../helpers/executeCommon.helper";
 import { ServiceFactory } from "../../factories/ServiceFactory";
 import { LabelDTO } from "../../dto/LabelDTO";

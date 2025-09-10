@@ -8,7 +8,7 @@ import {
 
 import { commonProperties } from '../base/common.operation';
 import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '@laiyon/wasapi-sdk';
+import { WasapiClient } from '@wasapi/js-sdk';
 import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
 import { ServiceFactory } from '../../factories/ServiceFactory';
 

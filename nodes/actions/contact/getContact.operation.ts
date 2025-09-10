@@ -1,4 +1,4 @@
-import { WasapiClient } from "@laiyon/wasapi-sdk";
+import { WasapiClient } from "@wasapi/js-sdk";
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
 import { ContactDTO } from "../../dto/ContactDTO";
 import { executeCommon } from "../../helpers/executeCommon.helper";

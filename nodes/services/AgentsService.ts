@@ -1,6 +1,6 @@
-import { WasapiClient } from '@laiyon/wasapi-sdk';
-import { OnlineAgentsResponse } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/response/metrics.model';
-import { ChangeStatusParams } from '@laiyon/wasapi-sdk/dist/types/wasapi/models/shared/message.model';
+import { WasapiClient } from '@wasapi/js-sdk';
+import { OnlineAgentsResponse } from '@wasapi/js-sdk/dist/types/wasapi/models/response/metrics.model';
+import { ChangeStatusParams } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/message.model';
 
 
 export class AgentsService {

@@ -34,7 +34,7 @@ import {
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '@laiyon/wasapi-sdk';
+import { WasapiClient } from '@wasapi/js-sdk';
 import { ServiceFactory } from '../../factories/ServiceFactory';
 
 export const contactDeleteProperties: INodeProperties[] = [
