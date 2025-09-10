@@ -1,4 +1,4 @@
-import { SendAttachmentParams, SendFlow, SendMessage, WasapiClient } from '@wasapi/js-sdk';
+import { SendAttachmentParams, SendFlow, SendMessage, SendTemplate, WasapiClient } from '@wasapi/js-sdk';
 
 export class WhatsAppService {
 	constructor(private client: WasapiClient) {}
@@ -13,5 +13,9 @@ export class WhatsAppService {
 
 	async sendFlow(data: SendFlow ) {
 		return await this.client.whatsapp.sendFlow(data);
+	}
+
+	async sendTemplate({ recipients, template_id, contact_type, from_id, url_file, ...options }: SendTemplate): Promise<any> {
+	return await this.client.whatsapp.sendTemplate({ recipients, template_id, contact_type, from_id, url_file, ...options });
 	}
 }

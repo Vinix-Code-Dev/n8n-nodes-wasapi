@@ -2,6 +2,7 @@ import { INodeProperties } from 'n8n-workflow';
 import { sendMessageDescription } from '../../actions/whatsapp/sendMessage.operation';
 import { sendAttachmentDescription } from '../../actions/whatsapp/sendAttachment.operation';
 import { sendFlowDescription } from '../../actions/whatsapp/sendFlow.operation';
+import { sendTemplateDescription } from '../../actions/whatsapp/sendTemplate.operation';
 
 export const whatsappOperations: INodeProperties = {
 	displayName: 'Operation',
@@ -19,6 +20,12 @@ export const whatsappOperations: INodeProperties = {
 			value: 'sendMessage',
 			description: 'Send a text message via WhatsApp',
 			action: 'Send a text message',
+		},
+		{
+			name: 'Send Template',
+			value: 'sendTemplate',
+			description: 'Send a template via WhatsApp',
+			action: 'Send a template',
 		},
 		{
 			name: 'Send Attachment',
@@ -39,6 +46,7 @@ export const whatsappOperations: INodeProperties = {
 export const whatsappProperties: INodeProperties[] = [
 	whatsappOperations,
 	...sendMessageDescription,
+	...sendTemplateDescription,
 	...sendAttachmentDescription,
 	...sendFlowDescription,
 ];

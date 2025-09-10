@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { SendMessage, SendAttachmentParams, SendFlow } from '@wasapi/js-sdk';
+import { SendMessage, SendAttachmentParams, SendFlow, SendTemplate, TemplateVariable } from '@wasapi/js-sdk';
 import { ChangeStatusParams } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/message.model';
 
 export class WhatsAppDTO {
@@ -45,6 +45,22 @@ export class WhatsAppDTO {
 			status: executeFunctions.getNodeParameter('status', index) as 'open' | 'hold' | 'closed',
 			message: executeFunctions.getNodeParameter('message', index) as string,
 			agent_id: executeFunctions.getNodeParameter('agent_id.value', index) as number
+		};
+	}
+
+	static sendTemplateFromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): SendTemplate {
+		return {
+			recipients: executeFunctions.getNodeParameter('recipients', index) as string,
+			template_id: executeFunctions.getNodeParameter('templateId', index) as string,
+			contact_type: executeFunctions.getNodeParameter('contact_type', index) as 'phone' | 'contact',
+			from_id: executeFunctions.getNodeParameter('fromId', index) as number,
+			url_file: executeFunctions.getNodeParameter('url_file', index) as string,
+			file_name: executeFunctions.getNodeParameter('file_name', index) as string,
+			body_vars: executeFunctions.getNodeParameter('body_vars', index) as TemplateVariable[],
+			header_var: executeFunctions.getNodeParameter('header_var', index) as TemplateVariable[],
+			cta_var: executeFunctions.getNodeParameter('cta_var', index) as TemplateVariable[],
+			chatbot_status: executeFunctions.getNodeParameter('chatbot_status', index) as 'enable' | 'disable' | 'disable_permanently',
+			conversation_status: executeFunctions.getNodeParameter('conversation_status', index) as 'open' | 'hold' | 'closed' | 'unchanged',
 		};
 	}
 }

@@ -28,6 +28,7 @@ import { executeGetAgents } from '../actions/agents/getAgents.operation';
 import { executeAssignAgent } from '../actions/agents/assignAgent.operation';
 import { executeAddLabel } from '../actions/contact/addLabel.operation';
 import { executeRemoveLabel } from '../actions/contact/removeLabel.operation';
+import { executeSendTemplate } from '../actions/whatsapp/sendTemplate.operation';
 
 export interface OperationHandler {
 	execute: (this: IExecuteFunctions) => Promise<INodeExecutionData[][]>;
@@ -46,6 +47,7 @@ export class OperationFactory {
 		[OPERATION_KEYS.WHATSAPP_SEND_MESSAGE, { execute: executeSendMessage }],
 		[OPERATION_KEYS.WHATSAPP_SEND_ATTACHMENT, { execute: executeSendAttachment }],
 		[OPERATION_KEYS.WHATSAPP_SEND_FLOW, { execute: executeSendFlow }],
+		[OPERATION_KEYS.WHATSAPP_SEND_TEMPLATE, { execute: executeSendTemplate }],
 		[OPERATION_KEYS.LABELS_GET_ALL, { execute: executeGetAllLabels }],
 		[OPERATION_KEYS.LABELS_GET_SEARCH, { execute: executeGetSearch }],
 		[OPERATION_KEYS.LABELS_GET_BY_ID, { execute: executeGetById }],
