@@ -1,10 +1,16 @@
 {
-  "name": "@laiyon/n8n-nodes-wasapi",
+  "name": "@wasapi/n8n-nodes-wasapi",
   "version": "0.1.6",
   "description": "Nodo n8n para integración con Wasapi API",
   "type": "commonjs",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node-package",
+    "wasapi",
+    "n8n",
+    "meta",
+    "whatsapp",
+    "business",
+    "api",
   ],
   "license": "MIT",
   "homepage": "",
@@ -12,12 +18,12 @@
     "access": "public"
   },
   "author": {
-    "name": "Juan Alvarez",
-    "email": "hola@juanalvarez.pro"
+    "name": "Juan Camilo Alvarez",
+    "email": "camilo@wasapi.io"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/juanalvarezPro/n8n-nodes-wasapi"
+    "url": "https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi"
   },
   "engines": {
     "node": ">=20.15"
