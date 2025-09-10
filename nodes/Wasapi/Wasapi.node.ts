@@ -13,6 +13,7 @@ import { allProperties } from './properties';
 import { getFlows } from '../helpers/getFlows.helper';
 import { getScreens } from '../helpers/getScreens.helper';
 import { getAgents } from '../helpers/getAgents.helper';
+import { getTemplatesByPhone } from '../helpers/getTemplatesByPhone.helper';
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -43,12 +44,13 @@ export class Wasapi implements INodeType {
 		loadOptions: {
 			getLabels: getLabels,
 			getCustomFields: getCustomFields,
-			getWhatsappNumbers: getWhatsappNumbers
+			getWhatsappNumbers: getWhatsappNumbers,
 		},
 		listSearch: {
 			getFlows: getFlows,
 			getScreens: getScreens,
 			getAgents: getAgents,
+			getTemplatesByPhone: getTemplatesByPhone,
 		},
 	};
 
