@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { SendMessage, SendAttachmentParams, SendFlow, SendTemplate, TemplateVariable } from '@wasapi/js-sdk';
+import { SendMessage, SendAttachmentParams, SendFlow, SendTemplate } from '@wasapi/js-sdk';
 import { ChangeStatusParams } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/message.model';
 
 export class WhatsAppDTO {
@@ -49,18 +49,59 @@ export class WhatsAppDTO {
 	}
 
 	static sendTemplateFromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): SendTemplate {
-		return {
+		// get templateId correctly from the resourceLocator
+		const templateIdParam = executeFunctions.getNodeParameter('templateId', index) as any;
+		const template_id = typeof templateIdParam === 'string' ? templateIdParam : templateIdParam?.value || '';
+
+		const baseData = {
 			recipients: executeFunctions.getNodeParameter('recipients', index) as string,
-			template_id: executeFunctions.getNodeParameter('templateId', index) as string,
+			template_id,
 			contact_type: executeFunctions.getNodeParameter('contact_type', index) as 'phone' | 'contact',
 			from_id: executeFunctions.getNodeParameter('fromId', index) as number,
 			url_file: executeFunctions.getNodeParameter('url_file', index) as string,
 			file_name: executeFunctions.getNodeParameter('file_name', index) as string,
-			body_vars: executeFunctions.getNodeParameter('body_vars', index) as TemplateVariable[],
-			header_var: executeFunctions.getNodeParameter('header_var', index) as TemplateVariable[],
-			cta_var: executeFunctions.getNodeParameter('cta_var', index) as TemplateVariable[],
 			chatbot_status: executeFunctions.getNodeParameter('chatbot_status', index) as 'enable' | 'disable' | 'disable_permanently',
 			conversation_status: executeFunctions.getNodeParameter('conversation_status', index) as 'open' | 'hold' | 'closed' | 'unchanged',
 		};
+
+		// get dynamic variables from the template
+		const dynamicVars: Record<string, any> = {};
+
+		// process variables of each collection (fixedCollection structure)
+		const headerVars = executeFunctions.getNodeParameter('header_vars', index, {}) as any;
+		const bodyVars = executeFunctions.getNodeParameter('body_vars', index, {}) as any;
+		const ctaVars = executeFunctions.getNodeParameter('cta_vars', index, {}) as any;
+		const footerVars = executeFunctions.getNodeParameter('footer_vars', index, {}) as any;
+
+		if (headerVars?.header_vars && Array.isArray(headerVars.header_vars)) {
+			dynamicVars.header_var = headerVars.header_vars.map((varItem: any) => ({
+				name: varItem.name,
+				value: varItem.value
+			}));
+		}
+
+		if (bodyVars?.body_vars && Array.isArray(bodyVars.body_vars)) {
+			dynamicVars.body_vars = bodyVars.body_vars.map((varItem: any) => ({
+				name: varItem.name,
+				value: varItem.value
+			}));
+		}
+
+		if (ctaVars?.cta_vars && Array.isArray(ctaVars.cta_vars)) {
+			dynamicVars.cta_var = ctaVars.cta_vars.map((varItem: any) => ({
+				name: varItem.name,
+				value: varItem.value
+			}));
+		}
+
+		if (footerVars?.footer_vars && Array.isArray(footerVars.footer_vars)) {
+			dynamicVars.footer_var = footerVars.footer_vars.map((varItem: any) => ({
+				name: varItem.name,
+				value: varItem.value
+			}));
+		}
+
+		return { ...baseData, ...dynamicVars };
 	}
+
 }
