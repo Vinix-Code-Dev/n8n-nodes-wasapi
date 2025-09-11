@@ -308,7 +308,7 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
         const whatsAppService = ServiceFactory.whatsAppService(client);
         const templateData = WhatsAppDTO.sendTemplateFromExecuteFunctions(this, i);
         return await whatsAppService.sendTemplate(templateData).catch((error: any) => {
-            throw new Error(JSON.stringify(templateData, null, 2));
+            throw new Error(error.message);
         });
 
     });
