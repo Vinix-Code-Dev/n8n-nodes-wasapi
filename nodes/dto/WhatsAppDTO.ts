@@ -56,13 +56,11 @@ export class WhatsAppDTO {
 		const baseData = {
 			recipients: executeFunctions.getNodeParameter('recipients', index) as string,
 			template_id,
-			contact_type: executeFunctions.getNodeParameter('contact_type', index) as 'phone' | 'contact',
+			contact_type: 'phone' as 'phone' | 'contact',
 			from_id: executeFunctions.getNodeParameter('fromId', index) as number,
-			url_file: executeFunctions.getNodeParameter('url_file', index) as string,
-			file_name: executeFunctions.getNodeParameter('file_name', index) as string,
 			chatbot_status: executeFunctions.getNodeParameter('chatbot_status', index) as 'enable' | 'disable' | 'disable_permanently',
 			conversation_status: executeFunctions.getNodeParameter('conversation_status', index) as 'open' | 'hold' | 'closed' | 'unchanged',
-		};
+		} as any;
 
 		// get dynamic variables from the template
 		const dynamicVars: Record<string, any> = {};
@@ -73,31 +71,49 @@ export class WhatsAppDTO {
 		const ctaVars = executeFunctions.getNodeParameter('cta_vars', index, {}) as any;
 		const footerVars = executeFunctions.getNodeParameter('footer_vars', index, {}) as any;
 
+		// Process header variables and map them to appropriate fields
 		if (headerVars?.header_vars && Array.isArray(headerVars.header_vars)) {
-			dynamicVars.header_var = headerVars.header_vars.map((varItem: any) => ({
-				name: varItem.name,
-				value: varItem.value
-			}));
+			const processedHeaderVars: any[] = [];
+
+			headerVars.header_vars.forEach((varItem: any) => {
+				// Map header fields based on their name to specific API fields
+				if (varItem.name === 'header_link') {
+					baseData.url_file = varItem.value;
+				} else if (/^header_.*_filename$/.test(varItem.name)) {
+					baseData.file_name = varItem.value;
+				} else {
+					// For other header variables, add them to the dynamic variables
+					processedHeaderVars.push({
+						text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+						val: varItem.value
+					});
+				}
+			});
+
+			// Only add header_var if there are non-mapped variables
+			if (processedHeaderVars.length > 0) {
+				dynamicVars.header_var = processedHeaderVars;
+			}
 		}
 
 		if (bodyVars?.body_vars && Array.isArray(bodyVars.body_vars)) {
 			dynamicVars.body_vars = bodyVars.body_vars.map((varItem: any) => ({
-				name: varItem.name,
-				value: varItem.value
+				text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+				val: varItem.value
 			}));
 		}
 
 		if (ctaVars?.cta_vars && Array.isArray(ctaVars.cta_vars)) {
 			dynamicVars.cta_var = ctaVars.cta_vars.map((varItem: any) => ({
-				name: varItem.name,
-				value: varItem.value
+				text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+				val: varItem.value
 			}));
 		}
 
 		if (footerVars?.footer_vars && Array.isArray(footerVars.footer_vars)) {
 			dynamicVars.footer_var = footerVars.footer_vars.map((varItem: any) => ({
-				name: varItem.name,
-				value: varItem.value
+				text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+				val: varItem.value
 			}));
 		}
 
