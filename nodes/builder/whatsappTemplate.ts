@@ -89,9 +89,15 @@ export class WhatsAppTemplateBuilder {
 		if (collection) {
 			collection.spec.forEach((spec) => {
 				if (spec.type !== 'html') {
+					const fieldValue = spec.name || spec.label;
+					// Escape variables with curly braces to prevent n8n from treating them as expressions
+					const escapedValue = fieldValue.includes('{{') && fieldValue.includes('}}')
+						? `VAR_${fieldValue.replace(/[{}]/g, '')}`
+						: fieldValue;
+
 					options.push({
-						name: `${spec.label} (${spec.type})`,
-						value: spec.name || spec.label,
+						name: `${spec.label} (${spec.type})` as string,
+						value: escapedValue as string,
 					});
 				}
 			});
