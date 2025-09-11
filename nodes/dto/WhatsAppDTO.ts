@@ -96,25 +96,46 @@ export class WhatsAppDTO {
 			}
 		}
 
-		if (bodyVars?.body_vars && Array.isArray(bodyVars.body_vars)) {
-			dynamicVars.body_vars = bodyVars.body_vars.map((varItem: any) => ({
-				text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-				val: varItem.value
-			}));
+		// Only add body_vars if there are actual variables with values
+		if (bodyVars?.body_vars && Array.isArray(bodyVars.body_vars) && bodyVars.body_vars.length > 0) {
+			const processedBodyVars = bodyVars.body_vars
+				.filter((varItem: any) => varItem.name && varItem.value) // Filter out empty variables
+				.map((varItem: any) => ({
+					text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+					val: varItem.value
+				}));
+
+			if (processedBodyVars.length > 0) {
+				dynamicVars.body_vars = processedBodyVars;
+			}
 		}
 
-		if (ctaVars?.cta_vars && Array.isArray(ctaVars.cta_vars)) {
-			dynamicVars.cta_var = ctaVars.cta_vars.map((varItem: any) => ({
-				text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-				val: varItem.value
-			}));
+		// Only add cta_var if there are actual variables with values
+		if (ctaVars?.cta_vars && Array.isArray(ctaVars.cta_vars) && ctaVars.cta_vars.length > 0) {
+			const processedCtaVars = ctaVars.cta_vars
+				.filter((varItem: any) => varItem.name && varItem.value) // Filter out empty variables
+				.map((varItem: any) => ({
+					text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+					val: varItem.value
+				}));
+
+			if (processedCtaVars.length > 0) {
+				dynamicVars.cta_var = processedCtaVars;
+			}
 		}
 
-		if (footerVars?.footer_vars && Array.isArray(footerVars.footer_vars)) {
-			dynamicVars.footer_var = footerVars.footer_vars.map((varItem: any) => ({
-				text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-				val: varItem.value
-			}));
+		// Only add footer_var if there are actual variables with values
+		if (footerVars?.footer_vars && Array.isArray(footerVars.footer_vars) && footerVars.footer_vars.length > 0) {
+			const processedFooterVars = footerVars.footer_vars
+				.filter((varItem: any) => varItem.name && varItem.value) // Filter out empty variables
+				.map((varItem: any) => ({
+					text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
+					val: varItem.value
+				}));
+
+			if (processedFooterVars.length > 0) {
+				dynamicVars.footer_var = processedFooterVars;
+			}
 		}
 
 		return { ...baseData, ...dynamicVars };
