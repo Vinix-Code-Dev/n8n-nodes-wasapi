@@ -26,7 +26,7 @@ export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
             const isDefault = n.default === 1;
             options.push({
                 name: `${n.display_name} (${n.phone_number})${isDefault ? ' (Default)' : ''}`,
-                value: n.id.toString(),
+                value: n.id as number,
             });
         });
 
