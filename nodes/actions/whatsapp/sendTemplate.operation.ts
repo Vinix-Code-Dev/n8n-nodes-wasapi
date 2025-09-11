@@ -60,7 +60,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 						name: 'name',
 						type: 'options',
 					typeOptions: {
-						loadOptionsMethod: 'getHeaderVariablesOptimized',
+						loadOptionsMethod: 'getHeaderVariables',
 						loadOptionsDependsOn: ['templateId'],
 					},
 						default: '',
@@ -103,7 +103,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 						name: 'name',
 						type: 'options',
 					typeOptions: {
-						loadOptionsMethod: 'getBodyVariablesOptimized',
+						loadOptionsMethod: 'getBodyVariables',
 						loadOptionsDependsOn: ['templateId'],
 					},
 						default: '',
@@ -146,7 +146,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 						name: 'name',
 						type: 'options',
 					typeOptions: {
-						loadOptionsMethod: 'getCtaVariablesOptimized',
+						loadOptionsMethod: 'getCtaVariables',
 						loadOptionsDependsOn: ['templateId'],
 					},
 						default: '',
@@ -189,7 +189,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 						name: 'name',
 						type: 'options',
 					typeOptions: {
-						loadOptionsMethod: 'getFooterVariablesOptimized',
+						loadOptionsMethod: 'getFooterVariables',
 						loadOptionsDependsOn: ['templateId'],
 					},
 						default: '',
