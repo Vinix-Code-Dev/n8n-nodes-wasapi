@@ -11,10 +11,26 @@ import { executeCommon } from '../../helpers/executeCommon.helper';
 import { WasapiClient } from '@wasapi/js-sdk';
 import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
 import { ServiceFactory } from '../../factories/ServiceFactory';
-import { commonProperties } from '../base/common.operation';
-
 export const sendTemplateProperties: INodeProperties[] = [
-	...commonProperties,
+	{
+		displayName: 'Phone Wasapi Name or ID',
+		name: 'fromId',
+		type: 'options',
+		typeOptions: {
+				loadOptionsMethod: 'getWhatsappNumbers',
+		},
+		default: '',
+		required: true,
+		description: 'Pick the phone number of your wasapi account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+},
+{
+		displayName: 'WhatsApp ID',
+		name: 'recipients',
+		type: 'string',
+		default: '',
+		required: true,
+		description: 'Enter a phone number (including the country code without the + sign). For example instead of entering use 573203294920.',
+},
 	{
 		displayName: 'Template Name or UUID',
 		name: 'templateId',
@@ -218,6 +234,64 @@ export const sendTemplateProperties: INodeProperties[] = [
 			},
 		],
 	},
+	{
+		displayName: 'Chatbot Status',
+		name: 'chatbot_status',
+		type: 'options',
+		options: [
+			{
+				name: 'Enable',
+				value: 'enable',
+			},
+			{
+				name: 'Disable',
+				value: 'disable',
+			},
+			{
+				name: 'Disable Permanently',
+				value: 'disable_permanently',
+			},
+		],
+		default: 'enable',
+		description: 'Control the chatbot status for this conversation',
+		displayOptions: {
+			show: {
+				resource: ['whatsapp'],
+				operation: ['sendTemplate'],
+			},
+		},
+	},
+	{
+		displayName: 'Conversation Status',
+		name: 'conversation_status',
+		type: 'options',
+		options: [
+			{
+				name: 'Open',
+				value: 'open',
+			},
+			{
+				name: 'Hold',
+				value: 'hold',
+			},
+			{
+				name: 'Closed',
+				value: 'closed',
+			},
+			{
+				name: 'Unchanged',
+				value: 'unchanged',
+			},
+		],
+		default: 'unchanged',
+		description: 'Set the conversation status after sending the template',
+		displayOptions: {
+			show: {
+				resource: ['whatsapp'],
+				operation: ['sendTemplate'],
+			},
+		},
+	},
 ];
 
 const displayOptions: IDisplayOptions = {
@@ -233,7 +307,10 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
         const whatsAppService = ServiceFactory.whatsAppService(client);
         const templateData = WhatsAppDTO.sendTemplateFromExecuteFunctions(this, i);
-           throw new Error('test');
-        return await whatsAppService.sendTemplate(templateData);
+
+        return await whatsAppService.sendTemplate(templateData).catch((error: any) => {
+            throw new Error(error.message);
+        });
+
     });
 }
