@@ -14,6 +14,8 @@ import { getFlows } from '../helpers/getFlows.helper';
 import { getScreens } from '../helpers/getScreens.helper';
 import { getAgents } from '../helpers/getAgents.helper';
 import { getTemplatesByPhone } from '../helpers/getTemplatesByPhone.helper';
+import { getHeaderVariables, getBodyVariables, getCtaVariables, getFooterVariables } from '../helpers/getTemplateData.helper';
+
 
 export class Wasapi implements INodeType {
 	description: INodeTypeDescription = {
@@ -45,6 +47,10 @@ export class Wasapi implements INodeType {
 			getLabels: getLabels,
 			getCustomFields: getCustomFields,
 			getWhatsappNumbers: getWhatsappNumbers,
+			getHeaderVariables: getHeaderVariables,
+			getBodyVariables: getBodyVariables,
+			getCtaVariables: getCtaVariables,
+			getFooterVariables: getFooterVariables,
 		},
 		listSearch: {
 			getFlows: getFlows,
