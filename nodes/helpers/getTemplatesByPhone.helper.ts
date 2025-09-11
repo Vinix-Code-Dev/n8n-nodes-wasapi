@@ -28,7 +28,7 @@ export async function getTemplatesByPhone(this: ILoadOptionsFunctions, filter?: 
 
 		let templates = response.map((template: any) => ({
 			name: template.template_id || `Template ${template.uuid}`,
-			value: template.uuid,
+			value: template.uuid as string,
 			description: `Template: ${template.body || template.uuid}`
 		}));
 
