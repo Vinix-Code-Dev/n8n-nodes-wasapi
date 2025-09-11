@@ -16,7 +16,7 @@ import { commonProperties } from '../base/common.operation';
 export const sendTemplateProperties: INodeProperties[] = [
 	...commonProperties,
 	{
-		displayName: 'Template Name or ID',
+		displayName: 'Template Name or UUID',
 		name: 'templateId',
 		type: 'resourceLocator',
 		default: { mode: 'list', value: '' },
@@ -48,6 +48,9 @@ export const sendTemplateProperties: INodeProperties[] = [
 			show: {
 				resource: ['whatsapp'],
 				operation: ['sendTemplate'],
+			},
+			hide: {
+				templateId: [''],
 			},
 		},
 		options: [
@@ -92,6 +95,9 @@ export const sendTemplateProperties: INodeProperties[] = [
 				resource: ['whatsapp'],
 				operation: ['sendTemplate'],
 			},
+			hide: {
+				templateId: [''],
+			},
 		},
 		options: [
 			{
@@ -135,6 +141,9 @@ export const sendTemplateProperties: INodeProperties[] = [
 				resource: ['whatsapp'],
 				operation: ['sendTemplate'],
 			},
+			hide: {
+				templateId: [''],
+			},
 		},
 		options: [
 			{
@@ -177,6 +186,9 @@ export const sendTemplateProperties: INodeProperties[] = [
 			show: {
 				resource: ['whatsapp'],
 				operation: ['sendTemplate'],
+			},
+			hide: {
+				templateId: [''],
 			},
 		},
 		options: [
