@@ -57,11 +57,11 @@ export async function getHeaderVariables(this: ILoadOptionsFunctions) {
 		const templateBuilder = await getTemplateBuilder.call(this);
 
 		if (!templateBuilder) {
-			return [{ name: '❌ No Template Selected', value: '' }];
+			return [{ name: '⚠️ Please Select a Template First', value: '' }];
 		}
 
 		if (!templateBuilder.hasVariables('header_var')) {
-			return [{ name: '❌ No Header Variables for This Template', value: '' }];
+			return [{ name: '✅ This Template Has No Header Variables', value: '' }];
 		}
 
 		return templateBuilder.getFieldsByCollection('header_var');
@@ -75,11 +75,11 @@ export async function getBodyVariables(this: ILoadOptionsFunctions) {
 		const templateBuilder = await getTemplateBuilder.call(this);
 
 		if (!templateBuilder) {
-			return [{ name: '❌ No Template Selected', value: '' }];
+			return [{ name: '⚠️ Please Select a Template First', value: '' }];
 		}
 
 		if (!templateBuilder.hasVariables('body_vars')) {
-			return [{ name: '❌ No Body Variables for This Template', value: '' }];
+			return [{ name: '✅ This Template Has No Body Variables', value: '' }];
 		}
 
 		return templateBuilder.getFieldsByCollection('body_vars');
@@ -93,11 +93,11 @@ export async function getCtaVariables(this: ILoadOptionsFunctions) {
 		const templateBuilder = await getTemplateBuilder.call(this);
 
 		if (!templateBuilder) {
-			return [{ name: '❌ No Template Selected', value: '' }];
+			return [{ name: '⚠️ Please Select a Template First', value: '' }];
 		}
 
 		if (!templateBuilder.hasVariables('cta_var')) {
-			return [{ name: '❌ No CTA Variables for This Template', value: '' }];
+			return [{ name: '✅ This Template Has No CTA Variables', value: '' }];
 		}
 
 		return templateBuilder.getFieldsByCollection('cta_var');
@@ -111,11 +111,11 @@ export async function getFooterVariables(this: ILoadOptionsFunctions) {
 		const templateBuilder = await getTemplateBuilder.call(this);
 
 		if (!templateBuilder) {
-			return [{ name: '❌ No Template Selected', value: '' }];
+			return [{ name: '⚠️ Please Select a Template First', value: '' }];
 		}
 
 		if (!templateBuilder.hasVariables('footer_vars')) {
-			return [{ name: '❌ No Footer Variables for This Template', value: '' }];
+			return [{ name: '✅ This Template Has No Footer Variables', value: '' }];
 		}
 
 		return templateBuilder.getFieldsByCollection('footer_vars');
