@@ -95,7 +95,7 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 			ctaVars.forEach(variable => {
 				if (variable.value && variable.value !== '') {
 					allVariables.push({
-						name: `[${TemplateEnum.CTA}] ${variable.name}`, // Use value (the actual variable name)
+						name: `[${TemplateEnum.BUTTON}] ${variable.name}`, // Use value (the actual variable name)
 						value: `[${TemplateEnum.CTA}] ${variable.value}`,
 					});
 				}
