@@ -62,9 +62,6 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 
 		const allVariables: Array<{name: string, value: string}> = [];
 
-		if(allVariables.length === 0) {
-			return [{ name: '🚫 This Template No Needs Dynamic Variables', value: '' }];
-		}
 
 		// Add header variables if available
 		if (templateBuilder.hasVariables('header_var')) {
@@ -116,6 +113,10 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 					});
 				}
 			});
+		}
+
+		if(allVariables.length === 0) {
+			return [{ name: '🚫 This Template No Needs Dynamic Variables', value: '' }];
 		}
 
 		return allVariables;
