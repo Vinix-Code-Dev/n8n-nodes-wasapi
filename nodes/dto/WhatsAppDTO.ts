@@ -61,7 +61,7 @@ export class WhatsAppDTO {
 			from_id: executeFunctions.getNodeParameter('fromId', index) as number,
 			chatbot_status: executeFunctions.getNodeParameter('chatbot_status', index) as 'enable' | 'disable' | 'disable_permanently',
 			conversation_status: executeFunctions.getNodeParameter('conversation_status', index) as 'open' | 'hold' | 'closed' | 'unchanged',
-			agent_id: executeFunctions.getNodeParameter('agent_id', index) as number,
+			agent_id: executeFunctions.getNodeParameter('agent_id.value', index) as number,
 			origin: 'n8n',
 		} as any;
 
