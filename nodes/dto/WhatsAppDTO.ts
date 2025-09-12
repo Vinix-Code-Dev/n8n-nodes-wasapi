@@ -1,6 +1,7 @@
 import { IExecuteFunctions } from 'n8n-workflow';
 import { SendMessage, SendAttachmentParams, SendFlow, SendTemplate } from '@wasapi/js-sdk';
 import { ChangeStatusParams } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/message.model';
+import { TemplateEnum } from '../enum/template.enum';
 
 export class WhatsAppDTO {
 	static messageFromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): SendMessage {
@@ -62,80 +63,65 @@ export class WhatsAppDTO {
 			conversation_status: executeFunctions.getNodeParameter('conversation_status', index) as 'open' | 'hold' | 'closed' | 'unchanged',
 		} as any;
 
-		// get dynamic variables from the template
+		// Get template variables from the unified template_vars parameter
+		const templateVars = executeFunctions.getNodeParameter('template_vars', index) as any;
+
 		const dynamicVars: Record<string, any> = {};
 
-		// process variables of each collection (fixedCollection structure)
-		const headerVars = executeFunctions.getNodeParameter('header_vars', index, {}) as any;
-		const bodyVars = executeFunctions.getNodeParameter('body_vars', index, {}) as any;
-		const ctaVars = executeFunctions.getNodeParameter('cta_vars', index, {}) as any;
-		const footerVars = executeFunctions.getNodeParameter('footer_vars', index, {}) as any;
+		// Debug: Log what we received
 
-		// Process header variables and map them to appropriate fields
-		if (headerVars?.header_vars && Array.isArray(headerVars.header_vars)) {
-			const processedHeaderVars: any[] = [];
+		// Process template variables
+		if (templateVars && Array.isArray(templateVars.template_vars)) {
+			templateVars.template_vars.forEach((varItem: any) => {
+				const varName = varItem.name;
+				const varValue = varItem.value;
 
-			headerVars.header_vars.forEach((varItem: any) => {
-				// Map header fields based on their name to specific API fields
-				if (varItem.name === 'header_link') {
-					baseData.url_file = varItem.value;
-				} else if (/^header_.*_filename$/.test(varItem.name)) {
-					baseData.file_name = varItem.value;
-				} else {
-					// For other header variables, add them to the dynamic variables
-					processedHeaderVars.push({
-						text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-						val: varItem.value
+				if (!varName || !varValue) return;
+
+				// Extract section from the name (e.g., "[Header] header_link" -> "Header")
+				const sectionMatch = varName.match(/^\[(Header|Body|CTA|Footer)\]/);
+				const section = sectionMatch?.[1] || null;
+				// Remove the section prefix to get the actual variable name
+				const actualVarName = varName.replace(/^\[(Header|Body|CTA|Footer)\] /, '');
+
+				// Process based on section
+				if (section === TemplateEnum.HEADER) {
+					// Map header fields to specific API fields
+					if (actualVarName === 'header_link') {
+						baseData.url_file = varValue;
+					} else if (/^header_.*_filename$/.test(actualVarName)) {
+						baseData.file_name = varValue;
+					} else {
+						// Other header variables go to dynamic vars
+						if (!dynamicVars.header_var) dynamicVars.header_var = [];
+						dynamicVars.header_var.push({
+							text: actualVarName,
+							val: varValue
+						});
+					}
+				} else if (section === TemplateEnum.BODY) {
+					// Body variables
+					if (!dynamicVars.body_vars) dynamicVars.body_vars = [];
+					dynamicVars.body_vars.push({
+						text: actualVarName.startsWith('VAR_') ? `{{${actualVarName.substring(4)}}}` : actualVarName,
+						val: varValue
+					});
+				} else if (section === TemplateEnum.CTA) {
+					// CTA variables
+					if (!dynamicVars.cta_var) dynamicVars.cta_var = [];
+					dynamicVars.cta_var.push({
+						text: actualVarName.startsWith('VAR_') ? `{{${actualVarName.substring(4)}}}` : actualVarName,
+						val: varValue
+					});
+				} else if (section === TemplateEnum.FOOTER) {
+					// Footer variables
+					if (!dynamicVars.footer_var) dynamicVars.footer_var = [];
+					dynamicVars.footer_var.push({
+						text: actualVarName.startsWith('VAR_') ? `{{${actualVarName.substring(4)}}}` : actualVarName,
+						val: varValue
 					});
 				}
 			});
-
-			// Only add header_var if there are non-mapped variables
-			if (processedHeaderVars.length > 0) {
-				dynamicVars.header_var = processedHeaderVars;
-			}
-		}
-
-		// Only add body_vars if there are actual variables with values
-		if (bodyVars?.body_vars && Array.isArray(bodyVars.body_vars) && bodyVars.body_vars.length > 0) {
-			const processedBodyVars = bodyVars.body_vars
-				.filter((varItem: any) => varItem.name && varItem.value) // Filter out empty variables
-				.map((varItem: any) => ({
-					text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-					val: varItem.value
-				}));
-
-			if (processedBodyVars.length > 0) {
-				dynamicVars.body_vars = processedBodyVars;
-			}
-		}
-
-		// Only add cta_var if there are actual variables with values
-		if (ctaVars?.cta_vars && Array.isArray(ctaVars.cta_vars) && ctaVars.cta_vars.length > 0) {
-			const processedCtaVars = ctaVars.cta_vars
-				.filter((varItem: any) => varItem.name && varItem.value) // Filter out empty variables
-				.map((varItem: any) => ({
-					text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-					val: varItem.value
-				}));
-
-			if (processedCtaVars.length > 0) {
-				dynamicVars.cta_var = processedCtaVars;
-			}
-		}
-
-		// Only add footer_var if there are actual variables with values
-		if (footerVars?.footer_vars && Array.isArray(footerVars.footer_vars) && footerVars.footer_vars.length > 0) {
-			const processedFooterVars = footerVars.footer_vars
-				.filter((varItem: any) => varItem.name && varItem.value) // Filter out empty variables
-				.map((varItem: any) => ({
-					text: varItem.name.startsWith('VAR_') ? `{{${varItem.name.substring(4)}}}` : varItem.name,
-					val: varItem.value
-				}));
-
-			if (processedFooterVars.length > 0) {
-				dynamicVars.footer_var = processedFooterVars;
-			}
 		}
 
 		return { ...baseData, ...dynamicVars };

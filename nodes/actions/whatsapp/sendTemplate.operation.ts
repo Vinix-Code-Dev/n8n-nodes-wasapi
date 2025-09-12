@@ -51,15 +51,15 @@ export const sendTemplateProperties: INodeProperties[] = [
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Click to search flows.',
 	},
 	{
-		displayName: 'Header Variables',
-		name: 'header_vars',
+		displayName: 'Template Variables',
+		name: 'template_vars',
 		type: 'fixedCollection',
 		typeOptions: {
 			multipleValues: true,
 		},
-		placeholder: 'Add Header Variable',
+		placeholder: 'Add Template Variable',
 		default: {},
-		description: 'Header template variables - only for templates with header variables',
+		description: 'All available template variables - automatically shows only variables that exist in the selected template',
 		displayOptions: {
 			show: {
 				resource: ['whatsapp'],
@@ -71,164 +71,26 @@ export const sendTemplateProperties: INodeProperties[] = [
 		},
 		options: [
 			{
-				displayName: 'Header Variable',
-				name: 'header_vars',
+				displayName: 'Template Variable',
+				name: 'template_vars',
 				values: [
 					{
 						displayName: 'Variable Name or ID',
 						name: 'name',
 						type: 'options',
-					typeOptions: {
-						loadOptionsMethod: 'getHeaderVariables',
-						loadOptionsDependsOn: ['templateId'],
-					},
+						typeOptions: {
+							loadOptionsMethod: 'getAllTemplateVariables',
+							loadOptionsDependsOn: ['templateId'],
+						},
 						default: '',
-						description: 'Name of the header variable. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+						description: 'Select a template variable. Only variables available in the selected template will be shown. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 					},
 					{
 						displayName: 'Variable Value',
 						name: 'value',
 						type: 'string',
 						default: '',
-						description: 'Value of the header variable',
-					},
-				],
-			},
-		],
-	},
-	{
-		displayName: 'Body Variables',
-		name: 'body_vars',
-		type: 'fixedCollection',
-		typeOptions: {
-			multipleValues: true,
-		},
-		placeholder: 'Add Body Variable',
-		default: {},
-		description: 'Body template variables - main message content variables',
-		displayOptions: {
-			show: {
-				resource: ['whatsapp'],
-				operation: ['sendTemplate'],
-			},
-			hide: {
-				templateId: [''],
-			},
-		},
-		options: [
-			{
-				displayName: 'Body Variable',
-				name: 'body_vars',
-				values: [
-					{
-						displayName: 'Variable Name or ID',
-						name: 'name',
-						type: 'options',
-					typeOptions: {
-						loadOptionsMethod: 'getBodyVariables',
-						loadOptionsDependsOn: ['templateId'],
-					},
-						default: '',
-						description: 'Name of the body variable. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
-					},
-					{
-						displayName: 'Variable Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-						description: 'Value of the body variable',
-					},
-				],
-			},
-		],
-	},
-	{
-		displayName: 'CTA Variables',
-		name: 'cta_vars',
-		type: 'fixedCollection',
-		typeOptions: {
-			multipleValues: true,
-		},
-		placeholder: 'Add CTA Variable',
-		default: {},
-		description: 'CTA/Button template variables - for dynamic button content',
-		displayOptions: {
-			show: {
-				resource: ['whatsapp'],
-				operation: ['sendTemplate'],
-			},
-			hide: {
-				templateId: [''],
-			},
-		},
-		options: [
-			{
-				displayName: 'CTA Variable',
-				name: 'cta_vars',
-				values: [
-					{
-						displayName: 'Variable Name or ID',
-						name: 'name',
-						type: 'options',
-					typeOptions: {
-						loadOptionsMethod: 'getCtaVariables',
-						loadOptionsDependsOn: ['templateId'],
-					},
-						default: '',
-						description: 'Name of the CTA variable. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
-					},
-					{
-						displayName: 'Variable Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-						description: 'Value of the CTA variable',
-					},
-				],
-			},
-		],
-	},
-	{
-		displayName: 'Footer Variables',
-		name: 'footer_vars',
-		type: 'fixedCollection',
-		typeOptions: {
-			multipleValues: true,
-		},
-		placeholder: 'Add Footer Variable',
-		default: {},
-		description: 'Footer template variables - for footer section content',
-		displayOptions: {
-			show: {
-				resource: ['whatsapp'],
-				operation: ['sendTemplate'],
-			},
-			hide: {
-				templateId: [''],
-			},
-		},
-		options: [
-			{
-				displayName: 'Footer Variable',
-				name: 'footer_vars',
-				values: [
-					{
-						displayName: 'Variable Name or ID',
-						name: 'name',
-						type: 'options',
-					typeOptions: {
-						loadOptionsMethod: 'getFooterVariables',
-						loadOptionsDependsOn: ['templateId'],
-					},
-						default: '',
-						description: 'Name of the footer variable. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
-					},
-					{
-						displayName: 'Variable Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-						description: 'Value of the footer variable',
+						description: 'Value for the selected template variable',
 					},
 				],
 			},
@@ -307,6 +169,7 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
         const whatsAppService = ServiceFactory.whatsAppService(client);
         const templateData = WhatsAppDTO.sendTemplateFromExecuteFunctions(this, i);
+		throw new Error(JSON.stringify(templateData));
         return await whatsAppService.sendTemplate(templateData).catch((error: any) => {
             throw new Error(error.message);
         });

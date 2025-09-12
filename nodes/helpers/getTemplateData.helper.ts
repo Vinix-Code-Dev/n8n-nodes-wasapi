@@ -1,7 +1,7 @@
 import { ILoadOptionsFunctions } from "n8n-workflow";
 import { createClient } from "../client/createClient";
-import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
 import { WhatsAppTemplateBuilder } from "../builder/whatsappTemplate";
+import { TemplateEnum } from "../enum/template.enum";
 
 // Cache simple to avoid multiple calls
 const templateCache = new Map<string, {
@@ -52,74 +52,70 @@ async function getTemplateBuilder(this: ILoadOptionsFunctions): Promise<WhatsApp
 	return templateBuilder;
 }
 
-export async function getHeaderVariables(this: ILoadOptionsFunctions) {
+// Helper that returns all available template variables in one list
+export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 	try {
 		const templateBuilder = await getTemplateBuilder.call(this);
-
 		if (!templateBuilder) {
-			return [{ name: '⚠️ Please Select a Template First', value: '' }];
+			return [];
 		}
 
-		if (!templateBuilder.hasVariables('header_var')) {
-			return [{ name: '✅ This Template Has No Header Variables', value: '' }];
+		const allVariables: Array<{name: string, value: string}> = [];
+
+		// Add header variables if available
+		if (templateBuilder.hasVariables('header_var')) {
+			const headerVars = templateBuilder.getFieldsByCollection('header_var');
+			headerVars.forEach(variable => {
+				if (variable.value && variable.value !== '') {
+					allVariables.push({
+						name: `[${TemplateEnum.HEADER}] ${variable.name}`, // Use value (the actual variable name)
+						value: `[${TemplateEnum.HEADER}] ${variable.value}`
+					});
+				}
+			});
 		}
 
-		return templateBuilder.getFieldsByCollection('header_var');
+		// Add body variables if available
+		if (templateBuilder.hasVariables('body_vars')) {
+			const bodyVars = templateBuilder.getFieldsByCollection('body_vars');
+			bodyVars.forEach(variable => {
+				if (variable.value && variable.value !== '') {
+					allVariables.push({
+						name: `[${TemplateEnum.BODY}] ${variable.name}`, // Use value (the actual variable name)
+						value: `[${TemplateEnum.BODY}] ${variable.value}`
+					});
+				}
+			});
+		}
+
+		// Add CTA variables if available
+		if (templateBuilder.hasVariables('cta_var')) {
+			const ctaVars = templateBuilder.getFieldsByCollection('cta_var');
+			ctaVars.forEach(variable => {
+				if (variable.value && variable.value !== '') {
+					allVariables.push({
+						name: `[${TemplateEnum.CTA}] ${variable.name}`, // Use value (the actual variable name)
+						value: `[${TemplateEnum.CTA}] ${variable.value}`,
+					});
+				}
+			});
+		}
+
+		// Add footer variables if available
+		if (templateBuilder.hasVariables('footer')) {
+			const footerVars = templateBuilder.getFieldsByCollection('footer');
+			footerVars.forEach(variable => {
+				if (variable.value && variable.value !== '') {
+					allVariables.push({
+						name: `[${TemplateEnum.FOOTER}] ${variable.name}`, // Use value (the actual variable name)
+						value: `[${TemplateEnum.FOOTER}] ${variable.value}`,
+					});
+				}
+			});
+		}
+
+		return allVariables;
 	} catch (error: any) {
-		return handleLoadOptionsError(error);
-	}
-}
-
-export async function getBodyVariables(this: ILoadOptionsFunctions) {
-	try {
-		const templateBuilder = await getTemplateBuilder.call(this);
-
-		if (!templateBuilder) {
-			return [{ name: '⚠️ Please Select a Template First', value: '' }];
-		}
-
-		if (!templateBuilder.hasVariables('body_vars')) {
-			return [{ name: '✅ This Template Has No Body Variables', value: '' }];
-		}
-
-		return templateBuilder.getFieldsByCollection('body_vars');
-	} catch (error: any) {
-		return handleLoadOptionsError(error);
-	}
-}
-
-export async function getCtaVariables(this: ILoadOptionsFunctions) {
-	try {
-		const templateBuilder = await getTemplateBuilder.call(this);
-
-		if (!templateBuilder) {
-			return [{ name: '⚠️ Please Select a Template First', value: '' }];
-		}
-
-		if (!templateBuilder.hasVariables('cta_var')) {
-			return [{ name: '✅ This Template Has No CTA Variables', value: '' }];
-		}
-
-		return templateBuilder.getFieldsByCollection('cta_var');
-	} catch (error: any) {
-		return handleLoadOptionsError(error);
-	}
-}
-
-export async function getFooterVariables(this: ILoadOptionsFunctions) {
-	try {
-		const templateBuilder = await getTemplateBuilder.call(this);
-
-		if (!templateBuilder) {
-			return [{ name: '⚠️ Please Select a Template First', value: '' }];
-		}
-
-		if (!templateBuilder.hasVariables('footer_vars')) {
-			return [{ name: '✅ This Template Has No Footer Variables', value: '' }];
-		}
-
-		return templateBuilder.getFieldsByCollection('footer_vars');
-	} catch (error: any) {
-		return handleLoadOptionsError(error);
+		return [];
 	}
 }
