@@ -14,7 +14,7 @@ export class TemplateValidator {
 			templateVariables.template_vars.forEach((field: any) => {
 				if (field.name && field.value) {
 					if (seen.has(field.name)) {
-						throw new Error(`The template variable "${field.name}" is duplicated. Each variable can only be defined once.`);
+						throw new Error(`The template variable "${field.name}" and value "${field.value}" is duplicated. Each variable can only be defined once.`);
 					}
 					seen.add(field.name);
 					template_vars[field.name] = field.value;
