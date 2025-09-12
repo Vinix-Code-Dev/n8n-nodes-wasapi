@@ -57,7 +57,7 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 	try {
 		const templateBuilder = await getTemplateBuilder.call(this);
 		if (!templateBuilder) {
-			return [];
+			return [{ name: '🚫 This Template No Needs Dynamic Variables', value: '' }];
 		}
 
 		const allVariables: Array<{name: string, value: string}> = [];
@@ -116,6 +116,6 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 
 		return allVariables;
 	} catch (error: any) {
-		return [];
+		return [{ name: 'Error Al Obtener Las Variables Del Template', value: '' }];
 	}
 }
