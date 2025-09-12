@@ -3,5 +3,6 @@ export enum TemplateEnum {
 	BODY = 'Body',
 	CTA = 'CTA',
 	FOOTER = 'Footer',
+	BUTTON = 'Button',
 }
 
