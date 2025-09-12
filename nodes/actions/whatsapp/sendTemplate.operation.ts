@@ -11,6 +11,7 @@ import { executeCommon } from '../../helpers/executeCommon.helper';
 import { WasapiClient } from '@wasapi/js-sdk';
 import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
 import { ServiceFactory } from '../../factories/ServiceFactory';
+import { TemplateValidator } from '../../validators/TemplateValidator';
 export const sendTemplateProperties: INodeProperties[] = [
 	{
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
@@ -202,7 +203,11 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
     return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
         const whatsAppService = ServiceFactory.whatsAppService(client);
         const templateData = WhatsAppDTO.sendTemplateFromExecuteFunctions(this, i);
-        return await whatsAppService.sendTemplate(templateData).catch((error: any) => {
+			const { template_vars, ...payload } = templateData;
+			// validate template variables
+			TemplateValidator.validateTemplateVariables(template_vars);
+
+        return await whatsAppService.sendTemplate(payload).catch((error: any) => {
             throw new Error(error.message);
         });
 

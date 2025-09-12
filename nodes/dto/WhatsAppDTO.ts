@@ -49,7 +49,7 @@ export class WhatsAppDTO {
 		};
 	}
 
-	static sendTemplateFromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): SendTemplate {
+	static sendTemplateFromExecuteFunctions(executeFunctions: IExecuteFunctions, index: number): SendTemplate & { template_vars: Record<string, any> } {
 		// get templateId correctly from the resourceLocator
 		const templateIdParam = executeFunctions.getNodeParameter('templateId', index) as any;
 		const template_id = typeof templateIdParam === 'string' ? templateIdParam : templateIdParam?.value || '';
@@ -68,8 +68,8 @@ export class WhatsAppDTO {
 		// Get template variables from the unified template_vars parameter
 		const templateVars = executeFunctions.getNodeParameter('template_vars', index) as any;
 		const dynamicVars: Record<string, any> = {};
-		const processedData = processTemplate(templateVars, baseData, dynamicVars);
-		return processedData;
+		const payload = processTemplate(templateVars, baseData, dynamicVars);
+		return { ...payload, template_vars: templateVars };
 	}
 
 }
