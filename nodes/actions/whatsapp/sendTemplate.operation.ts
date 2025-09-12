@@ -51,6 +51,12 @@ export const sendTemplateProperties: INodeProperties[] = [
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Click to search flows.',
 	},
 	{
+		displayName: 'Template Variables will appear automatically below after selecting a template. Only add the variables you actually need.',
+		name: 'template_variables_guide',
+		type: 'notice',
+		default: '',
+	},
+	{
 		displayName: 'Template Variables',
 		name: 'template_vars',
 		type: 'fixedCollection',
