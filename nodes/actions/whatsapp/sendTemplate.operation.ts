@@ -13,7 +13,8 @@ import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
 import { ServiceFactory } from '../../factories/ServiceFactory';
 export const sendTemplateProperties: INodeProperties[] = [
 	{
-		displayName: 'Phone Wasapi Name or ID',
+		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
+		displayName: 'Sender Phone Number',
 		name: 'fromId',
 		type: 'options',
 		typeOptions: {
@@ -24,7 +25,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 		description: 'Pick the phone number of your wasapi account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 },
 {
-		displayName: 'WhatsApp ID',
+		displayName: 'Recipient WhatsApp ID',
 		name: 'recipients',
 		type: 'string',
 		default: '',
@@ -59,6 +60,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 	{
 		displayName: 'Template Variables',
 		name: 'template_vars',
+		required: true,
 		type: 'fixedCollection',
 		typeOptions: {
 			multipleValues: true,
@@ -103,7 +105,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 		],
 	},
 	{
-		displayName: 'Chatbot Status',
+		displayName: '(Optional) Chatbot Status',
 		name: 'chatbot_status',
 		type: 'options',
 		options: [
@@ -112,7 +114,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 				value: 'enable',
 			},
 			{
-				name: 'Disable',
+				name: 'Disable For 24 Hours',
 				value: 'disable',
 			},
 			{
@@ -130,7 +132,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 		},
 	},
 	{
-		displayName: 'Conversation Status',
+		displayName: '(Optional) Conversation Status',
 		name: 'conversation_status',
 		type: 'options',
 		options: [
@@ -139,7 +141,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 				value: 'open',
 			},
 			{
-				name: 'Hold',
+				name: 'On Hold',
 				value: 'hold',
 			},
 			{
@@ -159,6 +161,31 @@ export const sendTemplateProperties: INodeProperties[] = [
 				operation: ['sendTemplate'],
 			},
 		},
+	},
+	{
+		displayName: '(Optional) Assign Conversation to an Agent',
+		name: 'agent_id',
+		type: 'resourceLocator',
+		default: { mode: 'list', value: '' },
+		description: '(Only if the status is open). Select the agent to which the change will be assigned.',
+		displayOptions: {
+			show: {
+				resource: ['whatsapp'],
+				operation: ['sendTemplate'],
+			},
+		},
+		modes: [
+			{
+				displayName: 'Agent List',
+				name: 'list',
+				type: 'list',
+				typeOptions: {
+					searchListMethod: 'getAgents',
+					searchable: true,
+				},
+			},
+		],
+
 	},
 ];
 
