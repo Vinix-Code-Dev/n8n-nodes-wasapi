@@ -28,6 +28,10 @@ export class WasapiApi implements ICredentialType {
 			baseURL: 'https://api-ws.wasapi.io/api/v1',
 			url: '/user',
 			method: 'GET',
+			headers: {
+				'Authorization': '=Bearer {{$credentials.apiKey}}',
+				'Content-Type': 'application/json',
+			},
 		},
 		rules: [
 			{
