@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { CreateLabel, UpdateLabel } from '../services/LabelService';
+import { CreateLabel, UpdateLabel } from '../../wasapiClient';
 
 export class LabelDTO {
 	static getSearch(executeFunctions: IExecuteFunctions, index: number): string {

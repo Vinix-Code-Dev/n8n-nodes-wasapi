@@ -1,5 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "@wasapi/js-sdk";
+import { WasapiClient } from "../../../wasapiClient";
 import { executeCommon } from "../../helpers/executeCommon.helper";
 import { ServiceFactory } from "../../factories/ServiceFactory";
 

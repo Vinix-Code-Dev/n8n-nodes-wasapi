@@ -3,7 +3,7 @@ import { commonProperties } from "../base/common.operation";
 import { WhatsAppDTO } from "../../dto/WhatsAppDTO";
 import { executeCommon } from "../../helpers/executeCommon.helper";
 import { ServiceFactory } from "../../factories/ServiceFactory";
-import { WasapiClient } from "@wasapi/js-sdk";
+import { WasapiClient } from "../../../wasapiClient";
 
 export const sendFlowProperties: INodeProperties[] = [
 

@@ -1,14 +1,12 @@
-import { WasapiClient } from '@wasapi/js-sdk';
-import { OnlineAgentsResponse } from '@wasapi/js-sdk/dist/types/wasapi/models/response/metrics.model';
-import { ChangeStatusParams } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/message.model';
+import { WasapiClient, ChangeStatusParams } from '../../wasapiClient';
 
 
 export class AgentsService {
 	constructor(private client: WasapiClient) {}
 
-	async getOnlineAgents(): Promise<OnlineAgentsResponse> {
+	async getOnlineAgents(): Promise<any> {
 		const response = await this.client.metrics.getOnlineAgents();
-		return response as OnlineAgentsResponse;
+		return response;
 	}
 
 	async changeStatus(params: ChangeStatusParams): Promise<any> {

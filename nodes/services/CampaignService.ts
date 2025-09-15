@@ -1,4 +1,4 @@
-import { WasapiClient } from '@wasapi/js-sdk';
+import { WasapiClient } from '../../wasapiClient';
 
 export class CampaignService {
 	constructor(private client: WasapiClient) {}

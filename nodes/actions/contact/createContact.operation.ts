@@ -6,7 +6,7 @@ import {
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '@wasapi/js-sdk';
+import { WasapiClient } from '../../../wasapiClient';
 import { ContactDTO } from '../../dto/ContactDTO';
 import { ServiceFactory } from '../../factories/ServiceFactory';
 

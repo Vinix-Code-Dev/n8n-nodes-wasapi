@@ -1,5 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { CreateCustomField, UpdateCustomField } from '../services/CustomFieldService';
+import { CreateCustomField, UpdateCustomField } from '../../wasapiClient';
 
 export class CustomFieldDTO {
 	static create(executeFunctions: IExecuteFunctions, index: number): CreateCustomField {

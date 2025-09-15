@@ -1,4 +1,4 @@
-import { WasapiClient } from "@wasapi/js-sdk";
+import { WasapiClient } from "../../wasapiClient";
 import { ILoadOptionsFunctions } from "n8n-workflow";
 
 /**

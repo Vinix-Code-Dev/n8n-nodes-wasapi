@@ -8,7 +8,7 @@ import {
 
 
 import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '@wasapi/js-sdk';
+import { WasapiClient } from '../../../wasapiClient';
 import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
 import { ServiceFactory } from '../../factories/ServiceFactory';
 import { TemplateValidator } from '../../validators/TemplateValidator';

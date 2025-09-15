@@ -8,7 +8,7 @@ import {
 import { executeCommon } from '../../helpers/executeCommon.helper';
 import { ServiceFactory } from '../../factories/ServiceFactory';
 import { commonProperties } from '../base/common.operation';
-import { WasapiClient } from '@wasapi/js-sdk';
+import { WasapiClient } from '../../../wasapiClient';
 import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
 
 export const assignAgentProperties: INodeProperties[] = [

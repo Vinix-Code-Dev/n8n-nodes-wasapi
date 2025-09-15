@@ -1,4 +1,4 @@
-import { AddLabelContact, RemoveLabelContact, WasapiClient } from '@wasapi/js-sdk';
+import { AddLabelContact, RemoveLabelContact, WasapiClient } from '../../wasapiClient';
 import { ContactValidator } from '../validators/ContactValidator.js';
 
 export interface ContactData {

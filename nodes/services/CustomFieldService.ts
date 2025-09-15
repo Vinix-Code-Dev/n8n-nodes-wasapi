@@ -1,13 +1,5 @@
-import { WasapiClient } from '@wasapi/js-sdk';
+import { WasapiClient, CreateCustomField, UpdateCustomField } from '../../wasapiClient';
 
-export interface CreateCustomField {
-	name: string;
-}
-
-export interface UpdateCustomField {
-	id: string;
-	data: CreateCustomField;
-}
 
 export class CustomFieldService {
 	constructor(private client: WasapiClient) {}

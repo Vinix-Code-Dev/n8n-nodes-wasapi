@@ -1,4 +1,4 @@
-import { SendAttachmentParams, SendFlow, SendMessage, SendTemplate, WasapiClient } from '@wasapi/js-sdk';
+import { SendAttachmentParams, SendFlow, SendMessage, SendTemplate, WasapiClient } from '../../wasapiClient';
 
 export class WhatsAppService {
 	constructor(private client: WasapiClient) {}

@@ -1,6 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
-import { SendMessage, SendAttachmentParams, SendFlow, SendTemplate } from '@wasapi/js-sdk';
-import { ChangeStatusParams } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/message.model';
+import { SendMessage, SendAttachmentParams, SendFlow, SendTemplate, ChangeStatusParams } from '../../wasapiClient';
 import { processTemplate } from '../builder/processTemplate';
 
 export class WhatsAppDTO {

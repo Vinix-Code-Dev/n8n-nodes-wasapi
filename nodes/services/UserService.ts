@@ -1,10 +1,9 @@
-import { WasapiClient } from '@wasapi/js-sdk';
-import { UserResponse } from '@wasapi/js-sdk/dist/types/wasapi/models/response/user.model';
+import { WasapiClient} from '../../wasapiClient';
 
 export class UserService {
 	constructor(private client: WasapiClient) {}
 
-	async getUser(): Promise<UserResponse> {
+	async getUser(): Promise<any> {
 		return await this.client.user.getUser();
 	}
 }

@@ -1,15 +1,4 @@
-import { WasapiClient } from '@wasapi/js-sdk';
-
-export interface CreateLabel {
-	title: string;
-	description?: string;
-	color: string;
-}
-
-export interface UpdateLabel {
-	id: string;
-	data: CreateLabel;
-}
+import { WasapiClient, CreateLabel, UpdateLabel } from '../../wasapiClient';
 
 export class LabelService {
 	constructor(private client: WasapiClient) {}
