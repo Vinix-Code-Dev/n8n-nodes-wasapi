@@ -63,8 +63,5 @@
   },
   "peerDependencies": {
     "n8n-workflow": "^1.106.0"
-  },
-  "dependencies": {
-    "@wasapi/js-sdk": "^0.1.38"
   }
 }
