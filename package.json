@@ -13,7 +13,10 @@
     "api"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://www.wasapi.io/",
+  "bugs": {
+    "url": "https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
