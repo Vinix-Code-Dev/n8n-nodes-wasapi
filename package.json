@@ -1,6 +1,6 @@
 {
   "name": "@wasapi/n8n-nodes-wasapi",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Nodo n8n para integración con Wasapi API",
   "type": "commonjs",
   "keywords": [
