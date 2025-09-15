@@ -2,75 +2,140 @@
   <img src="public/bannerN8n.webp" alt="Wasapi n8n Integration Banner" width="100%"/>
 </div>
 
-# 🚀 Paquete Oficial de Nodos Wasapi para n8n
+# 🚀 Official Wasapi Nodes Package for n8n
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![n8n Community](https://img.shields.io/badge/n8n-Community%20Node-brightgreen)](https://n8n.io)
 
-> **La integración más completa de Wasapi para n8n** - Conecta tus flujos de trabajo de WhatsApp API con potentes capacidades de automatización.
+> **The most complete Wasapi integration for n8n** - Connect your WhatsApp API workflows with powerful automation capabilities.
 
+## 🏢 About Wasapi
 
-## 📋 Descripción
+[Wasapi](https://wasapi.io) is an official WhatsApp Business API platform that acts as a **Meta Business Partner**, providing direct and reliable access to the WhatsApp Business API.
 
-Este paquete de nodos para n8n proporciona una integración completa y robusta con la API de Wasapi, permitiendo automatizar completamente tus flujos de trabajo de WhatsApp. Con más de 20 operaciones implementadas, cubre todas las funcionalidades principales de Wasapi, desde la gestión de contactos hasta el envío de mensajes y plantillas.
+### ✅ Official Verification
+- **Meta Business Partner** certified
+- **WhatsApp Business API** official provider
+- **24/7 Support** for businesses
+- **Compliance** with Meta policies
 
-### ✨ Características Principales
+## 📋 Description
 
-- 🔄 **Integración Completa**: Todas las operaciones de Wasapi disponibles
-- 📱 **WhatsApp Business API**: Soporte completo para mensajería y plantillas
-- 👥 **Gestión de Contactos**: CRUD completo con campos personalizados y etiquetas
-- 🤖 **Automatización de Agentes**: Asignación y gestión de agentes
-- 📊 **Plantillas y Flujos**: Envío de plantillas y flujos de WhatsApp
-- 🛡️ **Validación Robusta**: Validadores integrados para todos los datos
-- 🚀 **Fácil de Usar**: Interfaz intuitiva y documentación completa
+This n8n node package provides a complete and robust integration with the Wasapi API, allowing you to fully automate your WhatsApp workflows. With over 20 implemented operations, it covers all main Wasapi functionalities, from contact management to message and template sending.
 
-## 🚀 Instalación
+### ✨ Key Features
 
-### Opción 1: Instalación desde npm (Recomendado)
+- 🔄 **Complete Integration**: All Wasapi operations available
+- 📱 **WhatsApp Business API**: Full support for messaging and templates
+- 👥 **Contact Management**: Complete CRUD with custom fields and labels
+- 🤖 **Agent Automation**: Agent assignment and management
+- 📊 **Templates and Flows**: WhatsApp template and flow sending
+- 🛡️ **Robust Validation**: Integrated validators for all data
+- 🚀 **Easy to Use**: Intuitive interface and complete documentation
+
+## 🚀 Installation
+
+### Option 1: Install from npm (Recommended)
 ```bash
 npm install @wasapi/n8n-nodes-wasapi@latest
 ```
 
-### Opción 2: Instalación Manual
-1. Clona este repositorio
-2. Instala las dependencias: `npm install`
-3. Compila el proyecto: `npm run build`
-4. Copia la carpeta `dist` a tu instalación de n8n
+### Option 2: Manual Installation
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Build the project: `npm run build`
+4. Copy the `dist` folder to your n8n installation
 
-### Configuración
-1. En n8n, ve a **Settings** > **Community Nodes**
-2. Haz clic en **Install a community node**
-3. Busca `@wasapi/n8n-nodes-wasapi@latest` o instala desde npm
-4. Configura tus credenciales de Wasapi en el nodo
+### Configuration
+1. In n8n, go to **Settings** > **Community Nodes**
+2. Click **Install a community node**
+3. Search for `@wasapi/n8n-nodes-wasapi@latest` or install from npm
+4. Configure your Wasapi credentials in the node
 
+## 📖 Usage Examples
 
-## 📄 Licencia
+### Basic Contact Creation
+```json
+{
+  "name": "John Doe",
+  "phone": "+1234567890",
+  "email": "john@example.com"
+}
+```
 
-Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
+### Send WhatsApp Message
+```json
+{
+  "to": "+1234567890",
+  "message": "Hello from n8n!",
+  "type": "text"
+}
+```
 
-## 🆘 Soporte
+### Send Template Message
+```json
+{
+  "to": "+1234567890",
+  "template": "welcome_template",
+  "parameters": ["John", "12345"]
+}
+```
 
-- **Documentación**: [Documentación de n8n](https://docs.n8n.io/)
+## 🔧 Available Operations
+
+### Contact Management
+- Create Contact
+- Update Contact
+- Delete Contact
+- Get Contact
+- List Contacts
+- Add Custom Fields
+- Add Labels
+
+### WhatsApp Operations
+- Send Message
+- Send Template
+- Send Flow
+- Get Templates
+- Get Flows
+
+### Agent Management
+- List Agents
+- Assign Agent
+- Get Agent
+
+### Campaign Management
+- Create Campaign
+- List Campaigns
+- Get Campaign
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: [n8n Documentation](https://docs.n8n.io/)
 - **Issues**: [GitHub Issues](https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi/issues)
-- **Discusiones**: [GitHub Discussions](https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi/discussions)
-- **Soporte de Wasapi**: [Centro de Ayuda de Wasapi](https://help.wasapi.com/)
+- **Discussions**: [GitHub Discussions](https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi/discussions)
+- **Wasapi Support**: [Wasapi Help Center](https://help.wasapi.com/)
 
-## 🙏 Agradecimientos
+## 🙏 Acknowledgments
 
-- Equipo de [n8n](https://n8n.io/) por la increíble plataforma de automatización
-- [Wasapi](https://wasapi.io) por proporcionar su Wrapperde la API de WhatsApp
-- Todos los contribuidores y miembros de la comunidad
+- [n8n](https://n8n.io/) team for the incredible automation platform
+- [Wasapi](https://wasapi.io) for providing their WhatsApp API wrapper
+- All contributors and community members
 
 ---
 
 <div align="center">
 
-**⭐ ¡Dale una estrella a este repositorio si te resulta útil! ⭐**
+**⭐ Give this repository a star if you find it useful! ⭐**
 
-Desarrollado con ❤️ por **[Juan Alvarez](https://juanalvarez.pro)**
+Developed with ❤️ by **[Juan Alvarez](https://juanalvarez.pro)**
 
 [![n8n](https://img.shields.io/badge/n8n-Community%20Node-brightgreen)](https://n8n.io)
-[![Wasapi](https://img.shields.io/badge/Wasapi-API%20Integration-blue)](https://wasapi.com)
+[![Wasapi](https://img.shields.io/badge/Wasapi-API%20Integration-blue)](https://wasapi.io)
 [![Developer](https://img.shields.io/badge/Developer-Juan%20Alvarez-purple)](https://juanalvarez.pro)
 
 </div>
