@@ -52,35 +52,6 @@ npm install @wasapi/n8n-nodes-wasapi@latest
 3. Search for `@wasapi/n8n-nodes-wasapi@latest` or install from npm
 4. Configure your Wasapi credentials in the node
 
-## 📖 Usage Examples
-
-### Basic Contact Creation
-```json
-{
-  "name": "John Doe",
-  "phone": "+1234567890",
-  "email": "john@example.com"
-}
-```
-
-### Send WhatsApp Message
-```json
-{
-  "to": "+1234567890",
-  "message": "Hello from n8n!",
-  "type": "text"
-}
-```
-
-### Send Template Message
-```json
-{
-  "to": "+1234567890",
-  "template": "welcome_template",
-  "parameters": ["John", "12345"]
-}
-```
-
 ## 🔧 Available Operations
 
 ### Contact Management
@@ -118,7 +89,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: [n8n Documentation](https://docs.n8n.io/)
 - **Issues**: [GitHub Issues](https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/Vinix-Code-Dev/n8n-nodes-wasapi/discussions)
-- **Wasapi Support**: [Wasapi Help Center](https://help.wasapi.com/)
+- **Wasapi Support**: [Wasapi Help Center](https://ayuda.wasapi.io/es/articles/12292661-integracion-con-n8n)
 
 ## 🙏 Acknowledgments
 
@@ -132,7 +103,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ Give this repository a star if you find it useful! ⭐**
 
-Developed with ❤️ by **[Juan Alvarez](https://juanalvarez.pro)**
+Developed with ❤️ by **[juanalvarez.pro](https://juanalvarez.pro)**
 
 [![n8n](https://img.shields.io/badge/n8n-Community%20Node-brightgreen)](https://n8n.io)
 [![Wasapi](https://img.shields.io/badge/Wasapi-API%20Integration-blue)](https://wasapi.io)
