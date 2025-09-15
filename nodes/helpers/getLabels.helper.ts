@@ -10,6 +10,9 @@ export async function getLabels(this: ILoadOptionsFunctions) {
         return [{ name: '⚠️ First Configure Credentials', value: '' }];
     }
 
+    // Set execute context for HTTP requests
+    client.setExecuteContext(this as any);
+
     try {
         const response = await client.labels.getAll();
         return response.labels.map((label: any) => ({

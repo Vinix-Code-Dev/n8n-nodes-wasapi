@@ -9,6 +9,8 @@ export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : P
 		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
 	}
 
+	client.setExecuteContext(this as any);
+
 	try {
 		const from_id = this.getNodeParameter('fromId', 0) as string;
 

@@ -12,6 +12,8 @@ export async function getCustomFields(this: ILoadOptionsFunctions) {
         return [{ name: '❌ First Configure Credentials', value: '' }];
     }
 
+    client.setExecuteContext(this as any);
+
     try {
         // get custom fields available
         const response = await client.customFields.getAll();

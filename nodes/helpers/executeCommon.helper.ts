@@ -1,5 +1,5 @@
 import { IExecuteFunctions, ILoadOptionsFunctions, INodeExecutionData } from "n8n-workflow";
-import { WasapiClient } from "@wasapi/js-sdk";
+import { WasapiClient } from "../../wasapiClient";
 import { createClient } from "../client/createClient";
 
 export async function executeCommon(
@@ -9,8 +9,13 @@ export async function executeCommon(
     const items = this.getInputData();
     const returnData: any[] = [];
 
-    // get credentials
+    // get credentials and create client with execute context
     const client = await createClient(this as unknown as ILoadOptionsFunctions);
+
+    // Update client with execute context for HTTP requests
+    if (client) {
+        client.setExecuteContext(this);
+    }
 
     if (!client) {
         return [this.helpers.returnJsonArray([{ error: '⚠️ First configure credentials' }])];

@@ -18,6 +18,8 @@ async function getTemplateBuilder(this: ILoadOptionsFunctions): Promise<WhatsApp
 		return null;
 	}
 
+	client.setExecuteContext(this as any);
+
 	// get the template_id from the current parameter (resourceLocator)
 	const templateIdParam = this.getNodeParameter('templateId', { mode: 'list', value: '' }) as any;
 	const template_id = typeof templateIdParam === 'string' ? templateIdParam : templateIdParam?.value || '';

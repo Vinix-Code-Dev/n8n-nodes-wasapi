@@ -8,6 +8,7 @@ export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
     if (!client) {
         return [{ name: '⚠️ First Configure Credentials', value: '' }];
     }
+    client.setExecuteContext(this as any);
 
     try {
         // get whatsapp numbers available

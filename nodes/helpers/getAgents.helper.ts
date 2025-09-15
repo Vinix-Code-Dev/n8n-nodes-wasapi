@@ -1,7 +1,5 @@
 import { ILoadOptionsFunctions, INodeListSearchItems, INodeListSearchResult } from 'n8n-workflow';
 import { createClient } from '../client/createClient';
-import { OnlineAgentsResponse } from '@wasapi/js-sdk/dist/types/wasapi/models/response/metrics.model';
-import { OnlineAgent } from '@wasapi/js-sdk/dist/types/wasapi/models/shared/metrics.model';
 
 export async function getAgents(
 	this: ILoadOptionsFunctions,
@@ -12,9 +10,11 @@ export async function getAgents(
 	if (!client) {
 		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
 	}
-	const response = await client.metrics.getOnlineAgents() as OnlineAgentsResponse;
+	client.setExecuteContext(this as any);
 
-	const agents: INodeListSearchItems[] = (response as OnlineAgentsResponse).users.map((agent: OnlineAgent) => ({
+	const response = await client.metrics.getOnlineAgents() as any;
+
+	const agents: INodeListSearchItems[] = (response as any).users.map((agent: any) => ({
 		name: `${agent.name} (${agent.email})`,
 		value: agent.id,
 		url: '',

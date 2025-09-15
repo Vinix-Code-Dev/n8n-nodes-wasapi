@@ -9,6 +9,8 @@ export async function getTemplatesByPhone(this: ILoadOptionsFunctions, filter?: 
 		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
 	}
 
+	client.setExecuteContext(this as any);
+
 	try {
 		const from_id = this.getNodeParameter('fromId', '') as number;
 

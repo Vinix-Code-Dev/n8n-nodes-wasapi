@@ -9,6 +9,8 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
 	}
 
+	client.setExecuteContext(this as any);
+
 	try {
 		const from_id = this.getNodeParameter('fromId', '') as number;
 		const flow_id = this.getNodeParameter('flowId.value', '') as string;
