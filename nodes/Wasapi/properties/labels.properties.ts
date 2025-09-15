@@ -62,7 +62,6 @@ export const labelsProperties: INodeProperties[] = [
 	...getAllLabelsDescription,
 	...getSearchDescription,
 	...getByIdDescription,
-	...createDescription,
 	...updateDescription,
 	...deleteDescription,
 ];
