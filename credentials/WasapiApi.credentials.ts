@@ -2,6 +2,7 @@ import {
 	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
+	IAuthenticateGeneric,
 } from 'n8n-workflow';
 
 export class WasapiApi implements ICredentialType {
@@ -9,6 +10,14 @@ export class WasapiApi implements ICredentialType {
 	displayName = 'Wasapi API';
 	documentationUrl = 'https://github.com/juanalvarezPro/wasapi-sdk';
 
+	authenticate: IAuthenticateGeneric = {
+		type: 'generic',
+		properties: {
+			headers: {
+				Authorization: '=Bearer {{$credentials.apiKey}}',
+			},
+		},
+	};
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Key',
