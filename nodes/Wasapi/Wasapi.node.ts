@@ -4,6 +4,7 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	NodeOperationError,
+	NodeConnectionTypes
 } from 'n8n-workflow';
 import { getLabels } from '../helpers/getLabels.helper';
 import { getCustomFields } from '../helpers/getCustomFields.helper';
@@ -28,8 +29,8 @@ export class Wasapi implements INodeType {
 		defaults: {
 			name: 'Wasapi',
 		},
-		inputs: ['main'],
-		outputs: ['main'],
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		credentials: [
 			{
 				name: 'wasapiApi',
