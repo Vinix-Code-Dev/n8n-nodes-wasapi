@@ -37,9 +37,6 @@ export class Wasapi implements INodeType {
 				required: true,
 			},
 		],
-		requestDefaults: {
-			baseURL: 'https://api-ws.wasapi.io/api/v1',
-		},
 		properties: allProperties,
 	};
 
