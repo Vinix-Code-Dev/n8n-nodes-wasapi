@@ -1,8 +1,4 @@
-import { WasapiClient } from "../../../wasapiClient";
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { ContactDTO } from "../../dto/ContactDTO";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
 
 export const getContactProperties: INodeProperties[] = [
     {
@@ -24,10 +20,26 @@ export const displayOptions = {
 
 export const getContactDescription = updateDisplayOptions(displayOptions, getContactProperties);
 
+
 export async function executeGetContact(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const contactService = ServiceFactory.contactService(client);
-        const contactData = ContactDTO.getById(this, i);
-        return await contactService.getContact(contactData);
-    });
+
+	try {
+		const response = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'wasapiApi',
+			{
+				method: 'GET',
+				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('wa_id', 0, '') as string}`,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw error;
+	}
 }

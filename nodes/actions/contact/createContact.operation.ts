@@ -5,10 +5,7 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '../../../wasapiClient';
-import { ContactDTO } from '../../dto/ContactDTO';
-import { ServiceFactory } from '../../factories/ServiceFactory';
+import { ContactValidator } from '../../validators/ContactValidator';
 
 export const contactCreateProperties: INodeProperties[] = [
     {
@@ -107,15 +104,40 @@ const displayOptions: IDisplayOptions = {
 
 export const createContactDescription = updateDisplayOptions(displayOptions, contactCreateProperties);
 
-export async function executeContactCreate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const contactService = ServiceFactory.contactService(client);
-        const contactData = ContactDTO.create(this, i);
-			  contactService.validateCreateContact(contactData);
-        // validate custom fields
-        const customFieldsData = this.getNodeParameter('custom_fields', i) as any;
-        contactData.custom_fields = contactService.validateCustomFields(customFieldsData);
 
-        return await contactService.createContact(contactData);
-    });
+export async function executeContactCreate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+	const contactData = {
+		first_name: this.getNodeParameter('first_name', 0, '') as string,
+		last_name: this.getNodeParameter('last_name', 0, '') as string,
+		email: this.getNodeParameter('email', 0, '') as string,
+		phone: this.getNodeParameter('phone', 0, '') as string,
+		notes: this.getNodeParameter('notes', 0, '') as string,
+		labels: this.getNodeParameter('labels', 0, []) as number [],
+		custom_fields: {},
+	};
+
+	const customFieldsData = this.getNodeParameter('custom_fields', 0, {}) as any;
+	contactData.custom_fields = ContactValidator.validateCustomFields(customFieldsData);
+
+	ContactValidator.validateCreateContact(contactData);
+	try {
+		const response = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'wasapiApi',
+			{
+				method: 'POST',
+				url: 'https://api-ws.wasapi.io/api/v1/contacts',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: contactData,
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw error;
+	}
 }

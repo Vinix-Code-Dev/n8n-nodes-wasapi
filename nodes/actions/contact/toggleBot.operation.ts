@@ -5,9 +5,7 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { ContactDTO } from '../../dto/ContactDTO';
-import { ServiceFactory } from '../../factories/ServiceFactory';
+
 import { commonProperties } from '../base/common.operation';
 
 export const toggleBotProperties: INodeProperties[] = [
@@ -50,11 +48,32 @@ const displayOptions: IDisplayOptions = {
 
 export const toggleBotDescription = updateDisplayOptions(displayOptions, toggleBotProperties);
 
+
 export async function executeToggleBot(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: any, item: any, i: number) => {
-        const contactService = ServiceFactory.contactService(client);
-        const wa_id = ContactDTO.getById(this, i);
-        const data = ContactDTO.toggleBot(this, i);
-        return await contactService.toggleBotStatus(wa_id, data);
-    });
+  const wa_id = this.getNodeParameter('wa_id', 0, '') as string;
+	const action = this.getNodeParameter('action', 0, 'enable') as string;
+	const from_id = this.getNodeParameter('fromId', 0, '') as number;
+	try {
+		const response = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'wasapiApi',
+			{
+				method: 'POST',
+				url: `https://api-ws.wasapi.io/api/v1/contacts/${wa_id}/toggle-bot`,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: {
+					action,
+					from_id
+				},
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw error;
+	}
 }

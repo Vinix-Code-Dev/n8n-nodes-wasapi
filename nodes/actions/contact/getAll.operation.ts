@@ -5,8 +5,6 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { ServiceFactory } from '../../factories/ServiceFactory';
 
 export const getAllContactsProperties: INodeProperties[] = [];
 
@@ -20,8 +18,25 @@ const displayOptions: IDisplayOptions = {
 export const getAllContactsDescription = updateDisplayOptions(displayOptions, getAllContactsProperties);
 
 export async function executeGetAllContacts(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: any, item: any, i: number) => {
-        const contactService = ServiceFactory.contactService(client);
-        return await contactService.getAll();
-    });
+
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'GET',
+                url: 'https://api-ws.wasapi.io/api/v1/contacts',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw error;
+    }
 }

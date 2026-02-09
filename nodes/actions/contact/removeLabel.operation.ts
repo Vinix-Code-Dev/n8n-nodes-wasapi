@@ -5,10 +5,7 @@ import {
 	INodeProperties,
 	updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '../../../wasapiClient';
-import { ServiceFactory } from '../../factories/ServiceFactory';
-import { ContactDTO } from '../../dto/ContactDTO';
+
 
 export const removeLabelProperties: INodeProperties[] = [
 	{
@@ -41,10 +38,31 @@ const displayOptions: IDisplayOptions = {
 
 export const removeLabelDescription = updateDisplayOptions(displayOptions, removeLabelProperties);
 
+
+
 export async function executeRemoveLabel(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-	return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-		const contactService = ServiceFactory.contactService(client);
-		const data = ContactDTO.removeLabel(this, i);
-		return await contactService.removeLabel(data);
-	});
+
+
+	try {
+		const response = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'wasapiApi',
+			{
+				method: 'POST',
+				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('contact_uuid', 0, '') as string}/remove-labels`,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: {
+					labels: this.getNodeParameter('labels', 0, []) as number [],
+				},
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw error;
+	}
 }

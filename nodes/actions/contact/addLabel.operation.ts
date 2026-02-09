@@ -5,10 +5,6 @@ import {
 	INodeProperties,
 	updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '../../../wasapiClient';
-import { ServiceFactory } from '../../factories/ServiceFactory';
-import { ContactDTO } from '../../dto/ContactDTO';
 
 export const addLabelProperties: INodeProperties[] = [
 
@@ -43,9 +39,28 @@ const displayOptions: IDisplayOptions = {
 export const addLabelDescription = updateDisplayOptions(displayOptions, addLabelProperties);
 
 export async function executeAddLabel(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-	return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-		const contactService = ServiceFactory.contactService(client);
-		const data = ContactDTO.addLabel(this, i);
-		return await contactService.addLabel(data);
-	});
+
+	try {
+		const response = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'wasapiApi',
+			{
+				method: 'POST',
+				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('contact_uuid', 0, '') as string}/add-labels`,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: {
+					labels: this.getNodeParameter('labels', 0, []) as number [],
+					from_make: 1,
+				},
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw error;
+	}
 }

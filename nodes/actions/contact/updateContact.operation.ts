@@ -5,10 +5,9 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { ContactDTO } from '../../dto/ContactDTO';
-import { ServiceFactory } from '../../factories/ServiceFactory';
+
 import { contactCreateProperties } from './createContact.operation';
+import { ContactValidator } from '../../validators/ContactValidator';
 
 export const updateContactProperties: INodeProperties[] = [
     {
@@ -32,15 +31,39 @@ const displayOptions: IDisplayOptions = {
 export const updateContactDescription = updateDisplayOptions(displayOptions, updateContactProperties);
 
 export async function executeContactUpdate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: any, item: any, i: number) => {
-        const contactService = ServiceFactory.contactService(client);
-        const wa_id = ContactDTO.getById(this, i);
-        const contactData = ContactDTO.create(this, i);
-
-        // Obtener y validar custom fields
-        const customFieldsData = this.getNodeParameter('custom_fields', i) as any;
-        contactData.custom_fields = contactService.validateCustomFields(customFieldsData);
-
-        return await contactService.updateContact(wa_id, contactData);
-    });
+  const wa_id = this.getNodeParameter('wa_id', 0, '') as string;
+  const contactData = {
+    first_name: this.getNodeParameter('first_name', 0, '') as string,
+    last_name: this.getNodeParameter('last_name', 0, '') as string,
+    email: this.getNodeParameter('email', 0, '') as string,
+    phone: this.getNodeParameter('phone', 0, '') as string,
+    notes: this.getNodeParameter('notes', 0, '') as string,
+    labels: this.getNodeParameter('labels', 0, []) as number [],
+    custom_fields: {},
+  };
+	// validate custom fields
+  const customFieldsData = this.getNodeParameter('custom_fields', 0, {}) as any;
+  contactData.custom_fields = ContactValidator.validateCustomFields(customFieldsData);
+	// validate contact data
+	ContactValidator.validateCreateContact(contactData);
+  try {
+    const response = await this.helpers.httpRequestWithAuthentication.call(
+      this,
+      'wasapiApi',
+      {
+        method: 'PUT',
+        url: `https://api-ws.wasapi.io/api/v1/contacts/${wa_id}`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: contactData,
+      }
+    );
+    return [this.helpers.returnJsonArray(response)];
+  } catch (error) {
+    if (this.continueOnFail()) {
+      return [this.helpers.returnJsonArray({ error: error.message })];
+    }
+    throw new Error(`Error updating contact: ${error.message}`);
+  }
 }

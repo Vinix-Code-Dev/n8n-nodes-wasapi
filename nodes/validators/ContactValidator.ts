@@ -2,6 +2,10 @@ import { ContactData, ContactExportRequest } from '../services/ContactService.js
 
 export class ContactValidator {
 	static validateCreateContact(data: ContactData): void {
+		if (!data.first_name  && !data.phone) {
+			throw new Error('First name and phone are required');
+		}
+
 		if (data.email && !this.isValidEmail(data.email)) {
 			throw new Error('Invalid email format');
 		}
