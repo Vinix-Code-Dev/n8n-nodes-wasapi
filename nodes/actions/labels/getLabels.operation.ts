@@ -1,8 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "../../../wasapiClient";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-
+import { API_URL } from "../../config/constants";
 export const getAllLabelsProperties: INodeProperties[] = [];
 
 export const displayOptions = {
@@ -15,8 +12,23 @@ export const displayOptions = {
 export const getAllLabelsDescription = updateDisplayOptions(displayOptions, getAllLabelsProperties);
 
 export async function executeGetAllLabels(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const labelService = ServiceFactory.labelService(client);
-        return await labelService.getAll();
-    });
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'GET',
+                url: `${API_URL}/labels`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error getting all labels: ${error.message}`);
+    }
 }

@@ -1,8 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "../../../wasapiClient";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-import { LabelDTO } from "../../dto/LabelDTO";
+import { API_URL } from "../../config/constants";
 
 export const updateProperties: INodeProperties[] = [
     {
@@ -47,10 +44,30 @@ export const displayOptions = {
 
 export const updateDescription = updateDisplayOptions(displayOptions, updateProperties);
 
-export async function executeUpdate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const labelService = ServiceFactory.labelService(client);
-        const labelData = LabelDTO.update(this, i);
-        return await labelService.update(labelData);
-    });
+
+export async function executeUpdateLabel(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    const id = this.getNodeParameter('id', 0, '') as string;
+    const title = this.getNodeParameter('title', 0, '') as string;
+    const description = this.getNodeParameter('description', 0, '') as string;
+    const color = this.getNodeParameter('color', 0, '') as string;
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'PUT',
+                url: `${API_URL}/labels/${id}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: { title, description, color },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error updating label: ${error.message}`);
+    }
 }

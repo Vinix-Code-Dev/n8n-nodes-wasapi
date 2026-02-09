@@ -1,8 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "../../../wasapiClient";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-import { LabelDTO } from "../../dto/LabelDTO";
+import { API_URL } from "../../config/constants";
 
 export const createProperties: INodeProperties[] = [
     {
@@ -39,10 +36,28 @@ export const displayOptions = {
 
 export const createDescription = updateDisplayOptions(displayOptions, createProperties);
 
-export async function executeCreate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const labelService = ServiceFactory.labelService(client);
-        const labelData = LabelDTO.create(this, i);
-        return await labelService.create(labelData);
-    });
+export async function executeCreateLabel(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    const title = this.getNodeParameter('title', 0, '') as string;
+    const description = this.getNodeParameter('description', 0, '') as string;
+    const color = this.getNodeParameter('color', 0, '') as string;
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'POST',
+                url: `${API_URL}/labels`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: { title, description, color },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error creating label: ${error.message}`);
+    }
 }

@@ -11,11 +11,11 @@ import { executeContactUpdate } from '../actions/contact/updateContact.operation
 import { executeToggleBot } from '../actions/contact/toggleBot.operation';
 import { executeExportContacts } from '../actions/contact/export.operation';
 import { executeGetAllLabels } from '../actions/labels/getLabels.operation';
-import { executeGetSearch } from '../actions/labels/getSearch.operation';
-import { executeGetById } from '../actions/labels/getById.operation';
-import { executeCreate } from '../actions/labels/create.operation';
-import { executeUpdate } from '../actions/labels/update.operation';
-import { executeDelete } from '../actions/labels/delete.operation';
+import { executeGetSearchLabel } from '../actions/labels/getSearch.operation';
+import { executeGetByIdLabel } from '../actions/labels/getById.operation';
+import { executeCreateLabel } from '../actions/labels/create.operation';
+import { executeUpdateLabel } from '../actions/labels/update.operation';
+import { executeDeleteLabel } from '../actions/labels/delete.operation';
 import { executeGetAllCustomFields } from '../actions/customFields/getAll.operation';
 import { executeCreateCustomField } from '../actions/customFields/create.operation';
 import { executeUpdateCustomField } from '../actions/customFields/update.operation';
@@ -49,11 +49,11 @@ export class OperationFactory {
 		[OPERATION_KEYS.WHATSAPP_SEND_FLOW, { execute: executeSendFlow }],
 		[OPERATION_KEYS.WHATSAPP_SEND_TEMPLATE, { execute: executeSendTemplate }],
 		[OPERATION_KEYS.LABELS_GET_ALL, { execute: executeGetAllLabels }],
-		[OPERATION_KEYS.LABELS_GET_SEARCH, { execute: executeGetSearch }],
-		[OPERATION_KEYS.LABELS_GET_BY_ID, { execute: executeGetById }],
-		[OPERATION_KEYS.LABELS_CREATE, { execute: executeCreate }],
-		[OPERATION_KEYS.LABELS_UPDATE, { execute: executeUpdate }],
-		[OPERATION_KEYS.LABELS_DELETE, { execute: executeDelete }],
+		[OPERATION_KEYS.LABELS_GET_SEARCH, { execute: executeGetSearchLabel }],
+		[OPERATION_KEYS.LABELS_GET_BY_ID, { execute: executeGetByIdLabel }],
+		[OPERATION_KEYS.LABELS_CREATE, { execute: executeCreateLabel }],
+		[OPERATION_KEYS.LABELS_UPDATE, { execute: executeUpdateLabel }],
+		[OPERATION_KEYS.LABELS_DELETE, { execute: executeDeleteLabel }],
 		[OPERATION_KEYS.CUSTOM_FIELDS_GET_ALL, { execute: executeGetAllCustomFields }],
 		[OPERATION_KEYS.CUSTOM_FIELDS_CREATE, { execute: executeCreateCustomField }],
 		[OPERATION_KEYS.CUSTOM_FIELDS_UPDATE, { execute: executeUpdateCustomField }],
