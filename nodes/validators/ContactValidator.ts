@@ -1,4 +1,16 @@
-import { ContactData, ContactExportRequest } from '../services/ContactService.js';
+	export interface ContactData {
+		first_name: string;
+		last_name: string;
+		email: string;
+		phone: string;
+		notes: string;
+		labels: number[];
+		custom_fields: Record<string, any>;
+	}
+
+	export interface ContactExportRequest {
+    email_urls?: string[];
+}
 
 export class ContactValidator {
 	static validateCreateContact(data: ContactData): void {
