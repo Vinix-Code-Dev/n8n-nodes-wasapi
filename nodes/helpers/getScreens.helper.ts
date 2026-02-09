@@ -1,15 +1,8 @@
 import { ILoadOptionsFunctions, INodeListSearchResult } from "n8n-workflow";
-import { createClient } from "../client/createClient";
 import { handleListSearchError } from "../handler/LoadOptionsError.handle";
+import { getFlowScreens } from "./OptionsLoadWpp";
 
 export async function getScreens(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
-	const client = await createClient(this as unknown as ILoadOptionsFunctions);
-
-	if (!client) {
-		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
-	}
-
-	client.setExecuteContext(this as any);
 
 	try {
 		const from_id = this.getNodeParameter('fromId', '') as number;
@@ -32,18 +25,17 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 				description: 'Select a flow to see available screens'
 			}] };
 		}
-		const response = await client.whatsapp.getFlowScreens({
-			flow_id: flow_id,
-			phone_id: Number(from_id)
-		});
+		const response = await getFlowScreens.call(this, flow_id, Number(from_id));
 
-		if (!response || !Array.isArray(response) || response.length === 0) {
+		if (response.length === 0 ) {
 			return { results: [{
 				name: '📝 No Screens Available for This Flow',
 				value: '',
 				description: `No screens found for flow ${flow_id} on phone ${from_id}`
 			}] };
 		}
+
+
 
 		let screens = response.map((screen: any) => ({
 			name: screen.label || `Screen ${screen.value}`,
@@ -58,7 +50,6 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 				screen.value.includes(filter)
 			);
 		}
-
 
 		return { results: screens };
 

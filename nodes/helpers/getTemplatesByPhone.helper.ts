@@ -1,15 +1,9 @@
 import { ILoadOptionsFunctions, INodeListSearchResult } from "n8n-workflow";
-import { createClient } from "../client/createClient";
 import { handleListSearchError } from "../handler/LoadOptionsError.handle";
+import { getTemplatesByAppId } from "./OptionsLoadWpp";
 
 export async function getTemplatesByPhone(this: ILoadOptionsFunctions, filter?: string): Promise<INodeListSearchResult> {
-	const client = await createClient(this as unknown as ILoadOptionsFunctions);
 
-	if (!client) {
-		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
-	}
-
-	client.setExecuteContext(this as any);
 
 	try {
 		const from_id = this.getNodeParameter('fromId', '') as number;
@@ -23,9 +17,7 @@ export async function getTemplatesByPhone(this: ILoadOptionsFunctions, filter?: 
 			}] };
 		}
 
-		const response = await client.whatsapp.getTemplatesByAppId({
-			from_id: from_id,
-		});
+		const response = await getTemplatesByAppId.call(this, from_id);
 
 
 		let templates = response.map((template: any) => ({

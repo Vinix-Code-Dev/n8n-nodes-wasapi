@@ -1,20 +1,24 @@
 import { ILoadOptionsFunctions, INodeListSearchItems, INodeListSearchResult } from 'n8n-workflow';
-import { createClient } from '../client/createClient';
+import { API_URL } from '../config/constants';
+import { handleListSearchError } from '../handler/LoadOptionsError.handle';
 
 export async function getAgents(
 	this: ILoadOptionsFunctions,
 	filter?: string,
 ): Promise<INodeListSearchResult> {
-	const client = await createClient(this as unknown as ILoadOptionsFunctions);
 
-	if (!client) {
-		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
-	}
-	client.setExecuteContext(this as any);
+	try {
 
-	const response = await client.metrics.getOnlineAgents() as any;
+	const response = await this.helpers.httpRequestWithAuthentication.call(
+		this,
+		'wasapiApi',
+		{
+			method: 'GET',
+			url: `${API_URL}/dashboard/metrics/online-agents`,
+		}
+	);
 
-	const agents: INodeListSearchItems[] = (response as any).users.map((agent: any) => ({
+	const agents: INodeListSearchItems[] = response.users.map((agent: any) => ({
 		name: `${agent.name} (${agent.email})`,
 		value: agent.id,
 		url: '',
@@ -28,4 +32,7 @@ export async function getAgents(
 	return {
 		results: filteredAgents,
 	};
+} catch (error) {
+	return handleListSearchError(error);
+}
 }

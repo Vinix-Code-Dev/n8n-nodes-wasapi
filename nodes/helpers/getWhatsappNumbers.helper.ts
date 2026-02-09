@@ -1,20 +1,21 @@
 import { ILoadOptionsFunctions } from "n8n-workflow";
-import { createClient } from "../client/createClient";
 import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
+import { API_URL } from "../config/constants";
 
 export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
-    const client = await createClient(this);
-
-    if (!client) {
-        return [{ name: '⚠️ First Configure Credentials', value: '' }];
-    }
-    client.setExecuteContext(this as any);
 
     try {
         // get whatsapp numbers available
-        const response = await client.whatsapp.getWhatsappNumbers();
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'GET',
+                url: `${API_URL}/whatsapp-numbers`,
+            }
+        );
 
-        if (!response?.success || !Array.isArray(response.data)) {
+        if (!response.success) {
             return [{ name: '❌ No Numbers Available', value: '' }];
         }
 
@@ -22,7 +23,6 @@ export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
         const options: any[] = [
             { name: '-- Select a WhatsApp Number --', value: '' },
         ];
-
         response.data.forEach((n: any) => {
             const isDefault = n.default === 1;
             options.push({

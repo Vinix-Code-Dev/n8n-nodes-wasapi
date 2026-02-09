@@ -1,7 +1,7 @@
 import { ILoadOptionsFunctions } from "n8n-workflow";
-import { createClient } from "../client/createClient";
 import { WhatsAppTemplateBuilder } from "../builder/whatsappTemplate";
 import { TemplateEnum } from "../enum/template.enum";
+import { API_URL } from "../config/constants";
 
 // Cache simple to avoid multiple calls
 const templateCache = new Map<string, {
@@ -12,13 +12,6 @@ const templateCache = new Map<string, {
 const CACHE_DURATION = 30000; // 30 segundos
 
 async function getTemplateBuilder(this: ILoadOptionsFunctions): Promise<WhatsAppTemplateBuilder | null> {
-	const client = await createClient(this);
-
-	if (!client) {
-		return null;
-	}
-
-	client.setExecuteContext(this as any);
 
 	// get the template_id from the current parameter (resourceLocator)
 	const templateIdParam = this.getNodeParameter('templateId', { mode: 'list', value: '' }) as any;
@@ -38,7 +31,14 @@ async function getTemplateBuilder(this: ILoadOptionsFunctions): Promise<WhatsApp
 	}
 
 	// make call to the API
-	const response = await client.whatsapp.getFieldsTemplate(template_id);
+	const response = await this.helpers.httpRequestWithAuthentication.call(
+		this,
+		'wasapiApi',
+		{
+			method: 'GET',
+			url: `${API_URL}/make/template-fields/${template_id}`,
+		}
+	);
 
 	if (!response?.success || !Array.isArray(response.data)) {
 		return null;

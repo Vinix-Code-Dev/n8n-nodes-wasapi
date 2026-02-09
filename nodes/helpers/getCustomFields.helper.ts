@@ -1,24 +1,25 @@
 import { ILoadOptionsFunctions } from "n8n-workflow";
-import { createClient } from "../client/createClient";
 import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
+import { API_URL } from "../config/constants";
 
 /**
 * get the list of custom fields available
 */
 export async function getCustomFields(this: ILoadOptionsFunctions) {
-    const client = await createClient(this);
 
-    if (!client) {
-        return [{ name: '❌ First Configure Credentials', value: '' }];
-    }
-
-    client.setExecuteContext(this as any);
 
     try {
         // get custom fields available
-        const response = await client.customFields.getAll();
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'GET',
+                url: `${API_URL}/custom-fields`,
+            }
+        );
 
-        if (!response?.success || !Array.isArray(response.data)) {
+        if (!response || !Array.isArray(response.data)) {
             return [{ name: '❌ No Custom Fields Available', value: '' }];
         }
 

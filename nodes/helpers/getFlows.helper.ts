@@ -1,15 +1,8 @@
 import { ILoadOptionsFunctions, INodeListSearchResult } from "n8n-workflow";
-import { createClient } from "../client/createClient";
 import { handleListSearchError } from "../handler/LoadOptionsError.handle";
+import { getFlowsByPhoneId } from "./OptionsLoadWpp";
 
 export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : Promise<INodeListSearchResult> {
-	const client = await createClient(this);
-
-	if (!client) {
-		return { results: [{ name: '⚠️ First Configure Credentials', value: '' }] };
-	}
-
-	client.setExecuteContext(this as any);
 
 	try {
 		const from_id = this.getNodeParameter('fromId', 0) as string;
@@ -22,7 +15,7 @@ export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : P
 			}] };
 		}
 
-		const response = await client.whatsapp.getFlowsByPhoneId(Number(from_id));
+		const response = await getFlowsByPhoneId.call(this, Number(from_id));
 
 		if (!response || !Array.isArray(response) || response.length === 0) {
 			return { results: [{
