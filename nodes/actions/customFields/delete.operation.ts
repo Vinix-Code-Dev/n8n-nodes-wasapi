@@ -1,8 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "../../../wasapiClient";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-import { CustomFieldDTO } from "../../dto/CustomFieldDTO";
+import { API_URL } from "../../config/constants";
 
 export const deleteCustomFieldProperties: INodeProperties[] = [
     {
@@ -24,10 +21,27 @@ export const displayOptions = {
 
 export const deleteCustomFieldDescription = updateDisplayOptions(displayOptions, deleteCustomFieldProperties);
 
+
+
 export async function executeDeleteCustomField(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const customFieldService = ServiceFactory.customFieldService(client);
-        const id = CustomFieldDTO.delete(this, i);
-        return await customFieldService.delete(id);
-    });
+    const id = this.getNodeParameter('id', 0, '') as string;
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'DELETE',
+                url: `${API_URL}/custom-fields/${id}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error deleting custom field: ${error.message}`);
+    }
 }

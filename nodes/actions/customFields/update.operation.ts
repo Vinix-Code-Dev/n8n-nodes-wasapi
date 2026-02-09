@@ -1,8 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "../../../wasapiClient";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-import { CustomFieldDTO } from "../../dto/CustomFieldDTO";
+import { API_URL } from "../../config/constants";
 
 export const updateCustomFieldProperties: INodeProperties[] = [
     {
@@ -32,11 +29,28 @@ export const displayOptions = {
 
 export const updateCustomFieldDescription = updateDisplayOptions(displayOptions, updateCustomFieldProperties);
 
-export async function executeUpdateCustomField(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const customFieldService = ServiceFactory.customFieldService(client);
-        const customFieldData = CustomFieldDTO.update(this, i);
 
-        return await customFieldService.update(customFieldData);
-    });
+export async function executeUpdateCustomField(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    const id = this.getNodeParameter('id', 0, '') as number;
+    const name = this.getNodeParameter('name', 0, '') as string;
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'PUT',
+                url: `${API_URL}/custom-fields/${id}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: { name },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error updating custom field: ${error.message}`);
+    }
 }

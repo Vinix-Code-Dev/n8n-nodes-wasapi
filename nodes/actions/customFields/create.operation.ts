@@ -1,8 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
-import { WasapiClient } from "../../../wasapiClient";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-import { CustomFieldDTO } from "../../dto/CustomFieldDTO";
+
 
 export const createCustomFieldProperties: INodeProperties[] = [
     {
@@ -24,10 +21,28 @@ export const displayOptions = {
 
 export const createCustomFieldDescription = updateDisplayOptions(displayOptions, createCustomFieldProperties);
 
+
+
 export async function executeCreateCustomField(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const customFieldService = ServiceFactory.customFieldService(client);
-        const customFieldData = CustomFieldDTO.create(this, i);
-        return await customFieldService.create(customFieldData);
-    });
+  const name = this.getNodeParameter('name', 0, '') as string;
+  try {
+    const response = await this.helpers.httpRequestWithAuthentication.call(
+      this,
+      'wasapiApi',
+      {
+        method: 'POST',
+        url: 'https://api-ws.wasapi.io/api/v1/custom-fields',
+        headers: {
+					'Content-Type': 'application/json',
+				},
+				body: { name },
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw new Error(`Error creating custom field: ${error.message}`);
+	}
 }
