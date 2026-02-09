@@ -9,7 +9,7 @@ import {
 import { TemplateValidator } from '../../validators/TemplateValidator';
 import { API_URL } from '../../config/constants';
 import { processTemplate } from '../../builder/processTemplate';
-import { getTemplateFileType } from '../../../wasapiClient/helpers/filetype.helper';
+import { getTemplateFileType } from '../../helpers/filetype.helper';
 export const sendTemplateProperties: INodeProperties[] = [
 	{
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options

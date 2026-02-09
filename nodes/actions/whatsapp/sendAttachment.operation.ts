@@ -7,7 +7,7 @@ import {
 } from 'n8n-workflow';
 import { commonProperties } from '../base/common.operation';
 import { API_URL } from '../../config/constants';
-import { getFileType } from '../../../wasapiClient/helpers/filetype.helper';
+import { getFileType } from '../../helpers/filetype.helper';
 
 export const sendAttachmentProperties: INodeProperties[] = [
 
