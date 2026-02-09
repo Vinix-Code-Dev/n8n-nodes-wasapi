@@ -6,10 +6,8 @@ import {
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { commonProperties } from '../base/common.operation';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '../../../wasapiClient';
-import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
-import { ServiceFactory } from '../../factories/ServiceFactory';
+import { API_URL } from '../../config/constants';
+import { getFileType } from '../../../wasapiClient/helpers/filetype.helper';
 
 export const sendAttachmentProperties: INodeProperties[] = [
 
@@ -43,11 +41,40 @@ export const sendAttachmentProperties: INodeProperties[] = [
 
 
 
-export async function executeSendAttachment(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-		return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-			const whatsAppService = ServiceFactory.whatsAppService(client);
-			const attachmentData = WhatsAppDTO.attachmentFromExecuteFunctions(this, i);
 
-			return await whatsAppService.sendAttachment(attachmentData);
-		});
-	}
+export async function executeSendAttachment(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    try {
+		const wa_id = this.getNodeParameter('wa_id', 0, '') as string;
+		const from_id = this.getNodeParameter('fromId', 0, '') as number;
+		const filePath = this.getNodeParameter('filePath', 0, '') as string;
+		const caption = this.getNodeParameter('caption', 0, '') as string;
+		// get file type
+		const fileType = getFileType(filePath);
+		// build payload
+		const payload = {
+			from_id,
+			wa_id,
+			file: fileType,
+			[fileType]: filePath,
+			...(caption ? { caption } : {}),
+		};
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'POST',
+                url: `${API_URL}/whatsapp-messages/attachment`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: payload,
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error sending attachment: ${error.message}`);
+    }
+}

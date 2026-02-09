@@ -1,17 +1,15 @@
 import {
-    IDisplayOptions,
-    IExecuteFunctions,
-    INodeExecutionData,
-    INodeProperties,
-    updateDisplayOptions,
+	IDisplayOptions,
+	IExecuteFunctions,
+	INodeExecutionData,
+	INodeProperties,
+	updateDisplayOptions,
 } from 'n8n-workflow';
 
-
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '../../../wasapiClient';
-import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
-import { ServiceFactory } from '../../factories/ServiceFactory';
 import { TemplateValidator } from '../../validators/TemplateValidator';
+import { API_URL } from '../../config/constants';
+import { processTemplate } from '../../builder/processTemplate';
+import { getTemplateFileType } from '../../../wasapiClient/helpers/filetype.helper';
 export const sendTemplateProperties: INodeProperties[] = [
 	{
 		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
@@ -19,20 +17,20 @@ export const sendTemplateProperties: INodeProperties[] = [
 		name: 'fromId',
 		type: 'options',
 		typeOptions: {
-				loadOptionsMethod: 'getWhatsappNumbers',
+			loadOptionsMethod: 'getWhatsappNumbers',
 		},
 		default: '',
 		required: true,
 		description: 'Pick the phone number of your wasapi account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
-},
-{
+	},
+	{
 		displayName: 'Recipient WhatsApp ID',
 		name: 'recipients',
 		type: 'string',
 		default: '',
 		required: true,
 		description: 'Enter a phone number (including the country code without the + sign). For example instead of entering use 573203294920.',
-},
+	},
 	{
 		displayName: 'Template Name or UUID',
 		name: 'templateId',
@@ -191,25 +189,62 @@ export const sendTemplateProperties: INodeProperties[] = [
 ];
 
 const displayOptions: IDisplayOptions = {
-    show: {
-        resource: ['whatsapp'],
-        operation: ['sendTemplate'],
-    },
+	show: {
+		resource: ['whatsapp'],
+		operation: ['sendTemplate'],
+	},
 };
 
 export const sendTemplateDescription = updateDisplayOptions(displayOptions, sendTemplateProperties);
 
+
 export async function executeSendTemplate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const whatsAppService = ServiceFactory.whatsAppService(client);
-        const templateData = WhatsAppDTO.sendTemplateFromExecuteFunctions(this, i);
-			const { template_vars, ...payload } = templateData;
-			// validate template variables
-			TemplateValidator.validateTemplateVariables(template_vars);
+	try {
+		// get templateId correctly from the resourceLocator
+		const templateIdParam = this.getNodeParameter('templateId', 0, '') as any;
+		const template_id = typeof templateIdParam === 'string' ? templateIdParam : templateIdParam?.value || '';
 
-        return await whatsAppService.sendTemplate(payload).catch((error: any) => {
-            throw new Error(error.message);
-        });
+		const baseData = {
+			recipients: this.getNodeParameter('recipients', 0, '') as string,
+			template_id,
+			contact_type: 'phone' as 'phone' | 'contact',
+			from_id: this.getNodeParameter('fromId', 0, '') as number,
+			chatbot_status: this.getNodeParameter('chatbot_status', 0, '') as 'enable' | 'disable' | 'disable_permanently',
+			conversation_status: this.getNodeParameter('conversation_status', 0, '') as 'open' | 'hold' | 'closed' | 'unchanged',
+			agent_id: this.getNodeParameter('agent_id.value', 0, '') as number,
+			origin: 'n8n',
+		} as any;
 
-    });
+		// validate template variables
+		const templateVars = this.getNodeParameter('template_vars', 0, {}) as any;
+		TemplateValidator.validateTemplateVariables(templateVars);
+		// process template variables
+		const dynamicVars: Record<string, any> = {};
+		const payload = processTemplate(templateVars, baseData, dynamicVars);
+		// get file type
+		if(payload.url_file) {
+			payload.file = getTemplateFileType(payload.url_file);
+		}
+
+		const response = await this.helpers.httpRequestWithAuthentication.call(
+			this,
+			'wasapiApi',
+			{
+				method: 'POST',
+				url: `${API_URL}/whatsapp-messages/send-template`,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: payload,
+			}
+		);
+		return [this.helpers.returnJsonArray(response)];
+	} catch (error) {
+		if (this.continueOnFail()) {
+			return [this.helpers.returnJsonArray({ error: error.message })];
+		}
+		throw new Error(`Error sending template: ${error.message}`);
+	}
 }
+
+

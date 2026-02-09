@@ -1,9 +1,6 @@
 import { IDisplayOptions, IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
 import { commonProperties } from "../base/common.operation";
-import { WhatsAppDTO } from "../../dto/WhatsAppDTO";
-import { executeCommon } from "../../helpers/executeCommon.helper";
-import { ServiceFactory } from "../../factories/ServiceFactory";
-import { WasapiClient } from "../../../wasapiClient";
+import { API_URL } from "../../config/constants";
 
 export const sendFlowProperties: INodeProperties[] = [
 
@@ -71,10 +68,42 @@ const displayOptions: IDisplayOptions = {
 
 export const sendFlowDescription = updateDisplayOptions(displayOptions, sendFlowProperties);
 
+
 export async function executeSendFlow(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-	return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-		const flowData = WhatsAppDTO.flowFromExecuteFunctions(this, i);
-		const whatsAppService = ServiceFactory.whatsAppService(client);
-		return await whatsAppService.sendFlow(flowData);
-	});
+    try {
+					const fromIdParam = this.getNodeParameter('fromId', 0, '') as number;
+					const phone_id = typeof fromIdParam === 'string' ? parseInt(fromIdParam, 10) : fromIdParam as number;
+					const wa_id = this.getNodeParameter('wa_id', 0, '') as string;
+					const flow_id = this.getNodeParameter('flowId.value', 0, '') as string;
+					const message = this.getNodeParameter('message', 0, '') as string;
+					const cta = this.getNodeParameter('cta', 0, '') as string;
+					const screen = this.getNodeParameter('screen.value', 0, '') as string;
+
+        	const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'POST',
+                url: `${API_URL}/whatsapp-flows`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    phone_id,
+                    wa_id,
+                    flow_id,
+                    message,
+                    cta,
+                    screen,
+										action: 'navigate',
+                },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error sending flow: ${error.message}`);
+    }
 }

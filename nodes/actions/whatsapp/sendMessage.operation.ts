@@ -7,11 +7,7 @@ import {
 } from 'n8n-workflow';
 
 import { commonProperties } from '../base/common.operation';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { WasapiClient } from '../../../wasapiClient';
-import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
-import { ServiceFactory } from '../../factories/ServiceFactory';
-
+import { API_URL } from '../../config/constants';
 export const sendMessageProperties: INodeProperties[] = [
 
     {
@@ -35,11 +31,31 @@ const displayOptions: IDisplayOptions = {
 export const sendMessageDescription = updateDisplayOptions(displayOptions, sendMessageProperties);
 
 export async function executeSendMessage(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const whatsAppService = ServiceFactory.whatsAppService(client);
-        const messageData = WhatsAppDTO.messageFromExecuteFunctions(this, i);
-
-        return await whatsAppService.sendMessage(messageData);
-    });
+    try {
+			const wa_id = this.getNodeParameter('wa_id', 0, '') as string;
+			const from_id = this.getNodeParameter('fromId', 0, '') as number;
+			const message = this.getNodeParameter('message', 0, '') as string;
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'POST',
+                url: `${API_URL}/whatsapp-messages`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    from_id,
+                    wa_id,
+                    message,
+                },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error sending message: ${error.message}`);
+    }
 }
-
