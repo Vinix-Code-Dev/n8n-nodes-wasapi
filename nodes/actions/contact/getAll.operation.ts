@@ -5,6 +5,7 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
+import { API_URL } from '../../config/constants';
 
 export const getAllContactsProperties: INodeProperties[] = [];
 
@@ -25,7 +26,7 @@ export async function executeGetAllContacts(this: IExecuteFunctions): Promise<IN
             'wasapiApi',
             {
                 method: 'GET',
-                url: 'https://api-ws.wasapi.io/api/v1/contacts',
+                url: `${API_URL}/contacts`,
                 headers: {
                     'Content-Type': 'application/json',
                 },

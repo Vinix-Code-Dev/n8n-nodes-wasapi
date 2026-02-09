@@ -1,4 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
+import { API_URL } from '../../config/constants';
 
 export const getContactProperties: INodeProperties[] = [
     {
@@ -29,7 +30,7 @@ export async function executeGetContact(this: IExecuteFunctions): Promise<INodeE
 			'wasapiApi',
 			{
 				method: 'GET',
-				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('wa_id', 0, '') as string}`,
+				url: `${API_URL}/contacts/${this.getNodeParameter('wa_id', 0, '') as string}`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

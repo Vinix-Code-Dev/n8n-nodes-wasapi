@@ -5,7 +5,7 @@ import {
 	INodeProperties,
 	updateDisplayOptions,
 } from 'n8n-workflow';
-
+import { API_URL } from '../../config/constants';
 export const addLabelProperties: INodeProperties[] = [
 
 	{
@@ -46,7 +46,7 @@ export async function executeAddLabel(this: IExecuteFunctions): Promise<INodeExe
 			'wasapiApi',
 			{
 				method: 'POST',
-				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('contact_uuid', 0, '') as string}/add-labels`,
+				url: `${API_URL}/contacts/${this.getNodeParameter('contact_uuid', 0, '') as string}/add-labels`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

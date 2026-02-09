@@ -5,7 +5,7 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-
+import { API_URL } from '../../config/constants';
 import { contactCreateProperties } from './createContact.operation';
 import { ContactValidator } from '../../validators/ContactValidator';
 
@@ -52,7 +52,7 @@ export async function executeContactUpdate(this: IExecuteFunctions): Promise<INo
       'wasapiApi',
       {
         method: 'PUT',
-        url: `https://api-ws.wasapi.io/api/v1/contacts/${wa_id}`,
+        url: `${API_URL}/contacts/${wa_id}`,
         headers: {
           'Content-Type': 'application/json',
         },

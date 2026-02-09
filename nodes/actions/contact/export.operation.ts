@@ -6,6 +6,7 @@ import {
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { ContactValidator } from '../../validators/ContactValidator';
+import { API_URL } from '../../config/constants';
 export const exportContactsProperties: INodeProperties[] = [
     {
         displayName: 'Email URLs',
@@ -43,7 +44,7 @@ export async function executeExportContacts(this: IExecuteFunctions): Promise<IN
 			'wasapiApi',
 			{
 				method: 'POST',
-				url: 'https://api-ws.wasapi.io/api/v1/contacts/export',
+				url: `${API_URL}/contacts/export`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

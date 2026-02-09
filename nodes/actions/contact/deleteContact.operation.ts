@@ -1,4 +1,5 @@
 import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
+import { API_URL } from '../../config/constants';
 
 export const deleteContactProperties: INodeProperties[] = [
     {
@@ -28,7 +29,7 @@ export async function executeDeleteContact(this: IExecuteFunctions): Promise<INo
 			'wasapiApi',
 			{
 				method: 'DELETE',
-				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('wa_id', 0, '') as string}`,
+				url: `${API_URL}/contacts/${this.getNodeParameter('wa_id', 0, '') as string}`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

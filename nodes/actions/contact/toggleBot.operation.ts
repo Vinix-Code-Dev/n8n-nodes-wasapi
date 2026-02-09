@@ -5,7 +5,7 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-
+import { API_URL } from '../../config/constants';
 import { commonProperties } from '../base/common.operation';
 
 export const toggleBotProperties: INodeProperties[] = [
@@ -59,7 +59,7 @@ export async function executeToggleBot(this: IExecuteFunctions): Promise<INodeEx
 			'wasapiApi',
 			{
 				method: 'POST',
-				url: `https://api-ws.wasapi.io/api/v1/contacts/${wa_id}/toggle-bot`,
+				url: `${API_URL}/contacts/${wa_id}/toggle-bot`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

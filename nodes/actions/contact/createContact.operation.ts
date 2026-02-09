@@ -6,7 +6,7 @@ import {
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { ContactValidator } from '../../validators/ContactValidator';
-
+import { API_URL } from '../../config/constants';
 export const contactCreateProperties: INodeProperties[] = [
     {
         displayName: 'First Name',
@@ -126,7 +126,7 @@ export async function executeContactCreate(this: IExecuteFunctions): Promise<INo
 			'wasapiApi',
 			{
 				method: 'POST',
-				url: 'https://api-ws.wasapi.io/api/v1/contacts',
+				url: `${API_URL}/contacts`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

@@ -5,7 +5,7 @@ import {
 	INodeProperties,
 	updateDisplayOptions,
 } from 'n8n-workflow';
-
+import { API_URL } from '../../config/constants';
 
 export const getSearchContactsProperties: INodeProperties[] = [
 	{
@@ -60,7 +60,7 @@ export async function executeGetSearchContacts(this: IExecuteFunctions): Promise
 	try {
 		const response = await this.helpers.httpRequestWithAuthentication.call(this, 'wasapiApi', {
 			method: 'GET',
-			url: `https://api-ws.wasapi.io/api/v1/contacts?${queryParams.toString()}`,
+			url: `${API_URL}/contacts?${queryParams.toString()}`,
 			headers: { 'Content-Type': 'application/json' },
 
 		});

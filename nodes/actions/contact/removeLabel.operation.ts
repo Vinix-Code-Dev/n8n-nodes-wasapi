@@ -5,7 +5,7 @@ import {
 	INodeProperties,
 	updateDisplayOptions,
 } from 'n8n-workflow';
-
+import { API_URL } from '../../config/constants';
 
 export const removeLabelProperties: INodeProperties[] = [
 	{
@@ -49,7 +49,7 @@ export async function executeRemoveLabel(this: IExecuteFunctions): Promise<INode
 			'wasapiApi',
 			{
 				method: 'POST',
-				url: `https://api-ws.wasapi.io/api/v1/contacts/${this.getNodeParameter('contact_uuid', 0, '') as string}/remove-labels`,
+				url: `${API_URL}/contacts/${this.getNodeParameter('contact_uuid', 0, '') as string}/remove-labels`,
 				headers: {
 					'Content-Type': 'application/json',
 				},

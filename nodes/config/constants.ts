@@ -85,3 +85,5 @@ export const OPERATION_KEYS = {
 	AGENTS_GET: `${RESOURCES.AGENTS}:${OPERATIONS.AGENTS.GET}`,
 	AGENTS_ASSIGN_AGENT: `${RESOURCES.AGENTS}:${OPERATIONS.AGENTS.ASSIGN_AGENT}`,
 } as const;
+
+export const API_URL = 'https://api-ws.wasapi.io/api/v1';
