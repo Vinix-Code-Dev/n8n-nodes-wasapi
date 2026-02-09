@@ -5,11 +5,8 @@ import {
     INodeProperties,
     updateDisplayOptions,
 } from 'n8n-workflow';
-import { executeCommon } from '../../helpers/executeCommon.helper';
-import { ServiceFactory } from '../../factories/ServiceFactory';
 import { commonProperties } from '../base/common.operation';
-import { WasapiClient } from '../../../wasapiClient';
-import { WhatsAppDTO } from '../../dto/WhatsAppDTO';
+import { API_URL } from '../../config/constants';
 
 export const assignAgentProperties: INodeProperties[] = [
 	...commonProperties,
@@ -96,10 +93,41 @@ const displayOptions: IDisplayOptions = {
 
 export const assignAgentDescription = updateDisplayOptions(displayOptions, assignAgentProperties);
 
+
 export async function executeAssignAgent(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-    return await executeCommon.call(this, async (client: WasapiClient, item: any, i: number) => {
-        const agentsService = ServiceFactory.agentsService(client);
-        const changeStatusData = WhatsAppDTO.changeStatusFromExecuteFunctions(this, i);
-        return await agentsService.changeStatus(changeStatusData);
-    });
+
+	const wa_id = this.getNodeParameter('wa_id', 0, '') as string;
+	const from_id = this.getNodeParameter('fromId', 0, '') as number;
+	const status = this.getNodeParameter('status', 0, 'open') as 'open' | 'hold' | 'closed';
+	const message = this.getNodeParameter('message', 0, '') as string;
+	const agent_id = this.getNodeParameter('agent_id.value', 0, '') as number;
+	const origin = 'n8n' as const;
+
+    try {
+        const response = await this.helpers.httpRequestWithAuthentication.call(
+            this,
+            'wasapiApi',
+            {
+                method: 'POST',
+                url: `${API_URL}/whatsapp-messages/change-status`,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    from_id,
+                    wa_id,
+                    status,
+                    message,
+                    agent_id,
+                    origin,
+                },
+            }
+        );
+        return [this.helpers.returnJsonArray(response)];
+    } catch (error) {
+        if (this.continueOnFail()) {
+            return [this.helpers.returnJsonArray({ error: error.message })];
+        }
+        throw new Error(`Error assigning agent: ${error.message}`);
+    }
 }
