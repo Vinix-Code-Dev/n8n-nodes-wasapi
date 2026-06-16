@@ -1,8 +1,11 @@
 import {
 	IDisplayOptions,
 	IExecuteFunctions,
+	IDataObject,
 	INodeExecutionData,
 	INodeProperties,
+	NodeApiError,
+	JsonObject,
 	updateDisplayOptions,
 } from 'n8n-workflow';
 
@@ -201,10 +204,10 @@ export const sendTemplateDescription = updateDisplayOptions(displayOptions, send
 export async function executeSendTemplate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 	try {
 		// get templateId correctly from the resourceLocator
-		const templateIdParam = this.getNodeParameter('templateId', 0, '') as any;
-		const template_id = typeof templateIdParam === 'string' ? templateIdParam : templateIdParam?.value || '';
+		const templateIdParam = this.getNodeParameter('templateId', 0, '') as IDataObject | string;
+		const template_id = typeof templateIdParam === 'string' ? templateIdParam : (templateIdParam?.value as string) || '';
 
-		const baseData = {
+		const baseData: IDataObject = {
 			recipients: this.getNodeParameter('recipients', 0, '') as string,
 			template_id,
 			contact_type: 'phone' as 'phone' | 'contact',
@@ -213,17 +216,17 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
 			conversation_status: this.getNodeParameter('conversation_status', 0, '') as 'open' | 'hold' | 'closed' | 'unchanged',
 			agent_id: this.getNodeParameter('agent_id.value', 0, '') as number,
 			origin: 'n8n',
-		} as any;
+		};
 
 		// validate template variables
-		const templateVars = this.getNodeParameter('template_vars', 0, {}) as any;
+		const templateVars = this.getNodeParameter('template_vars', 0, {}) as IDataObject;
 		TemplateValidator.validateTemplateVariables(templateVars);
 		// process template variables
-		const dynamicVars: Record<string, any> = {};
+		const dynamicVars: IDataObject = {};
 		const payload = processTemplate(templateVars, baseData, dynamicVars);
 		// get file type
 		if(payload.url_file) {
-			payload.file = getTemplateFileType(payload.url_file);
+			payload.file = getTemplateFileType(payload.url_file as string);
 		}
 
 		const response = await this.helpers.httpRequestWithAuthentication.call(
@@ -241,9 +244,9 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
 		return [this.helpers.returnJsonArray(response)];
 	} catch (error) {
 		if (this.continueOnFail()) {
-			return [this.helpers.returnJsonArray({ error: error.message })];
+			return [this.helpers.returnJsonArray({ error: (error as Error).message })];
 		}
-		throw new Error(`Error sending template: ${error.message}`);
+		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }
 

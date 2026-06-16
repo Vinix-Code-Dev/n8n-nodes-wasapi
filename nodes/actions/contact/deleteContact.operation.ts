@@ -1,4 +1,4 @@
-import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
+import { IExecuteFunctions, INodeExecutionData, INodeProperties, NodeApiError, JsonObject, updateDisplayOptions } from "n8n-workflow";
 import { API_URL } from '../../config/constants';
 
 export const deleteContactProperties: INodeProperties[] = [
@@ -38,8 +38,8 @@ export async function executeDeleteContact(this: IExecuteFunctions): Promise<INo
 		return [this.helpers.returnJsonArray(response)];
 	} catch (error) {
 		if (this.continueOnFail()) {
-			return [this.helpers.returnJsonArray({ error: error.message })];
+			return [this.helpers.returnJsonArray({ error: (error as Error).message })];
 		}
-		throw error;
+		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }

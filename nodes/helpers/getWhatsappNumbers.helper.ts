@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions } from "n8n-workflow";
+import { ILoadOptionsFunctions, IDataObject, INodePropertyOptions } from "n8n-workflow";
 import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
 import { API_URL } from "../config/constants";
 
@@ -20,19 +20,19 @@ export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
         }
 
         // create options for each number
-        const options: any[] = [
+        const options: INodePropertyOptions[] = [
             { name: '-- Select a WhatsApp Number --', value: '' },
         ];
-        response.data.forEach((n: any) => {
+        response.data.forEach((n: IDataObject) => {
             const isDefault = n.default === 1;
             options.push({
-                name: `${n.display_name} (${n.phone_number})${isDefault ? ' (Default)' : ''}`,
+                name: `${n.display_name as string} (${n.phone_number as string})${isDefault ? ' (Default)' : ''}`,
                 value: n.id as number,
             });
         });
 
         return options;
-    } catch (error: any) {
+    } catch (error: unknown) {
         return handleLoadOptionsError(error);
     }
 }

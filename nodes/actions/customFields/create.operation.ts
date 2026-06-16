@@ -1,4 +1,4 @@
-import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
+import { IExecuteFunctions, INodeExecutionData, INodeProperties, NodeApiError, JsonObject, updateDisplayOptions } from "n8n-workflow";
 
 
 export const createCustomFieldProperties: INodeProperties[] = [
@@ -41,8 +41,8 @@ export async function executeCreateCustomField(this: IExecuteFunctions): Promise
 		return [this.helpers.returnJsonArray(response)];
 	} catch (error) {
 		if (this.continueOnFail()) {
-			return [this.helpers.returnJsonArray({ error: error.message })];
+			return [this.helpers.returnJsonArray({ error: (error as Error).message })];
 		}
-		throw new Error(`Error creating custom field: ${error.message}`);
+		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }

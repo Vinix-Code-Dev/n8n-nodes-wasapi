@@ -3,6 +3,8 @@ import {
 	IDisplayOptions,
 	INodeExecutionData,
 	INodeProperties,
+	NodeApiError,
+	JsonObject,
 	updateDisplayOptions,
 } from 'n8n-workflow';
 import { API_URL } from '../../config/constants';
@@ -23,7 +25,7 @@ export const getSearchContactsProperties: INodeProperties[] = [
 		description: 'Page number for pagination',
 
 	},
-	{   //eslint-disable-next-line n8n-nodes-base/node-param-display-name-miscased
+	{    
 		displayName: 'Labels Names or IDs',
 		name: 'labels',
 		type: 'multiOptions',
@@ -67,8 +69,8 @@ export async function executeGetSearchContacts(this: IExecuteFunctions): Promise
 		return [this.helpers.returnJsonArray(response)];
 	} catch (error) {
 		if (this.continueOnFail()) {
-			return [this.helpers.returnJsonArray({ error: error.message })];
+			return [this.helpers.returnJsonArray({ error: (error as Error).message })];
 		}
-		throw error;
+		throw new NodeApiError(this.getNode(), error as JsonObject);
 	}
 }

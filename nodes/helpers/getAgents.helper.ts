@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions, INodeListSearchItems, INodeListSearchResult } from 'n8n-workflow';
+import { ILoadOptionsFunctions, INodeListSearchItems, INodeListSearchResult, IDataObject } from 'n8n-workflow';
 import { API_URL } from '../config/constants';
 import { handleListSearchError } from '../handler/LoadOptionsError.handle';
 
@@ -18,9 +18,9 @@ export async function getAgents(
 		}
 	);
 
-	const agents: INodeListSearchItems[] = response.users.map((agent: any) => ({
-		name: `${agent.name} (${agent.email})`,
-		value: agent.id,
+	const agents: INodeListSearchItems[] = response.users.map((agent: IDataObject) => ({
+		name: `${agent.name as string} (${agent.email as string})`,
+		value: agent.id as string,
 		url: '',
 	}));
 

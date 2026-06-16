@@ -1,4 +1,4 @@
-import { IDisplayOptions, IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
+import { IDisplayOptions, IExecuteFunctions, INodeExecutionData, INodeProperties, NodeApiError, JsonObject, updateDisplayOptions } from "n8n-workflow";
 import { commonProperties } from "../base/common.operation";
 import { API_URL } from "../../config/constants";
 
@@ -102,8 +102,8 @@ export async function executeSendFlow(this: IExecuteFunctions): Promise<INodeExe
         return [this.helpers.returnJsonArray(response)];
     } catch (error) {
         if (this.continueOnFail()) {
-            return [this.helpers.returnJsonArray({ error: error.message })];
+            return [this.helpers.returnJsonArray({ error: (error as Error).message })];
         }
-        throw new Error(`Error sending flow: ${error.message}`);
+        throw new NodeApiError(this.getNode(), error as JsonObject);
     }
 }

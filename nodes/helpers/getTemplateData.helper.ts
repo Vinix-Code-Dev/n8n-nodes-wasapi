@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions } from "n8n-workflow";
+import { ILoadOptionsFunctions, IDataObject } from "n8n-workflow";
 import { WhatsAppTemplateBuilder } from "../builder/whatsappTemplate";
 import { TemplateEnum } from "../enum/template.enum";
 import { API_URL } from "../config/constants";
@@ -14,8 +14,8 @@ const CACHE_DURATION = 30000; // 30 segundos
 async function getTemplateBuilder(this: ILoadOptionsFunctions): Promise<WhatsAppTemplateBuilder | null> {
 
 	// get the template_id from the current parameter (resourceLocator)
-	const templateIdParam = this.getNodeParameter('templateId', { mode: 'list', value: '' }) as any;
-	const template_id = typeof templateIdParam === 'string' ? templateIdParam : templateIdParam?.value || '';
+	const templateIdParam = this.getNodeParameter('templateId', { mode: 'list', value: '' }) as IDataObject | string;
+	const template_id = typeof templateIdParam === 'string' ? templateIdParam : (templateIdParam?.value as string) || '';
 
 	if (!template_id) {
 		return null;
@@ -122,7 +122,7 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 		}
 
 		return allVariables;
-	} catch (error: any) {
+	} catch {
 		return [{ name: 'Error Al Obtener Las Variables Del Template', value: '' }];
 	}
 }

@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions } from "n8n-workflow";
+import { ILoadOptionsFunctions, IDataObject, INodePropertyOptions } from "n8n-workflow";
 import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
 import { API_URL } from "../config/constants";
 
@@ -14,11 +14,11 @@ export async function getLabels(this: ILoadOptionsFunctions) {
 				url: `${API_URL}/labels`,
 			}
 		);
-		return response.labels.map((label: any) => ({
-			name: label.title,
+		return response.labels.map((label: IDataObject): INodePropertyOptions => ({
+			name: label.title as string,
 			value: label.id as number,
 		}));
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return handleLoadOptionsError(error);
 	}
 }

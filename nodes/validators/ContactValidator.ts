@@ -5,7 +5,7 @@
 		phone: string;
 		notes: string;
 		labels: number[];
-		custom_fields: Record<string, any>;
+		custom_fields: Record<string, unknown>;
 	}
 
 	export interface ContactExportRequest {
@@ -27,19 +27,20 @@ export class ContactValidator {
 		}
 	}
 
-	static validateCustomFields(customFieldsData: any): Record<string, any> {
-		let custom_fields: Record<string, any> = {};
+	static validateCustomFields(customFieldsData: Record<string, unknown>): Record<string, unknown> {
+		const custom_fields: Record<string, unknown> = {};
 
 		if (customFieldsData && customFieldsData.custom_fields && Array.isArray(customFieldsData.custom_fields)) {
 			const seen = new Set<string>();
 
-			customFieldsData.custom_fields.forEach((field: any) => {
+			customFieldsData.custom_fields.forEach((field: Record<string, unknown>) => {
 				if (field.field_name && field.field_value) {
-					if (seen.has(field.field_name)) {
-						throw new Error(`The custom field "${field.field_name}" is duplicated. Each field can only be defined once.`);
+					const fieldName = field.field_name as string;
+					if (seen.has(fieldName)) {
+						throw new Error(`The custom field "${fieldName}" is duplicated. Each field can only be defined once.`);
 					}
-					seen.add(field.field_name);
-					custom_fields[field.field_name] = field.field_value;
+					seen.add(fieldName);
+					custom_fields[fieldName] = field.field_value;
 				}
 			});
 		}
@@ -54,7 +55,7 @@ export class ContactValidator {
 
 	static validateExportContacts(data: ContactExportRequest): void {
 		if (data.email_urls && !Array.isArray(data.email_urls)) {
-			throw new Error('Email URLs must be an array', data.email_urls);
+			throw new Error('Email URLs must be an array');
 		}
 
 		if (data.email_urls && data.email_urls.length > 5) {

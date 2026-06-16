@@ -1,4 +1,4 @@
-import { IExecuteFunctions, INodeExecutionData, INodeProperties, updateDisplayOptions } from "n8n-workflow";
+import { IExecuteFunctions, INodeExecutionData, INodeProperties, NodeApiError, JsonObject, updateDisplayOptions } from "n8n-workflow";
 import { API_URL } from "../../config/constants";
 
 export const updateProperties: INodeProperties[] = [
@@ -66,8 +66,8 @@ export async function executeUpdateLabel(this: IExecuteFunctions): Promise<INode
         return [this.helpers.returnJsonArray(response)];
     } catch (error) {
         if (this.continueOnFail()) {
-            return [this.helpers.returnJsonArray({ error: error.message })];
+            return [this.helpers.returnJsonArray({ error: (error as Error).message })];
         }
-        throw new Error(`Error updating label: ${error.message}`);
+        throw new NodeApiError(this.getNode(), error as JsonObject);
     }
 }

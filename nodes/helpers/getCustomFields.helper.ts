@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions } from "n8n-workflow";
+import { ILoadOptionsFunctions, IDataObject, INodePropertyOptions } from "n8n-workflow";
 import { handleLoadOptionsError } from "../handler/LoadOptionsError.handle";
 import { API_URL } from "../config/constants";
 
@@ -24,17 +24,17 @@ export async function getCustomFields(this: ILoadOptionsFunctions) {
         }
 
         // Crear opciones para cada campo personalizado
-        const options: any[] = [];
+        const options: INodePropertyOptions[] = [];
 
-        response.data.forEach((field: any) => {
+        response.data.forEach((field: IDataObject) => {
             options.push({
-                name: field.field_name,
-                value: field.field_name,
+                name: field.field_name as string,
+                value: field.field_name as string,
             });
         });
 
         return options;
-    } catch (error: any) {
+    } catch (error: unknown) {
         return handleLoadOptionsError(error);
     }
 }

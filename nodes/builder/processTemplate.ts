@@ -1,11 +1,12 @@
+import { IDataObject } from "n8n-workflow";
 import { TemplateEnum } from "../enum/template.enum";
 
 // Process template variables
-export function processTemplate(templateVars: any, baseData: any, dynamicVars: any) {
+export function processTemplate(templateVars: IDataObject, baseData: IDataObject, dynamicVars: IDataObject): IDataObject {
 	if (templateVars && Array.isArray(templateVars.template_vars)) {
-	templateVars.template_vars.forEach((varItem: any) => {
-		const varName = varItem.name;
-		const varValue = varItem.value;
+	templateVars.template_vars.forEach((varItem: IDataObject) => {
+		const varName = varItem.name as string;
+		const varValue = varItem.value as string;
 
 		if (!varName || !varValue) return;
 
@@ -25,7 +26,7 @@ export function processTemplate(templateVars: any, baseData: any, dynamicVars: a
 			} else {
 				// Other header variables go to dynamic vars
 				if (!dynamicVars.header_var) dynamicVars.header_var = [];
-				dynamicVars.header_var.push({
+				(dynamicVars.header_var as IDataObject[]).push({
 					text: actualVarName,
 					val: varValue
 				});
@@ -33,21 +34,21 @@ export function processTemplate(templateVars: any, baseData: any, dynamicVars: a
 		} else if (section === TemplateEnum.BODY) {
 			// Body variables
 			if (!dynamicVars.body_vars) dynamicVars.body_vars = [];
-			dynamicVars.body_vars.push({
+			(dynamicVars.body_vars as IDataObject[]).push({
 				text: actualVarName.startsWith('VAR_') ? `{{${actualVarName.substring(4)}}}` : actualVarName,
 				val: varValue
 			});
 		} else if (section === TemplateEnum.CTA) {
 			// CTA variables
 			if (!dynamicVars.cta_var) dynamicVars.cta_var = [];
-			dynamicVars.cta_var.push({
+			(dynamicVars.cta_var as IDataObject[]).push({
 				text: actualVarName.startsWith('VAR_') ? `{{${actualVarName.substring(4)}}}` : actualVarName,
 				val: varValue
 			});
 		} else if (section === TemplateEnum.FOOTER) {
 			// Footer variables
 			if (!dynamicVars.footer_var) dynamicVars.footer_var = [];
-			dynamicVars.footer_var.push({
+			(dynamicVars.footer_var as IDataObject[]).push({
 				text: actualVarName.startsWith('VAR_') ? `{{${actualVarName.substring(4)}}}` : actualVarName,
 				val: varValue
 			});

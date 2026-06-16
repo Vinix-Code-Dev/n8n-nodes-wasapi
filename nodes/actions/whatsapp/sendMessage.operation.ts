@@ -3,6 +3,8 @@ import {
     IExecuteFunctions,
     INodeExecutionData,
     INodeProperties,
+    NodeApiError,
+    JsonObject,
     updateDisplayOptions,
 } from 'n8n-workflow';
 
@@ -54,8 +56,8 @@ export async function executeSendMessage(this: IExecuteFunctions): Promise<INode
         return [this.helpers.returnJsonArray(response)];
     } catch (error) {
         if (this.continueOnFail()) {
-            return [this.helpers.returnJsonArray({ error: error.message })];
+            return [this.helpers.returnJsonArray({ error: (error as Error).message })];
         }
-        throw new Error(`Error sending message: ${error.message}`);
+        throw new NodeApiError(this.getNode(), error as JsonObject);
     }
 }

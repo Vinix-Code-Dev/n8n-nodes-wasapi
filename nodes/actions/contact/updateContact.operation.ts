@@ -1,8 +1,11 @@
 import {
     IExecuteFunctions,
     IDisplayOptions,
+    IDataObject,
     INodeExecutionData,
     INodeProperties,
+    NodeApiError,
+    JsonObject,
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { API_URL } from '../../config/constants';
@@ -42,7 +45,7 @@ export async function executeContactUpdate(this: IExecuteFunctions): Promise<INo
     custom_fields: {},
   };
 	// validate custom fields
-  const customFieldsData = this.getNodeParameter('custom_fields', 0, {}) as any;
+  const customFieldsData = this.getNodeParameter('custom_fields', 0, {}) as IDataObject;
   contactData.custom_fields = ContactValidator.validateCustomFields(customFieldsData);
 	// validate contact data
 	ContactValidator.validateCreateContact(contactData);
@@ -62,8 +65,8 @@ export async function executeContactUpdate(this: IExecuteFunctions): Promise<INo
     return [this.helpers.returnJsonArray(response)];
   } catch (error) {
     if (this.continueOnFail()) {
-      return [this.helpers.returnJsonArray({ error: error.message })];
+      return [this.helpers.returnJsonArray({ error: (error as Error).message })];
     }
-    throw new Error(`Error updating contact: ${error.message}`);
+    throw new NodeApiError(this.getNode(), error as JsonObject);
   }
 }

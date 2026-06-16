@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions, INodeListSearchResult } from "n8n-workflow";
+import { ILoadOptionsFunctions, INodeListSearchResult, IDataObject } from "n8n-workflow";
 import { handleListSearchError } from "../handler/LoadOptionsError.handle";
 import { getFlowsByPhoneId } from "./OptionsLoadWpp";
 
@@ -24,14 +24,14 @@ export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : P
 			}] };
 		}
 
-		let flows = response.map((flow: any) => ({
-			name: flow.name || `Flow ${flow.id}`,
-			value: flow.id.toString(),
+		let flows = response.map((flow: IDataObject) => ({
+			name: (flow.name as string) || `Flow ${flow.id as string}`,
+			value: String(flow.id),
 		}));
 
 		// Filter results if search term is provided
 		if (filter) {
-			flows = flows.filter((flow: any) =>
+			flows = flows.filter((flow) =>
 				flow.name.toLowerCase().includes(filter.toLowerCase()) ||
 				flow.value.includes(filter)
 			);
@@ -39,7 +39,7 @@ export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : P
 
 		return { results: flows };
 
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return handleListSearchError(error);
 	}
 }

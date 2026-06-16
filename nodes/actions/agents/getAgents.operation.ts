@@ -3,6 +3,8 @@ import {
     IDisplayOptions,
     INodeExecutionData,
     INodeProperties,
+    NodeApiError,
+    JsonObject,
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { API_URL } from '../../config/constants';
@@ -35,8 +37,8 @@ export async function executeGetAgents(this: IExecuteFunctions): Promise<INodeEx
         return [this.helpers.returnJsonArray(response)];
     } catch (error) {
         if (this.continueOnFail()) {
-            return [this.helpers.returnJsonArray({ error: error.message })];
+            return [this.helpers.returnJsonArray({ error: (error as Error).message })];
         }
-        throw new Error(`Error getting agents: ${error.message}`);
+        throw new NodeApiError(this.getNode(), error as JsonObject);
     }
 }

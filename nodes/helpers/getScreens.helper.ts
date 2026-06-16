@@ -1,4 +1,4 @@
-import { ILoadOptionsFunctions, INodeListSearchResult } from "n8n-workflow";
+import { ILoadOptionsFunctions, INodeListSearchResult, IDataObject } from "n8n-workflow";
 import { handleListSearchError } from "../handler/LoadOptionsError.handle";
 import { getFlowScreens } from "./OptionsLoadWpp";
 
@@ -37,23 +37,23 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 
 
 
-		let screens = response.map((screen: any) => ({
-			name: screen.label || `Screen ${screen.value}`,
-			value: screen.value,
-			description: `Screen: ${screen.label || screen.value}`
+		let screens = response.map((screen: IDataObject) => ({
+			name: (screen.label as string) || `Screen ${screen.value as string}`,
+			value: screen.value as string,
+			description: `Screen: ${(screen.label as string) || screen.value as string}`
 		}));
 
 		// Filter results if search term is provided
 		if (filter) {
-			screens = screens.filter((screen: any) =>
+			screens = screens.filter((screen) =>
 				screen.name.toLowerCase().includes(filter.toLowerCase()) ||
-				screen.value.includes(filter)
+				(screen.value as string).includes(filter)
 			);
 		}
 
 		return { results: screens };
 
-	} catch (error: any) {
+	} catch (error: unknown) {
 		return handleListSearchError(error);
 	}
 }

@@ -3,6 +3,8 @@ import {
     IDisplayOptions,
     INodeExecutionData,
     INodeProperties,
+    NodeApiError,
+    JsonObject,
     updateDisplayOptions,
 } from 'n8n-workflow';
 import { commonProperties } from '../base/common.operation';
@@ -126,8 +128,8 @@ export async function executeAssignAgent(this: IExecuteFunctions): Promise<INode
         return [this.helpers.returnJsonArray(response)];
     } catch (error) {
         if (this.continueOnFail()) {
-            return [this.helpers.returnJsonArray({ error: error.message })];
+            return [this.helpers.returnJsonArray({ error: (error as Error).message })];
         }
-        throw new Error(`Error assigning agent: ${error.message}`);
+        throw new NodeApiError(this.getNode(), error as JsonObject);
     }
 }
