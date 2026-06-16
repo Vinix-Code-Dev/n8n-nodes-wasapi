@@ -4,7 +4,9 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	NodeOperationError,
-	NodeConnectionTypes
+	NodeApiError,
+	NodeConnectionTypes,
+	JsonObject,
 } from 'n8n-workflow';
 import { getLabels } from '../helpers/getLabels.helper';
 import { getCustomFields } from '../helpers/getCustomFields.helper';
@@ -25,6 +27,7 @@ export class Wasapi implements INodeType {
 		icon: 'file:icon.svg',
 		group: ['transform'],
 		version: 2,
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Integration oficial of Wasapi API for n8n',
 		defaults: {
 			name: 'Wasapi',
@@ -38,6 +41,7 @@ export class Wasapi implements INodeType {
 			},
 		],
 		properties: allProperties,
+		usableAsTool: true,
 	};
 
 	methods = {
@@ -56,15 +60,24 @@ export class Wasapi implements INodeType {
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData: INodeExecutionData[] = [];
 		const resource = this.getNodeParameter('resource', 0) as string;
 		const operation = this.getNodeParameter('operation', 0) as string;
-
 		const operationHandler = OperationFactory.getOperation(resource, operation);
-
-		if (operationHandler) {
-			return await operationHandler.execute.call(this);
+		try {
+			if (operationHandler) {
+				return await operationHandler.execute.call(this);
+			}
+			throw new NodeOperationError(this.getNode(), `Resource "${resource}" with operation "${operation}" is not supported`);
+		} catch (error) {
+			if (this.continueOnFail()) {
+				for (let i = 0; i < items.length; i++) {
+					returnData.push({ json: this.getInputData(i)[0]?.json ?? {}, pairedItem: { item: i }, error: error as NodeApiError });
+				}
+				return [returnData];
+			}
+			throw new NodeApiError(this.getNode(), error as JsonObject);
 		}
-
-		throw new NodeOperationError(this.getNode(), `Resource "${resource}" with operation "${operation}" is not supported`);
 	}
 }
