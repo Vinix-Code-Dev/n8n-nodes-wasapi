@@ -9,6 +9,7 @@ export class WasapiApi implements ICredentialType {
 	name = 'wasapiApi';
 	displayName = 'Wasapi API';
 	documentationUrl = 'https://github.com/juanalvarezPro/wasapi-sdk';
+	icon = 'file:../nodes/Wasapi/icon.svg' as ICredentialType['icon'];
 
 	authenticate: IAuthenticateGeneric = {
 		type: 'generic',
