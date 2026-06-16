@@ -1,0 +1,719 @@
+{
+  "name": "Wasapi - Test All Operations",
+  "nodes": [
+    {
+      "id": "sticky-user",
+      "name": "Sticky Note - User & Agents",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        140
+      ],
+      "parameters": {
+        "content": "## \ud83d\udc64 User & Agents\nConfigura la credencial primero.",
+        "height": 80,
+        "width": 700,
+        "color": 4
+      }
+    },
+    {
+      "id": "sticky-contact",
+      "name": "Sticky Note - Contact",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        440
+      ],
+      "parameters": {
+        "content": "## \ud83d\udcc7 Contact\nReemplaza los IDs de placeholder antes de ejecutar.",
+        "height": 80,
+        "width": 1550,
+        "color": 5
+      }
+    },
+    {
+      "id": "sticky-labels",
+      "name": "Sticky Note - Labels",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        740
+      ],
+      "parameters": {
+        "content": "## \ud83c\udff7\ufe0f Labels\nReemplaza los IDs de placeholder antes de ejecutar.",
+        "height": 80,
+        "width": 1850,
+        "color": 6
+      }
+    },
+    {
+      "id": "sticky-custom-fields",
+      "name": "Sticky Note - Custom Fields",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1040
+      ],
+      "parameters": {
+        "content": "## \ud83d\uddc2\ufe0f Custom Fields\nReemplaza los IDs de placeholder antes de ejecutar.",
+        "height": 80,
+        "width": 1250,
+        "color": 7
+      }
+    },
+    {
+      "id": "sticky-campaigns",
+      "name": "Sticky Note - Campaigns",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1340
+      ],
+      "parameters": {
+        "content": "## \ud83d\udce2 Campaigns",
+        "height": 80,
+        "width": 700,
+        "color": 3
+      }
+    },
+    {
+      "id": "sticky-whatsapp",
+      "name": "Sticky Note - WhatsApp",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        1640
+      ],
+      "parameters": {
+        "content": "## \ud83d\udcac WhatsApp\nRellena el Phone ID y el n\u00famero de destino antes de ejecutar.",
+        "height": 80,
+        "width": 1250,
+        "color": 2
+      }
+    },
+    {
+      "id": "user-get",
+      "name": "User: Get",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        240
+      ],
+      "parameters": {
+        "resource": "user",
+        "operation": "get"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "agents-get",
+      "name": "Agents: Get Online Agents",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        240
+      ],
+      "parameters": {
+        "resource": "agents",
+        "operation": "get"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "agents-assign",
+      "name": "Agents: Assign Agent",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        840,
+        240
+      ],
+      "parameters": {
+        "resource": "agents",
+        "operation": "assignAgent",
+        "wa_id": "573001234567",
+        "agentId": {
+          "mode": "list",
+          "value": "AGENT_ID_HERE"
+        }
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-get-all",
+      "name": "Contact: Get All",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        540
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "getAll"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-create",
+      "name": "Contact: Create",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        540
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "create",
+        "wa_id": "573001234567",
+        "name": "Test Contact n8n",
+        "additionalFields": {}
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-get",
+      "name": "Contact: Get by ID",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        840,
+        540
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "get",
+        "wa_id": "573001234567"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-update",
+      "name": "Contact: Update",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        540
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "update",
+        "wa_id": "573001234567",
+        "updateFields": {
+          "name": "Test Contact Updated"
+        }
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-delete",
+      "name": "Contact: Delete",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        540
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "delete",
+        "wa_id": "573001234567"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-add-label",
+      "name": "Contact: Add Label",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        640
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "addLabel",
+        "wa_id": "573001234567",
+        "labelId": "LABEL_ID_HERE"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-remove-label",
+      "name": "Contact: Remove Label",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        640
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "removeLabel",
+        "wa_id": "573001234567",
+        "labelId": "LABEL_ID_HERE"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-toggle-bot",
+      "name": "Contact: Toggle Bot",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        840,
+        640
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "toggleBot",
+        "wa_id": "573001234567"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "contact-export",
+      "name": "Contact: Export",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        640
+      ],
+      "parameters": {
+        "resource": "contact",
+        "operation": "export"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "labels-get-all",
+      "name": "Labels: Get All",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        840
+      ],
+      "parameters": {
+        "resource": "labels",
+        "operation": "getAll"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "labels-create",
+      "name": "Labels: Create",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        840
+      ],
+      "parameters": {
+        "resource": "labels",
+        "operation": "create",
+        "title": "Test Label n8n",
+        "color": "#FF5733"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "labels-get-by-id",
+      "name": "Labels: Get By ID",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        840,
+        840
+      ],
+      "parameters": {
+        "resource": "labels",
+        "operation": "getById",
+        "labelId": "LABEL_ID_HERE"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "labels-search",
+      "name": "Labels: Search",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        840
+      ],
+      "parameters": {
+        "resource": "labels",
+        "operation": "getSearch",
+        "query": "test"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "labels-update",
+      "name": "Labels: Update",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        840
+      ],
+      "parameters": {
+        "resource": "labels",
+        "operation": "update",
+        "labelId": "LABEL_ID_HERE",
+        "updateFields": {
+          "title": "Test Label Updated"
+        }
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "labels-delete",
+      "name": "Labels: Delete",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1740,
+        840
+      ],
+      "parameters": {
+        "resource": "labels",
+        "operation": "delete",
+        "labelId": "LABEL_ID_HERE"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "cf-get-all",
+      "name": "Custom Fields: Get All",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        1140
+      ],
+      "parameters": {
+        "resource": "customFields",
+        "operation": "getAll"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "cf-create",
+      "name": "Custom Fields: Create",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        1140
+      ],
+      "parameters": {
+        "resource": "customFields",
+        "operation": "create",
+        "field_name": "test_field_n8n"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "cf-update",
+      "name": "Custom Fields: Update",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        840,
+        1140
+      ],
+      "parameters": {
+        "resource": "customFields",
+        "operation": "update",
+        "field_name": "test_field_n8n",
+        "new_field_name": "test_field_updated"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "cf-delete",
+      "name": "Custom Fields: Delete",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        1140
+      ],
+      "parameters": {
+        "resource": "customFields",
+        "operation": "delete",
+        "field_name": "test_field_updated"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "campaigns-get-all",
+      "name": "Campaigns: Get All",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        1440
+      ],
+      "parameters": {
+        "resource": "campaigns",
+        "operation": "getAll"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "campaigns-get-by-uuid",
+      "name": "Campaigns: Get By UUID",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        1440
+      ],
+      "parameters": {
+        "resource": "campaigns",
+        "operation": "getByUuid",
+        "uuid": "CAMPAIGN_UUID_HERE"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "wpp-send-message",
+      "name": "WhatsApp: Send Message",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        240,
+        1740
+      ],
+      "parameters": {
+        "resource": "whatsapp",
+        "operation": "sendMessage",
+        "fromId": "PHONE_ID_HERE",
+        "wa_id": "573001234567",
+        "message": "Hola! Este es un mensaje de prueba desde n8n \ud83d\ude80"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "wpp-send-attachment",
+      "name": "WhatsApp: Send Attachment",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        540,
+        1740
+      ],
+      "parameters": {
+        "resource": "whatsapp",
+        "operation": "sendAttachment",
+        "fromId": "PHONE_ID_HERE",
+        "wa_id": "573001234567",
+        "url_file": "https://www.w3.org/WAI/WCAG21/Techniques/pdf/sample.pdf",
+        "caption": "Archivo de prueba desde n8n"
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "wpp-send-template",
+      "name": "WhatsApp: Send Template",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        840,
+        1740
+      ],
+      "parameters": {
+        "resource": "whatsapp",
+        "operation": "sendTemplate",
+        "fromId": "PHONE_ID_HERE",
+        "wa_id": "573001234567",
+        "templateId": {
+          "mode": "list",
+          "value": "TEMPLATE_UUID_HERE"
+        }
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    },
+    {
+      "id": "wpp-send-flow",
+      "name": "WhatsApp: Send Flow",
+      "type": "CUSTOM.wasapi",
+      "typeVersion": 2,
+      "position": [
+        1140,
+        1740
+      ],
+      "parameters": {
+        "resource": "whatsapp",
+        "operation": "sendFlow",
+        "fromId": "PHONE_ID_HERE",
+        "wa_id": "573001234567",
+        "flowId": {
+          "mode": "list",
+          "value": "FLOW_ID_HERE"
+        }
+      },
+      "credentials": {
+        "wasapiApi": {
+          "id": "1",
+          "name": "Wasapi API"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": []
+}
