@@ -118,7 +118,7 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 		}
 
 		if(allVariables.length === 0) {
-			return [{ name: 'This template needs no dynamic variables', value: '' }];
+			return [{ name: 'This Template Needs No Dynamic Variables', value: '' }];
 		}
 
 		return allVariables;
