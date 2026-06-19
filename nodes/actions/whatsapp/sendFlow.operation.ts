@@ -25,7 +25,7 @@ export const sendFlowProperties: INodeProperties[] = [
 		description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>. Click to search flows.',
 	},
 	{
-		displayName: 'Screen Principal Name or ID',
+		displayName: 'Main Screen Name or ID',
 		name: 'screen',
 		type: 'resourceLocator',
 		default: { mode: 'list', value: '' },

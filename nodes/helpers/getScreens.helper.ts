@@ -11,7 +11,7 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 		// Check if fromId is selected
 		if (!from_id || from_id === 0 ) {
 			return { results: [{
-				name: '⚠️ Please Select a Phone Wasapi ID First',
+				name: 'Please Select a Phone Wasapi ID First',
 				value: '',
 				description: 'Select a WhatsApp number to see available flows'
 			}] };
@@ -20,7 +20,7 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 		// Check if flowId is selected
 		if (!flow_id || flow_id === '' || flow_id === 'undefined') {
 			return { results: [{
-				name: '⚠️ Please Select a Flow First',
+				name: 'Please Select a Flow First',
 				value: '',
 				description: 'Select a flow to see available screens'
 			}] };
@@ -29,7 +29,7 @@ export async function getScreens(this: ILoadOptionsFunctions, filter?: string): 
 
 		if (response.length === 0 ) {
 			return { results: [{
-				name: '📝 No Screens Available for This Flow',
+				name: 'No Screens Available for This Flow',
 				value: '',
 				description: `No screens found for flow ${flow_id} on phone ${from_id}`
 			}] };

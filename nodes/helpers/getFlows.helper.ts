@@ -10,7 +10,7 @@ export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : P
 		// Check if fromId is selected
 		if (!from_id || from_id === '') {
 			return { results: [{
-				name: '⚠️ Please Select a Phone Wasapi ID First',
+				name: 'Please Select a Phone Wasapi ID First',
 				value: ''
 			}] };
 		}
@@ -19,7 +19,7 @@ export async function getFlows(this: ILoadOptionsFunctions, filter?: string) : P
 
 		if (!response || !Array.isArray(response) || response.length === 0) {
 			return { results: [{
-				name: '📝 No Flows Available for This Phone Number',
+				name: 'No Flows Available for This Phone Number',
 				value: ''
 			}] };
 		}

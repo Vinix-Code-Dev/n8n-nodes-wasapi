@@ -16,7 +16,7 @@ export async function getWhatsappNumbers(this: ILoadOptionsFunctions) {
         );
 
         if (!response.success) {
-            return [{ name: '❌ No Numbers Available', value: '' }];
+            return [{ name: 'No Numbers Available', value: '' }];
         }
 
         // create options for each number

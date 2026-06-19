@@ -9,7 +9,7 @@ const templateCache = new Map<string, {
 	timestamp: number;
 }>();
 
-const CACHE_DURATION = 30000; // 30 segundos
+const CACHE_DURATION = 30000; // 30 seconds
 
 async function getTemplateBuilder(this: ILoadOptionsFunctions): Promise<WhatsAppTemplateBuilder | null> {
 
@@ -118,11 +118,11 @@ export async function getAllTemplateVariables(this: ILoadOptionsFunctions) {
 		}
 
 		if(allVariables.length === 0) {
-			return [{ name: '🚫 This Template No Needs Dynamic Variables', value: '' }];
+			return [{ name: 'This template needs no dynamic variables', value: '' }];
 		}
 
 		return allVariables;
-	} catch {
-		return [{ name: 'Error Al Obtener Las Variables Del Template', value: '' }];
+	} catch (error) {
+		return [{ name: 'Error fetching template variables: ' + (error as Error).message, value: '' }];
 	}
 }

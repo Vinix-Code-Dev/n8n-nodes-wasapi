@@ -11,7 +11,7 @@ export async function getTemplatesByPhone(this: ILoadOptionsFunctions, filter?: 
 		// Check if fromId is selected
 		if (!from_id || from_id === 0 ) {
 			return { results: [{
-				name: '⚠️ Please Select a Phone Wasapi ID First',
+				name: 'Please Select a Phone Wasapi ID First',
 				value: '',
 				description: 'Select a WhatsApp number to see available flows'
 			}] };

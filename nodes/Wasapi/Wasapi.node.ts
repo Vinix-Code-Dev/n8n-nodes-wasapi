@@ -28,7 +28,7 @@ export class Wasapi implements INodeType {
 		group: ['transform'],
 		version: 2,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Integration oficial of Wasapi API for n8n',
+		description: 'Official integration of the Wasapi API for n8n',
 		defaults: {
 			name: 'Wasapi',
 		},

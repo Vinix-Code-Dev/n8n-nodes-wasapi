@@ -20,10 +20,10 @@ export async function getCustomFields(this: ILoadOptionsFunctions) {
         );
 
         if (!response || !Array.isArray(response.data)) {
-            return [{ name: '❌ No Custom Fields Available', value: '' }];
+            return [{ name: 'No Custom Fields Available', value: '' }];
         }
 
-        // Crear opciones para cada campo personalizado
+        // Create options for each custom field
         const options: INodePropertyOptions[] = [];
 
         response.data.forEach((field: IDataObject) => {
