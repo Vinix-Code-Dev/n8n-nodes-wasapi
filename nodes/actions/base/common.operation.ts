@@ -13,11 +13,11 @@ export const commonProperties: INodeProperties[] = [
         description: 'Pick the phone number of your wasapi account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
     },
     {
-        displayName: 'WhatsApp ID',
+        displayName: 'Recipient',
         name: 'wa_id',
         type: 'string',
         default: '',
         required: true,
-        description: 'Enter a phone number (including the country code without the + sign). For example instead of entering use 573203294920.',
+        description: 'Phone number, BSUID or WhatsApp username of the recipient. The phone number must include the country code and NO + sign or spaces (e.g. 573203294920 instead of +57 320 329-4920).',
     },
 ];

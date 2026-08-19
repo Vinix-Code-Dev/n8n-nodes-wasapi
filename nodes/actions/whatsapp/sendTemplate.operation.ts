@@ -27,12 +27,12 @@ export const sendTemplateProperties: INodeProperties[] = [
 		description: 'Pick the phone number of your wasapi account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 	},
 	{
-		displayName: 'Recipient WhatsApp ID',
+		displayName: 'Recipient',
 		name: 'recipients',
 		type: 'string',
 		default: '',
 		required: true,
-		description: 'Enter a phone number (including the country code without the + sign). For example instead of entering use 573203294920.',
+		description: 'Recipient(s) of the template. Depending on the Contact Type, enter phone numbers (including the country code without the + sign, e.g. 573203294920), contact IDs or WhatsApp usernames. You can send up to 20 recipients separated by commas.',
 	},
 	{
 		displayName: 'Template Name or UUID',
@@ -210,7 +210,6 @@ export async function executeSendTemplate(this: IExecuteFunctions): Promise<INod
 		const baseData: IDataObject = {
 			recipients: this.getNodeParameter('recipients', 0, '') as string,
 			template_id,
-			contact_type: 'phone' as 'phone' | 'contact',
 			from_id: this.getNodeParameter('fromId', 0, '') as number,
 			chatbot_status: this.getNodeParameter('chatbot_status', 0, '') as 'enable' | 'disable' | 'disable_permanently',
 			conversation_status: this.getNodeParameter('conversation_status', 0, '') as 'open' | 'hold' | 'closed' | 'unchanged',
