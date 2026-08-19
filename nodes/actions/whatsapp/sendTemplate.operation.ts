@@ -32,7 +32,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 		type: 'string',
 		default: '',
 		required: true,
-		description: 'Recipient(s) of the template. Depending on the Contact Type, enter phone numbers (including the country code without the + sign, e.g. 573203294920), contact IDs or WhatsApp usernames. You can send up to 20 recipients separated by commas.',
+		description: 'Phone numbers, BSUIDs or WhatsApp usernames of the recipients. Phone numbers must include the country code and NO + sign or spaces (e.g. 573203294920 instead of +57 320 329-4920). You can send up to 20 recipients separated by commas.',
 	},
 	{
 		displayName: 'Template Name or UUID',
