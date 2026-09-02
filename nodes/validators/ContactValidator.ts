@@ -6,6 +6,11 @@
 		notes: string;
 		labels: number[];
 		custom_fields: Record<string, unknown>;
+		country_code?: string;
+		wa_username?: string;
+		bsuid?: string;
+		blocked?: boolean;
+		unsubscribed?: boolean;
 	}
 
 	export interface ContactExportRequest {

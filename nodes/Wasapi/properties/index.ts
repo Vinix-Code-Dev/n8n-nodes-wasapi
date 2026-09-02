@@ -6,6 +6,10 @@ import { labelsProperties } from './labels.properties';
 import { whatsappProperties } from './whatsapp.properties';
 import { userProperties } from './user.properties';
 import { agentsProperties } from './agents.properties';
+import { dashboardProperties } from './dashboard.properties';
+import { funnelsProperties } from './funnels.properties';
+import { reportsProperties } from './reports.properties';
+import { workflowProperties } from './workflow.properties';
 
 export const resourceOptions: INodeProperties = {
 	displayName: 'Resource',
@@ -38,10 +42,28 @@ export const resourceOptions: INodeProperties = {
 			action: 'Manage custom fields',
 		},
 		{
+			name: 'Dashboard',
+			value: 'dashboard',
+			description: 'Get dashboard metrics',
+			action: 'Get dashboard metrics',
+		},
+		{
+			name: 'Funnel',
+			value: 'funnels',
+			description: 'Manage funnels and their contacts',
+			action: 'Manage funnels',
+		},
+		{
 			name: 'Label',
 			value: 'labels',
 			description: 'Manage label',
 			action: 'Manage label',
+		},
+		{
+			name: 'Report',
+			value: 'reports',
+			description: 'Get reports',
+			action: 'Get reports',
 		},
 		{
 			name: 'User',
@@ -54,6 +76,12 @@ export const resourceOptions: INodeProperties = {
 			value: 'whatsapp',
 			description: 'Send WhatsApp messages and attachments',
 			action: 'Send WhatsApp messages',
+		},
+		{
+			name: 'Workflow',
+			value: 'workflow',
+			description: 'Get workflow statuses',
+			action: 'Get workflow statuses',
 		},
 	],
 	default: 'contact',
@@ -68,4 +96,8 @@ export const allProperties: INodeProperties[] = [
 	...whatsappProperties,
 	...userProperties,
 	...agentsProperties,
+	...dashboardProperties,
+	...funnelsProperties,
+	...reportsProperties,
+	...workflowProperties,
 ];

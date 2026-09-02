@@ -8,7 +8,7 @@ import {
     JsonObject,
     updateDisplayOptions,
 } from 'n8n-workflow';
-import { ContactValidator } from '../../validators/ContactValidator';
+import { ContactValidator, ContactData } from '../../validators/ContactValidator';
 import { API_URL } from '../../config/constants';
 export const contactCreateProperties: INodeProperties[] = [
     {
@@ -43,11 +43,53 @@ export const contactCreateProperties: INodeProperties[] = [
         description: 'Phone number of the contact',
     },
     {
+        displayName: 'Country Code',
+        name: 'country_code',
+        type: 'string',
+        default: '',
+        placeholder: 'us',
+        description: 'Country code of the contact (eg: us, co)',
+    },
+    {
+        displayName: 'WhatsApp Username',
+        name: 'wa_username',
+        type: 'string',
+        default: '',
+        description: 'Public WhatsApp username of the contact. Only written when a non-empty value is sent; leaving it empty keeps the current one.',
+    },
+    {
+        displayName: 'BSUID',
+        name: 'bsuid',
+        type: 'string',
+        default: '',
+        placeholder: 'CO.1300484045498206',
+        description: 'Business-Scoped User ID (format XX.&lt;alphanumeric&gt;) for contacts that hide their phone number. Can be sent instead of the phone number when creating.',
+        displayOptions: {
+            show: {
+                operation: ['create'],
+            },
+        },
+    },
+    {
         displayName: 'Notes',
         name: 'notes',
         type: 'string',
         default: '',
         description: 'Notes of the contact',
+    },
+    {
+        displayName: 'Blocked',
+        name: 'blocked',
+        type: 'boolean',
+        default: false,
+        description: 'Whether the contact is blocked',
+    },
+    {
+        displayName: 'Unsubscribed',
+        name: 'unsubscribed',
+        type: 'boolean',
+        default: false,
+        description: 'Whether the contact is unsubscribed',
     },
     {
         displayName: 'Labels Names or IDs',
@@ -109,15 +151,25 @@ export const createContactDescription = updateDisplayOptions(displayOptions, con
 
 
 export async function executeContactCreate(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-	const contactData = {
+	const contactData: ContactData = {
 		first_name: this.getNodeParameter('first_name', 0, '') as string,
 		last_name: this.getNodeParameter('last_name', 0, '') as string,
 		email: this.getNodeParameter('email', 0, '') as string,
 		phone: this.getNodeParameter('phone', 0, '') as string,
 		notes: this.getNodeParameter('notes', 0, '') as string,
 		labels: this.getNodeParameter('labels', 0, []) as number [],
+		blocked: this.getNodeParameter('blocked', 0, false) as boolean,
+		unsubscribed: this.getNodeParameter('unsubscribed', 0, false) as boolean,
 		custom_fields: {},
 	};
+
+	// Optional identifiers/fields: only sent when provided, to avoid overwriting existing data
+	const country_code = this.getNodeParameter('country_code', 0, '') as string;
+	const wa_username = this.getNodeParameter('wa_username', 0, '') as string;
+	const bsuid = this.getNodeParameter('bsuid', 0, '') as string;
+	if (country_code) contactData.country_code = country_code;
+	if (wa_username) contactData.wa_username = wa_username;
+	if (bsuid) contactData.bsuid = bsuid;
 
 	const customFieldsData = this.getNodeParameter('custom_fields', 0, {}) as IDataObject;
 	contactData.custom_fields = ContactValidator.validateCustomFields(customFieldsData);
