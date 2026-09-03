@@ -36,8 +36,8 @@ export const contactCreateProperties: INodeProperties[] = [
     },
     {
         displayName: 'Phone Number',
-        name: 'phone',
         required: true,
+        name: 'phone',
         type: 'string',
         default: '',
         description: 'Phone number of the contact',
@@ -56,6 +56,19 @@ export const contactCreateProperties: INodeProperties[] = [
         type: 'string',
         default: '',
         description: 'Public WhatsApp username of the contact. Only written when a non-empty value is sent; leaving it empty keeps the current one.',
+    },
+    {
+        displayName: 'BSUID',
+        name: 'bsuid',
+        type: 'string',
+        default: '',
+        placeholder: 'CO.1300484045498206',
+        description: 'Business-Scoped User ID (format XX.&lt;alphanumeric&gt;) for contacts that hide their phone number. Can be sent instead of the phone number when creating.',
+        displayOptions: {
+            show: {
+                operation: ['create'],
+            },
+        },
     },
     {
         displayName: 'Notes',
@@ -153,8 +166,10 @@ export async function executeContactCreate(this: IExecuteFunctions): Promise<INo
 	// Optional identifiers/fields: only sent when provided, to avoid overwriting existing data
 	const country_code = this.getNodeParameter('country_code', 0, '') as string;
 	const wa_username = this.getNodeParameter('wa_username', 0, '') as string;
+	const bsuid = this.getNodeParameter('bsuid', 0, '') as string;
 	if (country_code) contactData.country_code = country_code;
 	if (wa_username) contactData.wa_username = wa_username;
+	if (bsuid) contactData.bsuid = bsuid;
 
 	const customFieldsData = this.getNodeParameter('custom_fields', 0, {}) as IDataObject;
 	contactData.custom_fields = ContactValidator.validateCustomFields(customFieldsData);
