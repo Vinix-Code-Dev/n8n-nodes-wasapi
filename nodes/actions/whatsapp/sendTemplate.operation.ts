@@ -27,7 +27,7 @@ export const sendTemplateProperties: INodeProperties[] = [
 		description: 'Pick the phone number of your wasapi account. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
 	},
 	{
-		displayName: 'Recipient',
+		displayName: 'Recipient Name or ID',
 		name: 'recipients',
 		type: 'string',
 		default: '',
