@@ -15,8 +15,7 @@ import { processTemplate } from '../../builder/processTemplate';
 import { getTemplateFileType } from '../../helpers/filetype.helper';
 export const sendTemplateProperties: INodeProperties[] = [
 	{
-		// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
-		displayName: 'Sender Phone Number',
+		displayName: 'Sender Phone Number Name or ID',
 		name: 'fromId',
 		type: 'options',
 		typeOptions: {
